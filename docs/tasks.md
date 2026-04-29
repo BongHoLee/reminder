@@ -123,16 +123,16 @@
 - [x] validation 실패 시 `GlobalExceptionHandler`가 fieldErrors 포함하는지 테스트
 
 ### Frontend
-- [ ] `ReminderRow` hover 시 우측에 ⓘ 아이콘 노출
-- [ ] `src/components/ReminderExpander.tsx` (framer-motion `motion.div` height auto)
-- [ ] 익스팬더 폼 필드:
-  - [ ] notes textarea
-  - [ ] dueAt date+time picker (한국어 로케일)
-  - [ ] priority segmented control (NONE/LOW/MEDIUM/HIGH)
-  - [ ] flagged 토글
-- [ ] react-hook-form + zod 스키마, 변경 시 debounce(500ms) 후 PATCH
-- [ ] 행 메타: 마감일/우선순위 prefix(`!`/`!!`/`!!!`)/깃발 아이콘 표시
-- [ ] 한국어 날짜 포맷 helper (`formatDueDate(dueAt): "내일, 오후 3:00"` 등)
+- [x] `ReminderRow` hover 시 우측에 ⓘ 아이콘 노출
+- [x] `src/components/ReminderExpander.tsx` (framer-motion `motion.div` height auto)
+- [x] 익스팬더 폼 필드:
+  - [x] notes textarea
+  - [x] dueAt date+time picker (한국어 로케일)
+  - [x] priority segmented control (NONE/LOW/MEDIUM/HIGH)
+  - [x] flagged 토글
+- [x] react-hook-form + zod 스키마, 변경 시 debounce(500ms) 후 PATCH
+- [x] 행 메타: 마감일/우선순위 prefix(`!`/`!!`/`!!!`)/깃발 아이콘 표시
+- [x] 한국어 날짜 포맷 helper (`formatDueDate(dueAt): "내일, 오후 3:00"` 등)
 
 ### Exit Criteria 검증
 - [ ] 모든 reminder 필드 UI에서 입력/수정 가능
