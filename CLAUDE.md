@@ -28,15 +28,12 @@
 
 ## 네이밍
 - 입력 포트(인터페이스): `…CommandService` / `…QueryService` — `UseCase` 등 별도 접미사 붙이지 않음.
-- 기본 구현체: `Default…CommandService` / `Default…QueryService` — `@Service` + 인터페이스 구현. 어그리게이트당 1개 (다른 구현이 등장하면 이름은 그 구현의 의도를 표현).
-- 의존성·테스트 주입은 모두 인터페이스 타입으로. `@Import` 슬라이스 인자만 구현체 클래스(`Default…`).
+- 기본 구현체: `Default…CommandService` / `Default…QueryService` — `@Service` + 인터페이스 구현.
 
 ## 테스트
 - 기능 추가/수정 시 테스트를 같은 작업 단위에 작성.
-- **도메인 / 매퍼**: 순수 단위 테스트 (Spring 부팅 X).
-- **서비스 통합 테스트**: `@SpringBootTest(webEnvironment = NONE)` + `@Transactional`. 산업 표준 — 매 테스트가 자체 tx 안에서 실행되고 종료 시 자동 롤백되어 격리. 별도 `deleteAll()` 불필요. 트레이드오프: 테스트 안에서 *서비스 트랜잭션의 롤백 동작* 자체를 검증할 수는 없음(테스트 tx 와 서비스 tx 가 합쳐짐). 그건 프레임워크의 책임이라 우리 테스트 범위 밖.
-- **어댑터 / 리포지토리 슬라이스**: `@DataJpaTest` (+ auditing 검증 시 `@Import(JpaConfig::class)`). 슬라이스 안에서만 검증 + 자동 롤백.
-- `SpringExtension` 은 `src/test/kotlin/com/bong/reminder/ProjectConfig.kt` 에서 전역 등록 — 클래스마다 `extension(SpringExtension)` 반복 금지.
+- 도메인 엔티티 테스트는 순수 단위 테스트
+- **서비스 통합 테스트**: `@SpringBootTest` + `@Transactional`. 
 
 ## 참고문서
 - @docs/spec.md : 기능 명세
