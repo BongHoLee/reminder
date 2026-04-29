@@ -1,12 +1,12 @@
-package com.bong.reminder.list
+package com.bong.reminder.list.application.service
 
 import com.bong.reminder.list.application.command.CreateReminderListCommand
 import com.bong.reminder.list.application.command.DeleteReminderListCommand
 import com.bong.reminder.list.application.command.UpdateReminderListCommand
 import com.bong.reminder.list.application.port.out.ReminderListRepositoryPort
-import com.bong.reminder.list.application.service.ReminderListCommandService
 import com.bong.reminder.list.domain.ReminderList
 import com.bong.reminder.list.domain.ReminderListNotFoundException
+import com.bong.reminder.support.injectId
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -15,7 +15,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import java.lang.reflect.Field
 
 class ReminderListCommandServiceTest : DescribeSpec({
 
@@ -118,11 +117,3 @@ class ReminderListCommandServiceTest : DescribeSpec({
         }
     }
 })
-
-private fun injectId(entity: Any, id: Long) {
-    val field: Field = generateSequence<Class<*>>(entity::class.java) { it.superclass }
-        .mapNotNull { runCatching { it.getDeclaredField("id") }.getOrNull() }
-        .first()
-    field.isAccessible = true
-    field.set(entity, id)
-}

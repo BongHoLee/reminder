@@ -1,9 +1,7 @@
-package com.bong.reminder.list
+package com.bong.reminder.list.adapter.`in`.web
 
 import com.bong.reminder.list.adapter.`in`.web.dto.ReminderListCreateRequest
 import com.bong.reminder.list.adapter.`in`.web.dto.ReminderListUpdateRequest
-import com.bong.reminder.list.adapter.`in`.web.toCommand
-import com.bong.reminder.list.adapter.`in`.web.toResponse
 import com.bong.reminder.list.application.query.ReminderListView
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe

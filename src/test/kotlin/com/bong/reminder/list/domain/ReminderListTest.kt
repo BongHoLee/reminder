@@ -1,6 +1,5 @@
-package com.bong.reminder.list
+package com.bong.reminder.list.domain
 
-import com.bong.reminder.list.domain.ReminderList
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
