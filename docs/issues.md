@@ -32,7 +32,7 @@
   - 증상: `repository.deleteById(parentId)` 가 DB FK `ON DELETE CASCADE` 로 자식 row 는 지우지만 영속성 컨텍스트의 자식 매니지드 인스턴스는 stale.
   - 고치기: 자식부터 명시 삭제 → 부모 삭제, 또는 bulk delete + clear/flush 로 통일.
 
-- [ ] **R5. `Reminder.completed` / `ReminderList.color` getter 가 final → Hibernate LAZY 프록시 비활성**
+- [x] **R5. `Reminder.completed` / `ReminderList.color` getter 가 final → Hibernate LAZY 프록시 비활성**
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/domain/Reminder.kt`, `list/domain/ReminderList.kt` (도메인 컨벤션 `final var x: T = ...`)
   - 증상: bootRun 로그에 `Getter methods of lazy classes cannot be final` 경고. 향후 `entity.list.name` 식 접근 시 N+1 즉시 발생.
   - 고치기: 도메인 프로퍼티의 `final` 키워드 제거(allOpen 플러그인이 처리), 또는 Hibernate enhance gradle 플러그인 도입.

@@ -59,47 +59,47 @@ class Reminder(
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "list_id", nullable = false)
-    final var list: ReminderList = list
-        private set
+    var list: ReminderList = list
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    final var parent: Reminder? = parent
-        private set
+    var parent: Reminder? = parent
+        protected set
 
     @Column(nullable = false, length = 500)
-    final var title: String = title
-        private set
+    var title: String = title
+        protected set
 
     @Column(columnDefinition = "TEXT")
-    final var notes: String? = notes
-        private set
+    var notes: String? = notes
+        protected set
 
     @Column(name = "due_at")
-    final var dueAt: Instant? = dueAt
-        private set
+    var dueAt: Instant? = dueAt
+        protected set
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 16)
-    final var priority: Priority = priority
-        private set
+    var priority: Priority = priority
+        protected set
 
     @Column(nullable = false)
-    final var completed: Boolean = false
-        private set
+    var completed: Boolean = false
+        protected set
 
     @Column(name = "completed_at")
-    final var completedAt: Instant? = null
-        private set
+    var completedAt: Instant? = null
+        protected set
 
     @Column(nullable = false)
-    final var flagged: Boolean = flagged
-        private set
+    var flagged: Boolean = flagged
+        protected set
 
     @Column(name = "sort_order", nullable = false)
-    final var sortOrder: Int = sortOrder
-        private set
+    var sortOrder: Int = sortOrder
+        protected set
 
     fun rename(newTitle: String) {
         validateTitle(newTitle)

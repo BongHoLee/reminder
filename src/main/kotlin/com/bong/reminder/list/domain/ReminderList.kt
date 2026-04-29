@@ -30,16 +30,16 @@ class ReminderList(
     }
 
     @Column(nullable = false, length = 100)
-    final var name: String = name
-        private set
+    var name: String = name
+        protected set
 
     @Column(nullable = false, length = 7)
-    final var color: String = color
-        private set
+    var color: String = color
+        protected set
 
     @Column(nullable = false)
-    final var sortOrder: Int = sortOrder
-        private set
+    var sortOrder: Int = sortOrder
+        protected set
 
     fun rename(newName: String) {
         validateName(newName)

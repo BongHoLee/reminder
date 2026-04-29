@@ -24,7 +24,7 @@
 
 ## 도메인 / JPA
 - 엔티티 = JPA 엔티티 단일 클래스, `common/BaseEntity` 상속
-- 엔티티 프로퍼티는 **`final var` + `private set`**. 
+- 엔티티 프로퍼티는 **`var` + `protected set`**. (`final` 키워드를 붙이면 Hibernate LAZY 프록시가 getter 를 override 하지 못해 N+1 위험. allOpen 플러그인이 열어주는 그대로 두고 setter 만 protected 로 외부 mutate 차단.)
 
 ## 네이밍
 - 입력 포트(인터페이스): `…CommandService` / `…QueryService` — `UseCase` 등 별도 접미사 붙이지 않음.

@@ -17,16 +17,16 @@ abstract class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    final var id: Long? = null
-        private set
+    var id: Long? = null
+        protected set
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    final var createdAt: Instant = Instant.EPOCH
-        private set
+    var createdAt: Instant = Instant.EPOCH
+        protected set
 
     @LastModifiedDate
     @Column(nullable = false)
-    final var updatedAt: Instant = Instant.EPOCH
-        private set
+    var updatedAt: Instant = Instant.EPOCH
+        protected set
 }
