@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1c1c1e;
+  --sidebar-bg: #f5f5f7;
+  --border: #e5e5ea;
+  --muted: #8e8e93;
+  --accent: #0a84ff;
+
+  /* Apple system colors (Phase 5에서 본격 활용) */
+  --color-red: #ff3b30;
+  --color-orange: #ff9500;
+  --color-yellow: #ffcc00;
+  --color-green: #34c759;
+  --color-mint: #00c7be;
+  --color-teal: #30b0c7;
+  --color-cyan: #32ade6;
+  --color-blue: #0a84ff;
+  --color-indigo: #5e5ce6;
+  --color-purple: #af52de;
+  --color-pink: #ff2d55;
+  --color-brown: #a2845e;
+  --color-gray: #8e8e93;
+
+  --radius-row: 6px;
+  --radius-card: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1c1c1e;
+    --foreground: #f2f2f7;
+    --sidebar-bg: #2c2c2e;
+    --border: #3a3a3c;
+    --muted: #8e8e93;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar: var(--sidebar-bg);
+  --color-border-app: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Apple SD Gothic Neo",
+    "Pretendard", system-ui, sans-serif;
+}

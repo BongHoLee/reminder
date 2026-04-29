@@ -18,13 +18,13 @@
 - [ ] `curl http://localhost:8080/api/v1/health` 200 확인
 
 ### Frontend
-- [ ] `frontend/` 디렉토리에서 `npx create-next-app@latest .` 실행 (TS, Tailwind, App Router, src/, alias `@/`)
-- [ ] `tailwind.config.ts`에 디자인 토큰 placeholder 추가 (Phase 5에서 본격 정의)
-- [ ] `globals.css`에 라이트/다크 CSS 변수 스캐폴드
-- [ ] `src/lib/api.ts`: fetch wrapper, baseURL = `http://localhost:8080/api/v1`
-- [ ] `src/app/providers.tsx`: TanStack Query `QueryClientProvider` 등록
-- [ ] `src/app/layout.tsx`에 Provider 적용
-- [ ] 루트 페이지에서 `/health` 호출하여 "Backend OK" 표시
+- [x] `frontend/` 디렉토리에서 `npx create-next-app@latest .` 실행 (TS, Tailwind, App Router, src/, alias `@/`)
+- [x] `tailwind.config.ts`에 디자인 토큰 placeholder 추가 (Phase 5에서 본격 정의)
+- [x] `globals.css`에 라이트/다크 CSS 변수 스캐폴드
+- [x] `src/lib/api.ts`: fetch wrapper, baseURL = `http://localhost:8080/api/v1`
+- [x] `src/app/providers.tsx`: TanStack Query `QueryClientProvider` 등록
+- [x] `src/app/layout.tsx`에 Provider 적용
+- [x] 루트 페이지에서 `/health` 호출하여 "Backend OK" 표시
 - [ ] `npm run dev` 동작 확인
 
 ### Exit Criteria 검증
