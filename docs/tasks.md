@@ -14,8 +14,8 @@
 - [x] `common/ErrorResponse.kt` DTO 정의 (`code`, `message`, `fieldErrors`)
 - [x] `common/GlobalExceptionHandler.kt` (`@RestControllerAdvice`): `MethodArgumentNotValidException`, `IllegalArgumentException`, `ReminderListNotFoundException` 매핑
 - [x] `common/HealthController.kt`: `GET /api/v1/health` → `{"status":"UP"}`
-- [ ] `./gradlew bootRun` 동작 확인
-- [ ] `curl http://localhost:8080/api/v1/health` 200 확인
+- [x] `./gradlew bootRun` 동작 확인
+- [x] `curl http://localhost:8080/api/v1/health` 200 확인
 
 ### Frontend
 - [x] `frontend/` 디렉토리에서 `npx create-next-app@latest .` 실행 (TS, Tailwind, App Router, src/, alias `@/`)
@@ -25,10 +25,10 @@
 - [x] `src/app/providers.tsx`: TanStack Query `QueryClientProvider` 등록
 - [x] `src/app/layout.tsx`에 Provider 적용
 - [x] 루트 페이지에서 `/health` 호출하여 "Backend OK" 표시
-- [ ] `npm run dev` 동작 확인
+- [x] `npm run dev` 동작 확인
 
 ### Exit Criteria 검증
-- [ ] backend `bootRun` + frontend `npm run dev` 동시 기동 시 health OK 노출
+- [x] backend `bootRun` + frontend `npm run dev` 동시 기동 시 health OK 노출
 
 ---
 
@@ -64,8 +64,8 @@
 - [x] 라우트 `/lists/[id]` 스텁 (제목만 표시)
 
 ### Exit Criteria 검증
-- [ ] 사이드바에서 리스트 생성/이름 변경/삭제 동작
-- [ ] 새로고침 시 백엔드 데이터 그대로 표시 (in-memory 재시작 시 초기화는 정상)
+- [x] 사이드바에서 리스트 생성/이름 변경/삭제 동작
+- [x] 새로고침 시 백엔드 데이터 그대로 표시 (in-memory 재시작 시 초기화는 정상)
 
 ---
 
@@ -110,7 +110,7 @@
 - [x] 미완료/완료 섹션 분리 표시
 
 ### Exit Criteria 검증
-- [ ] 리스트 클릭 → reminder 입력 → Enter 추가 → 체크 → 완료 섹션 이동까지 정상
+- [x] 리스트 클릭 → reminder 입력 → Enter 추가 → 체크 → 완료 섹션 이동까지 정상
 
 ---
 
@@ -135,8 +135,8 @@
 - [x] 한국어 날짜 포맷 helper (`formatDueDate(dueAt): "내일, 오후 3:00"` 등)
 
 ### Exit Criteria 검증
-- [ ] 모든 reminder 필드 UI에서 입력/수정 가능
-- [ ] 한국어 날짜 포맷 정상 표시
+- [x] 모든 reminder 필드 UI에서 입력/수정 가능
+- [x] 한국어 날짜 포맷 정상 표시
 
 ---
 
@@ -183,8 +183,8 @@
 - [x] 입력 debounce 250ms
 
 ### Exit Criteria 검증
-- [ ] 5개 스마트 뷰 + 검색 + subtask 동작
-- [ ] 키보드만으로 새 할 일 → Tab → subtask → Enter → 같은 깊이 추가 가능
+- [x] 5개 스마트 뷰 + 검색 + subtask 동작
+- [x] 키보드만으로 새 할 일 → Tab → subtask → Enter → 같은 깊이 추가 가능
 
 ---
 

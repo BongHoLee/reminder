@@ -261,5 +261,17 @@ class ReminderControllerTest @Autowired constructor(
             reminderJpaRepository.count() shouldBe 0L
             listJpaRepository.findById(list.id!!).isPresent shouldBe false
         }
+
+        it("자기참조 부모-자식 reminder 가 섞여 있어도 cascade 가 성공한다") {
+            val list = newList()
+            val parent = reminderJpaRepository.save(Reminder(list = list, title = "장보기"))
+            reminderJpaRepository.save(Reminder(list = list, title = "우유", parent = parent))
+            reminderJpaRepository.save(Reminder(list = list, title = "빵", parent = parent))
+
+            mockMvc.delete("/api/v1/lists/${list.id}")
+                .andExpect { status { isNoContent() } }
+
+            reminderJpaRepository.count() shouldBe 0L
+        }
     }
 })
