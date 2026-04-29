@@ -143,29 +143,29 @@
 ## Phase 4 — Subtask + 검색 + 스마트 뷰
 
 ### Backend — Subtask
-- [ ] `ReminderService.create`/`update`에서 parent depth 검증 (parent의 parent != null이면 400)
-- [ ] subtask 응답 구조: 부모 reminder의 `children` 필드로 nested 또는 별도 endpoint
-- [ ] `findByParentIdOrderBySortOrderAsc` 사용
+- [x] `ReminderService.create`/`update`에서 parent depth 검증 (parent의 parent != null이면 400)
+- [x] subtask 응답 구조: 부모 reminder의 `children` 필드로 nested 또는 별도 endpoint (별도 엔드포인트 `GET /api/v1/reminders/{id}/children`)
+- [x] `findByParentIdOrderBySortOrderAsc` 사용
 
 ### Backend — 검색
-- [ ] `reminder/ReminderSearchService.kt` (또는 service에 메서드 추가)
-- [ ] `GET /api/v1/search?q=...`: title/notes ILIKE (H2: `LOWER(title) LIKE LOWER(...)`)
-- [ ] 페이징 고려 (Pageable) 또는 limit 50 단순 처리
+- [x] `reminder/ReminderSearchService.kt` (또는 service에 메서드 추가)
+- [x] `GET /api/v1/search?q=...`: title/notes ILIKE (H2: `LOWER(title) LIKE LOWER(...)`)
+- [x] 페이징 고려 (Pageable) 또는 limit 50 단순 처리
 
 ### Backend — 스마트 뷰
-- [ ] `reminder/ReminderViewController.kt`
-  - [ ] `GET /api/v1/views/today?tz=Asia/Seoul`
-  - [ ] `GET /api/v1/views/scheduled?tz=Asia/Seoul`
-  - [ ] `GET /api/v1/views/all`
-  - [ ] `GET /api/v1/views/flagged`
-  - [ ] `GET /api/v1/views/completed`
-- [ ] tz 파라미터로 LocalDate 경계 → Instant 변환 로직
-- [ ] 카운트 집계: `GET /api/v1/views/counts?tz=...` (사이드바 카드용)
+- [x] `reminder/ReminderViewController.kt`
+  - [x] `GET /api/v1/views/today?tz=Asia/Seoul`
+  - [x] `GET /api/v1/views/scheduled?tz=Asia/Seoul`
+  - [x] `GET /api/v1/views/all`
+  - [x] `GET /api/v1/views/flagged`
+  - [x] `GET /api/v1/views/completed`
+- [x] tz 파라미터로 LocalDate 경계 → Instant 변환 로직
+- [x] 카운트 집계: `GET /api/v1/views/counts?tz=...` (사이드바 카드용)
 
 ### Backend — 테스트
-- [ ] today 경계값 테스트 (자정 직전 23:59, 직후 00:00)
-- [ ] subtask depth 거부 테스트
-- [ ] 검색 대소문자 무시 테스트
+- [x] today 경계값 테스트 (자정 직전 23:59, 직후 00:00)
+- [x] subtask depth 거부 테스트
+- [x] 검색 대소문자 무시 테스트
 
 ### Frontend — Subtask UI
 - [ ] `ReminderRow`에 `Tab` → 들여쓰기 (parentId = 직전 형제 id), `Shift+Tab` → 내어쓰기

@@ -63,10 +63,19 @@ class ReminderE2ETest @Autowired constructor(
     fun parseError(body: String): ErrorResponse =
         parse(body, ErrorResponse::class.java)
 
-    beforeEach {
-        // 테스트 간 격리 — 각 시나리오는 비어 있는 DB 에서 시작
+    fun cleanDb() {
         reminderJpaRepository.deleteAllInBatch()
         listJpaRepository.deleteAllInBatch()
+    }
+
+    beforeEach {
+        // 테스트 간 격리 — 각 시나리오는 비어 있는 DB 에서 시작
+        cleanDb()
+    }
+
+    afterSpec {
+        // E2E 는 실제 서버에 commit 되므로 후속 @Transactional 스펙에 누수되지 않도록 정리
+        cleanDb()
     }
 
     describe("리스트 CRUD 시나리오") {

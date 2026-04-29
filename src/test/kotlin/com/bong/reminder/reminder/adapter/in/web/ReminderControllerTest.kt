@@ -116,6 +116,20 @@ class ReminderControllerTest @Autowired constructor(
                 jsonPath("$.code") { value("REMINDER_LIST_NOT_FOUND") }
             }
         }
+
+        it("이미 부모인 reminder 의 자식으로 등록 시도 → 400 INVALID_ARGUMENT (1단계 깊이 제한)") {
+            val list = newList()
+            val grand = reminderJpaRepository.save(Reminder(list = list, title = "조부"))
+            val parent = reminderJpaRepository.save(Reminder(list = list, title = "부", parent = grand))
+
+            mockMvc.post("/api/v1/lists/${list.id}/reminders") {
+                contentType = MediaType.APPLICATION_JSON
+                content = """{"title":"손주","parentId":${parent.id}}"""
+            }.andExpect {
+                status { isBadRequest() }
+                jsonPath("$.code") { value("INVALID_ARGUMENT") }
+            }
+        }
     }
 
     describe("PATCH /api/v1/reminders/{id}") {
@@ -203,6 +217,31 @@ class ReminderControllerTest @Autowired constructor(
 
         it("미존재 id 는 404") {
             mockMvc.delete("/api/v1/reminders/999999")
+                .andExpect {
+                    status { isNotFound() }
+                    jsonPath("$.code") { value("REMINDER_NOT_FOUND") }
+                }
+        }
+    }
+
+    describe("GET /api/v1/reminders/{id}/children") {
+        it("부모 reminder 의 자식들을 sortOrder 오름차순으로 반환한다") {
+            val list = newList()
+            val parent = reminderJpaRepository.save(Reminder(list = list, title = "장보기"))
+            reminderJpaRepository.save(Reminder(list = list, title = "우유", parent = parent, sortOrder = 1))
+            reminderJpaRepository.save(Reminder(list = list, title = "빵", parent = parent, sortOrder = 0))
+
+            mockMvc.get("/api/v1/reminders/${parent.id}/children")
+                .andExpect {
+                    status { isOk() }
+                    jsonPath("$.length()") { value(2) }
+                    jsonPath("$[0].title") { value("빵") }
+                    jsonPath("$[1].title") { value("우유") }
+                }
+        }
+
+        it("미존재 parent id 는 404") {
+            mockMvc.get("/api/v1/reminders/999999/children")
                 .andExpect {
                     status { isNotFound() }
                     jsonPath("$.code") { value("REMINDER_NOT_FOUND") }

@@ -19,4 +19,11 @@ class DefaultReminderQueryService(
         if (!listRepository.existsById(listId)) throw ReminderListNotFoundException()
         return reminderRepository.findByListIdOrdered(listId, completed).map(ReminderView::from)
     }
+
+    override fun findChildren(parentId: Long): List<ReminderView> {
+        if (!reminderRepository.existsById(parentId)) {
+            throw com.bong.reminder.reminder.domain.ReminderNotFoundException()
+        }
+        return reminderRepository.findByParentIdOrdered(parentId).map(ReminderView::from)
+    }
 }

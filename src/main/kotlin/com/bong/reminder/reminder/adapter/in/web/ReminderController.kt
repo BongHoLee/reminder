@@ -45,6 +45,10 @@ class ReminderController(
             .body(response)
     }
 
+    @GetMapping("/api/v1/reminders/{id}/children")
+    fun findChildren(@PathVariable id: Long): List<ReminderResponse> =
+        queryService.findChildren(id).map { it.toResponse() }
+
     @PatchMapping("/api/v1/reminders/{id}")
     fun update(
         @PathVariable id: Long,
