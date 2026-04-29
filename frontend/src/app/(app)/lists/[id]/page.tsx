@@ -1,7 +1,10 @@
 "use client";
 
 import { use } from "react";
+import { NewReminderInput } from "@/components/NewReminderInput";
+import { ReminderRow } from "@/components/ReminderRow";
 import { useLists } from "@/lib/queries/lists";
+import { useReminders } from "@/lib/queries/reminders";
 
 export default function ListDetailPage({
   params,
@@ -10,23 +13,48 @@ export default function ListDetailPage({
 }) {
   const { id } = use(params);
   const listId = Number(id);
+
   const { data: lists } = useLists();
   const list = lists?.find((l) => l.id === listId);
+  const accent = list?.color ?? "var(--accent)";
+
+  const { data: incomplete = [], isLoading } = useReminders(listId, false);
+  const { data: completed = [] } = useReminders(listId, true);
 
   return (
     <main className="flex flex-1 flex-col p-10">
       <header className="mb-6">
-        <h1
-          className="text-3xl font-semibold"
-          style={{ color: list?.color ?? "var(--foreground)" }}
-        >
+        <h1 className="text-3xl font-semibold" style={{ color: accent }}>
           {list?.name ?? `리스트 #${listId}`}
         </h1>
       </header>
 
-      <section className="rounded-[var(--radius-card)] border border-dashed border-[var(--border)] p-8 text-center text-[var(--muted)]">
-        Phase 2 에서 reminder 목록 / 입력 / 토글이 채워집니다.
+      <NewReminderInput listId={listId} accentColor={accent} />
+
+      <section className="mt-2 flex flex-col">
+        {isLoading && (
+          <p className="px-2 py-2 text-sm text-[var(--muted)]">로딩 중…</p>
+        )}
+        {!isLoading && incomplete.length === 0 && (
+          <p className="px-2 py-6 text-sm text-[var(--muted)]">
+            미리 알림 없음
+          </p>
+        )}
+        {incomplete.map((r) => (
+          <ReminderRow key={r.id} reminder={r} accentColor={accent} />
+        ))}
       </section>
+
+      {completed.length > 0 && (
+        <section className="mt-8">
+          <h2 className="mb-2 px-2 text-xs uppercase tracking-wide text-[var(--muted)]">
+            완료됨 ({completed.length})
+          </h2>
+          {completed.map((r) => (
+            <ReminderRow key={r.id} reminder={r} accentColor={accent} />
+          ))}
+        </section>
+      )}
     </main>
   );
 }

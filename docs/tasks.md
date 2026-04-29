@@ -102,12 +102,12 @@
 - [x] `ReminderControllerTest`: validation 실패 400, 정상 200/201
 
 ### Frontend
-- [ ] `src/lib/queries/reminders.ts`: `useReminders(listId, completed)`, `useCreateReminder`, `useUpdateReminder`, `useToggleReminder`, `useDeleteReminder`
-- [ ] 라우트 `/lists/[id]/page.tsx`에서 reminders 표시
-- [ ] `src/components/ReminderRow.tsx`: 체크박스 + 제목 + 클릭 시 인라인 편집(`contentEditable` 또는 input toggle)
-- [ ] `src/components/NewReminderInput.tsx`: 상단 input, Enter 키로 추가
-- [ ] 체크 토글에 낙관적 업데이트 적용
-- [ ] 미완료/완료 섹션 분리 표시
+- [x] `src/lib/queries/reminders.ts`: `useReminders(listId, completed)`, `useCreateReminder`, `useUpdateReminder`, `useToggleReminder`, `useDeleteReminder`
+- [x] 라우트 `/lists/[id]/page.tsx`에서 reminders 표시
+- [x] `src/components/ReminderRow.tsx`: 체크박스 + 제목 + 클릭 시 인라인 편집(`contentEditable` 또는 input toggle)
+- [x] `src/components/NewReminderInput.tsx`: 상단 input, Enter 키로 추가
+- [x] 체크 토글에 낙관적 업데이트 적용
+- [x] 미완료/완료 섹션 분리 표시
 
 ### Exit Criteria 검증
 - [ ] 리스트 클릭 → reminder 입력 → Enter 추가 → 체크 → 완료 섹션 이동까지 정상
