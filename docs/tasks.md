@@ -168,19 +168,19 @@
 - [x] 검색 대소문자 무시 테스트
 
 ### Frontend — Subtask UI
-- [ ] `ReminderRow`에 `Tab` → 들여쓰기 (parentId = 직전 형제 id), `Shift+Tab` → 내어쓰기
-- [ ] 시각적 indent (좌측 padding)
+- [x] `ReminderRow`에 `Tab` → 들여쓰기 (parentId = 직전 형제 id), `Shift+Tab` → 내어쓰기 (outdent 는 백엔드 PATCH 의 null=무변경 시맨틱으로 인해 미지원 — Phase 5/6 에서 보강)
+- [x] 시각적 indent (좌측 padding)
 - [ ] 부모 완료 시 자식 처리 정책 결정 (Apple은 자식만 영향) — 처음엔 독립 처리
 
 ### Frontend — 스마트 뷰
-- [ ] 사이드바 상단 스마트 카드 5종 (1차는 단순 카드, Phase 5에서 그리드/디자인 강화)
-- [ ] 라우트 `/views/[type]/page.tsx`
-- [ ] scheduled 뷰: dueDate별 그룹핑 헤더
+- [x] 사이드바 상단 스마트 카드 5종 (1차는 단순 카드, Phase 5에서 그리드/디자인 강화)
+- [x] 라우트 `/views/[type]/page.tsx`
+- [x] scheduled 뷰: dueDate별 그룹핑 헤더
 
 ### Frontend — 검색
-- [ ] 사이드바 상단 검색 input
-- [ ] 라우트 `/search?q=...` 결과 페이지
-- [ ] 입력 debounce 250ms
+- [x] 사이드바 상단 검색 input
+- [x] 라우트 `/search?q=...` 결과 페이지
+- [x] 입력 debounce 250ms
 
 ### Exit Criteria 검증
 - [ ] 5개 스마트 뷰 + 검색 + subtask 동작

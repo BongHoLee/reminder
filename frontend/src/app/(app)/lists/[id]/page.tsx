@@ -40,8 +40,15 @@ export default function ListDetailPage({
             미리 알림 없음
           </p>
         )}
-        {incomplete.map((r) => (
-          <ReminderRow key={r.id} reminder={r} accentColor={accent} />
+        {incomplete.map((r, idx) => (
+          <ReminderRow
+            key={r.id}
+            reminder={r}
+            accentColor={accent}
+            previousSiblingId={
+              idx > 0 && incomplete[idx - 1].parentId === null ? incomplete[idx - 1].id : null
+            }
+          />
         ))}
       </section>
 

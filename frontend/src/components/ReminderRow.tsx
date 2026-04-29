@@ -21,9 +21,12 @@ const PRIORITY_PREFIX: Record<Reminder["priority"], string> = {
 export function ReminderRow({
   reminder,
   accentColor,
+  previousSiblingId,
 }: {
   reminder: Reminder;
   accentColor: string;
+  /** 같은 깊이의 직전 형제 reminder id — Tab 으로 indent 시 parent 로 사용 */
+  previousSiblingId?: number | null;
 }) {
   const toggle = useToggleReminder();
   const update = useUpdateReminder();
@@ -51,7 +54,7 @@ export function ReminderRow({
   const prefix = PRIORITY_PREFIX[reminder.priority];
 
   return (
-    <div className="flex flex-col">
+    <div className={`flex flex-col ${reminder.parentId ? "pl-8" : ""}`}>
       <div className="group flex items-start gap-3 rounded-[var(--radius-row)] px-2 py-2 hover:bg-[var(--sidebar-bg)]">
         <button
           aria-label={reminder.completed ? "미완료로 되돌리기" : "완료"}
@@ -101,6 +104,19 @@ export function ReminderRow({
                 if (e.key === "Escape") {
                   setDraft(reminder.title);
                   setEditing(false);
+                }
+                if (e.key === "Tab" && !e.shiftKey && previousSiblingId) {
+                  e.preventDefault();
+                  update.mutate({
+                    id: reminder.id,
+                    listId: reminder.listId,
+                    parentId: previousSiblingId,
+                  });
+                }
+                if (e.key === "Tab" && e.shiftKey && reminder.parentId) {
+                  e.preventDefault();
+                  // 백엔드는 null = no change 의미라서 outdent 는 현재 미지원.
+                  // 향후 'parentIdProvided' 플래그가 추가되면 활성화.
                 }
               }}
               onBlur={commitTitle}

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Plus, Trash2, Pencil } from "lucide-react";
 import { NewListDialog } from "./NewListDialog";
+import { SearchBar } from "./SearchBar";
+import { SmartListGrid } from "./SmartListGrid";
 import {
   useDeleteList,
   useLists,
@@ -18,15 +20,10 @@ export function Sidebar() {
 
   return (
     <aside className="flex w-[260px] shrink-0 flex-col border-r border-[var(--border)] bg-[var(--sidebar-bg)]">
-      <div className="flex-1 overflow-y-auto px-3 pt-6">
-        {/* 스마트 리스트 영역 placeholder — Phase 4 에서 그리드 카드로 채움 */}
+      <div className="flex-1 overflow-y-auto px-3 pt-4">
+        <SearchBar />
         <div className="mb-6">
-          <p className="mb-2 px-2 text-xs uppercase tracking-wide text-[var(--muted)]">
-            Smart Lists (Phase 4)
-          </p>
-          <div className="rounded-[var(--radius-card)] border border-dashed border-[var(--border)] px-3 py-3 text-xs text-[var(--muted)]">
-            오늘 / 예정 / 전체 / 깃발 / 완료
-          </div>
+          <SmartListGrid />
         </div>
 
         <div className="mb-2 px-2 text-xs uppercase tracking-wide text-[var(--muted)]">
