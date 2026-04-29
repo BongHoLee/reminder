@@ -115,8 +115,11 @@ export function ReminderRow({
                 }
                 if (e.key === "Tab" && e.shiftKey && reminder.parentId) {
                   e.preventDefault();
-                  // 백엔드는 null = no change 의미라서 outdent 는 현재 미지원.
-                  // 향후 'parentIdProvided' 플래그가 추가되면 활성화.
+                  update.mutate({
+                    id: reminder.id,
+                    listId: reminder.listId,
+                    parentIdClear: true,
+                  });
                 }
               }}
               onBlur={commitTitle}

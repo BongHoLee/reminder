@@ -48,14 +48,23 @@ class DefaultReminderCommandService(
         val entity = reminderRepository.findById(command.id) ?: throw ReminderNotFoundException()
 
         command.title?.let(entity::rename)
-        command.notes?.let(entity::changeNotes)
-        command.dueAt?.let(entity::changeDueAt)
+        when {
+            command.notesClear -> entity.changeNotes(null)
+            command.notes != null -> entity.changeNotes(command.notes)
+        }
+        when {
+            command.dueAtClear -> entity.changeDueAt(null)
+            command.dueAt != null -> entity.changeDueAt(command.dueAt)
+        }
         command.priority?.let(entity::changePriority)
         command.flagged?.let(entity::changeFlagged)
         command.sortOrder?.let(entity::reorder)
-        command.parentId?.let { newParentId ->
-            val newParent = reminderRepository.findById(newParentId) ?: throw ReminderNotFoundException()
-            entity.changeParent(newParent)
+        when {
+            command.parentIdClear -> entity.changeParent(null)
+            command.parentId != null -> {
+                val newParent = reminderRepository.findById(command.parentId) ?: throw ReminderNotFoundException()
+                entity.changeParent(newParent)
+            }
         }
 
         return ReminderView.from(entity)

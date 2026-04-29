@@ -59,13 +59,15 @@ describe("buildPatchPayload", () => {
     expect(p.dueAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/);
   });
 
-  it("notes 가 빈 문자열이면 null 로 보낸다 (의도적 clear 인지 노출)", () => {
+  it("notes 가 빈 문자열이면 notesClear=true 로 명시 clear", () => {
     const p = buildPatchPayload({ ...form, notes: "" });
-    expect(p.notes).toBeNull();
+    expect(p.notes).toBeUndefined();
+    expect(p.notesClear).toBe(true);
   });
 
-  it("dueAtLocal 이 빈 문자열이면 dueAt: null", () => {
+  it("dueAtLocal 이 빈 문자열이면 dueAtClear=true 로 명시 clear", () => {
     const p = buildPatchPayload({ ...form, dueAtLocal: "" });
-    expect(p.dueAt).toBeNull();
+    expect(p.dueAt).toBeUndefined();
+    expect(p.dueAtClear).toBe(true);
   });
 });

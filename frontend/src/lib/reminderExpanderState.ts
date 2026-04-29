@@ -8,8 +8,10 @@ export type ExpanderFormState = {
 };
 
 export type ExpanderPatchPayload = {
-  notes: string | null;
-  dueAt: string | null;
+  notes?: string | null;
+  notesClear?: boolean;
+  dueAt?: string | null;
+  dueAtClear?: boolean;
   priority: Priority;
   flagged: boolean;
 };
@@ -24,11 +26,13 @@ export function reminderToFormState(reminder: Reminder): ExpanderFormState {
   };
 }
 
-/** 폼 state → 백엔드 PATCH 바디. */
+/** 폼 state → 백엔드 PATCH 바디. 빈 값은 *Clear=true 로 명시 비움. */
 export function buildPatchPayload(form: ExpanderFormState): ExpanderPatchPayload {
   return {
-    notes: form.notes === "" ? null : form.notes,
-    dueAt: form.dueAtLocal ? new Date(form.dueAtLocal).toISOString() : null,
+    ...(form.notes === "" ? { notesClear: true } : { notes: form.notes }),
+    ...(form.dueAtLocal === ""
+      ? { dueAtClear: true }
+      : { dueAt: new Date(form.dueAtLocal).toISOString() }),
     priority: form.priority,
     flagged: form.flagged,
   };

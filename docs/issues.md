@@ -41,7 +41,7 @@
 
 ## 🟡 Design / Maintainability
 
-- [ ] **M1. PATCH 의 `null = 무변경` 시맨틱 — 명시적 clear 경로 부재**
+- [x] **M1. PATCH 의 `null = 무변경` 시맨틱 — 명시적 clear 경로 부재**
   - 위치: `reminder/application/command/UpdateReminderCommand.kt`, `adapter/in/web/dto/ReminderUpdateRequest.kt`
   - 증상: `dueAt`, `notes`, `parentId` 를 비울 방법 없음. FE Shift+Tab outdent 가 비활성된 근본 원인.
   - 고치기: JSON Merge Patch (RFC 7386) 도입, `JsonNullable<T>` wrapper, 또는 `dueAtClear: boolean` 류 별도 플래그.

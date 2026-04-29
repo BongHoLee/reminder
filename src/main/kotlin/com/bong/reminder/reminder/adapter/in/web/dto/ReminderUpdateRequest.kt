@@ -11,8 +11,10 @@ data class ReminderUpdateRequest(
 
     @field:Size(max = 10_000, message = "메모는 10000자 이하여야 합니다.")
     val notes: String? = null,
+    val notesClear: Boolean = false,
 
     val dueAt: Instant? = null,
+    val dueAtClear: Boolean = false,
 
     val priority: Priority? = null,
 
@@ -22,4 +24,5 @@ data class ReminderUpdateRequest(
     val sortOrder: Int? = null,
 
     val parentId: Long? = null,
+    val parentIdClear: Boolean = false,
 )

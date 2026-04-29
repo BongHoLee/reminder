@@ -46,11 +46,14 @@ export type UpdateReminderInput = {
   listId: number;
   title?: string;
   notes?: string | null;
+  notesClear?: boolean;
   dueAt?: string | null;
+  dueAtClear?: boolean;
   priority?: Priority;
   flagged?: boolean;
   sortOrder?: number;
   parentId?: number | null;
+  parentIdClear?: boolean;
 };
 
 export function useUpdateReminder() {

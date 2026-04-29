@@ -177,6 +177,73 @@ class ReminderControllerTest @Autowired constructor(
                 jsonPath("$.code") { value("INVALID_ARGUMENT") }
             }
         }
+
+        it("dueAtClear=true 는 dueAt 을 null 로 비운다 (명시적 clear)") {
+            val list = newList()
+            val saved = reminderJpaRepository.save(
+                Reminder(
+                    list = list,
+                    title = "x",
+                    dueAt = java.time.Instant.parse("2026-04-30T08:00:00Z"),
+                ),
+            )
+
+            mockMvc.patch("/api/v1/reminders/${saved.id}") {
+                contentType = MediaType.APPLICATION_JSON
+                content = """{"dueAtClear":true}"""
+            }.andExpect {
+                status { isOk() }
+                jsonPath("$.dueAt") { value(null) }
+            }
+
+            reminderJpaRepository.findById(saved.id!!).orElseThrow().dueAt shouldBe null
+        }
+
+        it("notesClear=true 는 notes 를 null 로 비운다") {
+            val list = newList()
+            val saved = reminderJpaRepository.save(
+                Reminder(list = list, title = "x", notes = "기존 메모"),
+            )
+
+            mockMvc.patch("/api/v1/reminders/${saved.id}") {
+                contentType = MediaType.APPLICATION_JSON
+                content = """{"notesClear":true}"""
+            }.andExpect {
+                status { isOk() }
+                jsonPath("$.notes") { value(null) }
+            }
+        }
+
+        it("parentIdClear=true 는 parent 를 null 로 만든다 (Shift+Tab outdent)") {
+            val list = newList()
+            val parent = reminderJpaRepository.save(Reminder(list = list, title = "부모"))
+            val child = reminderJpaRepository.save(
+                Reminder(list = list, title = "자식", parent = parent),
+            )
+
+            mockMvc.patch("/api/v1/reminders/${child.id}") {
+                contentType = MediaType.APPLICATION_JSON
+                content = """{"parentIdClear":true}"""
+            }.andExpect {
+                status { isOk() }
+                jsonPath("$.parentId") { value(null) }
+            }
+
+            reminderJpaRepository.findById(child.id!!).orElseThrow().parent shouldBe null
+        }
+
+        it("dueAtClear=true 와 dueAt=값 을 동시에 보내면 400 INVALID_ARGUMENT") {
+            val list = newList()
+            val saved = reminderJpaRepository.save(Reminder(list = list, title = "x"))
+
+            mockMvc.patch("/api/v1/reminders/${saved.id}") {
+                contentType = MediaType.APPLICATION_JSON
+                content = """{"dueAt":"2026-05-01T00:00:00Z","dueAtClear":true}"""
+            }.andExpect {
+                status { isBadRequest() }
+                jsonPath("$.code") { value("INVALID_ARGUMENT") }
+            }
+        }
     }
 
     describe("POST /api/v1/reminders/{id}/toggle") {

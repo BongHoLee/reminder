@@ -24,11 +24,14 @@ fun ReminderUpdateRequest.toCommand(id: Long): UpdateReminderCommand =
         id = id,
         title = title,
         notes = notes,
+        notesClear = notesClear,
         dueAt = dueAt,
+        dueAtClear = dueAtClear,
         priority = priority,
         flagged = flagged,
         sortOrder = sortOrder,
         parentId = parentId,
+        parentIdClear = parentIdClear,
     )
 
 fun ReminderView.toResponse(): ReminderResponse =
