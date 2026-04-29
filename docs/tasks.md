@@ -117,10 +117,10 @@
 ## Phase 3 — 상세 정보 + 인라인 익스팬더
 
 ### Backend
-- [ ] `ReminderCreateRequest.title`: `@NotBlank @Size(max=500)`
-- [ ] `ReminderUpdateRequest.title`: `@Size(max=500)`
-- [ ] `notes`: `@Size(max=10_000)` (create/update 공통)
-- [ ] validation 실패 시 `GlobalExceptionHandler`가 fieldErrors 포함하는지 테스트
+- [x] `ReminderCreateRequest.title`: `@NotBlank @Size(max=500)`
+- [x] `ReminderUpdateRequest.title`: `@Size(max=500)`
+- [x] `notes`: `@Size(max=10_000)` (create/update 공통)
+- [x] validation 실패 시 `GlobalExceptionHandler`가 fieldErrors 포함하는지 테스트
 
 ### Frontend
 - [ ] `ReminderRow` hover 시 우측에 ⓘ 아이콘 노출
