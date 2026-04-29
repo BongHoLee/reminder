@@ -8,12 +8,12 @@
 ## Phase 0 — 셋업
 
 ### Backend
-- [ ] `application.yml` 정리: `spring.jackson.time-zone=UTC`, 프로파일 분리(`dev`)
-- [ ] `config/WebConfig.kt` 생성 — `WebMvcConfigurer.addCorsMappings`로 `http://localhost:3000` 허용
-- [ ] 패키지 구조 생성: `config/`, `common/`, `list/`, `reminder/`
+- [x] `application.yml` 정리: `spring.jackson.time-zone=UTC`, 프로파일 분리(`dev`)
+- [x] `config/WebConfig.kt` 생성 — `WebMvcConfigurer.addCorsMappings`로 `http://localhost:3000` 허용
+- [x] 패키지 구조 생성: `config/`, `common/`, `list/`, `reminder/`
 - [x] `common/ErrorResponse.kt` DTO 정의 (`code`, `message`, `fieldErrors`)
 - [x] `common/GlobalExceptionHandler.kt` (`@RestControllerAdvice`): `MethodArgumentNotValidException`, `IllegalArgumentException`, `ReminderListNotFoundException` 매핑
-- [ ] `common/HealthController.kt`: `GET /api/v1/health` → `{"status":"UP"}`
+- [x] `common/HealthController.kt`: `GET /api/v1/health` → `{"status":"UP"}`
 - [ ] `./gradlew bootRun` 동작 확인
 - [ ] `curl http://localhost:8080/api/v1/health` 200 확인
 
@@ -72,34 +72,34 @@
 ## Phase 2 — Reminder CRUD + 완료 토글
 
 ### Backend — 도메인
-- [ ] `reminder/Priority.kt` enum (`NONE`, `LOW`, `MEDIUM`, `HIGH`)
-- [ ] `reminder/Reminder.kt` 엔티티 (list FK, parent FK, title, notes, dueAt, priority, completed, completedAt, flagged, sortOrder) — `BaseEntity` 상속
-- [ ] `reminder/ReminderRepository.kt`
-  - [ ] `findByListIdAndCompletedOrderBySortOrderAsc(listId, completed)`
-  - [ ] `findByParentIdOrderBySortOrderAsc(parentId)`
-  - [ ] `deleteByListId(listId)` 또는 cascade
+- [x] `reminder/Priority.kt` enum (`NONE`, `LOW`, `MEDIUM`, `HIGH`)
+- [x] `reminder/Reminder.kt` 엔티티 (list FK, parent FK, title, notes, dueAt, priority, completed, completedAt, flagged, sortOrder) — `BaseEntity` 상속
+- [x] `reminder/ReminderRepository.kt`
+  - [x] `findByListIdAndCompletedOrderBySortOrderAsc(listId, completed)`
+  - [x] `findByParentIdOrderBySortOrderAsc(parentId)`
+  - [x] `deleteByListId(listId)` 또는 cascade
 
 ### Backend — DTO/Service/Controller
-- [ ] `reminder/dto/ReminderResponse.kt`
-- [ ] `reminder/dto/ReminderCreateRequest.kt` (title 필수)
-- [ ] `reminder/dto/ReminderUpdateRequest.kt` (모두 nullable, 부분 업데이트)
-- [ ] `reminder/ReminderService.kt`:
-  - [ ] `findByList(listId, completed)`
-  - [ ] `create(listId, request)`
-  - [ ] `partialUpdate(id, request)`
-  - [ ] `toggleCompleted(id)` — `completed` flip + `completedAt` 갱신
-  - [ ] `delete(id)`
-- [ ] `reminder/ReminderController.kt`:
-  - [ ] `GET /api/v1/lists/{listId}/reminders?completed=false`
-  - [ ] `POST /api/v1/lists/{listId}/reminders`
-  - [ ] `PATCH /api/v1/reminders/{id}`
-  - [ ] `POST /api/v1/reminders/{id}/toggle`
-  - [ ] `DELETE /api/v1/reminders/{id}`
-- [ ] 리스트 삭제 시 reminders cascade 동작 확인
+- [x] `reminder/dto/ReminderResponse.kt`
+- [x] `reminder/dto/ReminderCreateRequest.kt` (title 필수)
+- [x] `reminder/dto/ReminderUpdateRequest.kt` (모두 nullable, 부분 업데이트)
+- [x] `reminder/ReminderService.kt`:
+  - [x] `findByList(listId, completed)`
+  - [x] `create(listId, request)`
+  - [x] `partialUpdate(id, request)`
+  - [x] `toggleCompleted(id)` — `completed` flip + `completedAt` 갱신
+  - [x] `delete(id)`
+- [x] `reminder/ReminderController.kt`:
+  - [x] `GET /api/v1/lists/{listId}/reminders?completed=false`
+  - [x] `POST /api/v1/lists/{listId}/reminders`
+  - [x] `PATCH /api/v1/reminders/{id}`
+  - [x] `POST /api/v1/reminders/{id}/toggle`
+  - [x] `DELETE /api/v1/reminders/{id}`
+- [x] 리스트 삭제 시 reminders cascade 동작 확인
 
 ### Backend — 테스트
-- [ ] `ReminderServiceTest`: 토글 동작, 부분 업데이트 null 무시, cascade
-- [ ] `ReminderControllerTest`: validation 실패 400, 정상 200/201
+- [x] `ReminderServiceTest`: 토글 동작, 부분 업데이트 null 무시, cascade
+- [x] `ReminderControllerTest`: validation 실패 400, 정상 200/201
 
 ### Frontend
 - [ ] `src/lib/queries/reminders.ts`: `useReminders(listId, completed)`, `useCreateReminder`, `useUpdateReminder`, `useToggleReminder`, `useDeleteReminder`
@@ -141,9 +141,6 @@
 ---
 
 ## Phase 4 — Subtask + 검색 + 스마트 뷰
-
-### Backend — 테스트 인프라 (Phase 4 시작 전 권장)
-- [ ] Testcontainers Postgres 도입 — 검색(`ILIKE`)·tz 변환 등 H2/Postgres dialect drift 방지. `org.springframework.boot:spring-boot-testcontainers`, `@ServiceConnection` 활용. 통합 테스트(`@DataJpaTest`)는 Postgres 컨테이너 기반으로 전환.
 
 ### Backend — Subtask
 - [ ] `ReminderService.create`/`update`에서 parent depth 검증 (parent의 parent != null이면 400)

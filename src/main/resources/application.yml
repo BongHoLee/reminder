@@ -2,6 +2,12 @@ spring:
   application:
     name: reminder
 
+  profiles:
+    active: dev
+
+  jackson:
+    time-zone: UTC
+
   datasource:
     url: jdbc:h2:mem:reminderdb
     driver-class-name: org.h2.Driver
@@ -20,3 +26,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+logging:
+  level:
+    com.bong.reminder: DEBUG
