@@ -35,8 +35,8 @@
 ## Phase 1 — 리스트 CRUD (Walking Skeleton)
 
 ### Backend — 도메인
-- [ ] `list/ReminderList.kt` 엔티티 (id, name, color, icon, sortOrder, createdAt, updatedAt)
-- [ ] `@PrePersist`/`@PreUpdate`로 timestamp 자동 관리 또는 `@CreatedDate`/`@LastModifiedDate` + `@EnableJpaAuditing`
+- [x] `list/ReminderList.kt` 엔티티 (id, name, color, sortOrder, createdAt, updatedAt)
+- [x] `@PrePersist`/`@PreUpdate`로 timestamp 자동 관리 또는 `@CreatedDate`/`@LastModifiedDate` + `@EnableJpaAuditing`
 - [ ] `list/ReminderListRepository.kt` (`JpaRepository`, `findAllByOrderBySortOrderAsc()`)
 
 ### Backend — DTO/Service/Controller
@@ -57,7 +57,7 @@
 ### Frontend
 - [ ] `src/components/Sidebar.tsx` 골격 (smart list placeholder + 사용자 리스트 영역)
 - [ ] `src/lib/queries/lists.ts`: `useLists`, `useCreateList`, `useUpdateList`, `useDeleteList`
-- [ ] `src/components/NewListDialog.tsx` (이름/색상/아이콘 선택)
+- [ ] `src/components/NewListDialog.tsx` (이름/색상 선택)
 - [ ] 사이드바 리스트 항목 우클릭 메뉴: 이름 변경 / 삭제 (Radix ContextMenu)
 - [ ] 라우트 `/lists/[id]` 스텁 (제목만 표시)
 
@@ -199,7 +199,7 @@
 - [ ] 각 카드: 좌상단 큰 카운트(28~32px), 우하단 SF 톤 아이콘(lucide-react), background는 카드별 컬러
 - [ ] vibrancy: 사이드바에 `backdrop-filter: blur(40px)` + 반투명 배경
 - [ ] 사이드바 너비 resize: 우측 경계 드래그 핸들
-- [ ] "내 목록" 헤더 + 사용자 리스트 행 (이모지 + 이름 + 우측 카운트)
+- [ ] "내 목록" 헤더 + 사용자 리스트 행 (리스트 색 점 + 이름 + 우측 카운트)
 - [ ] 하단 "리스트 추가" 버튼 (Apple 위치)
 
 ### 컨텐츠 영역

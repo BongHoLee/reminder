@@ -47,7 +47,7 @@ Apple의 iOS/macOS 기본 앱인 **Reminders**의 핵심 기능과 **UI/UX를 �
 
 ### 4.1 리스트(List) 관리
 - 리스트 생성/조회/이름 수정/삭제
-- 리스트별 색상(컬러 코드) 및 아이콘(이모지/심볼) 지정
+- 리스트별 색상(컬러 코드) 지정
 - 리스트 정렬 순서 변경 (drag-and-drop은 2차)
 - 리스트 삭제 시 포함된 할 일은 함께 삭제 (cascade)
 
@@ -88,7 +88,6 @@ Apple의 iOS/macOS 기본 앱인 **Reminders**의 핵심 기능과 **UI/UX를 �
 | id | Long (PK) | auto |
 | name | String | not null |
 | color | String | hex, e.g. `#FF9500` |
-| icon | String | 이모지 또는 심볼 식별자 |
 | sortOrder | Int | |
 | createdAt | Instant | |
 | updatedAt | Instant | |
@@ -122,7 +121,7 @@ Apple의 iOS/macOS 기본 앱인 **Reminders**의 핵심 기능과 **UI/UX를 �
 | GET | `/lists` | 모든 리스트 + 미완료 카운트 |
 | POST | `/lists` | 리스트 생성 |
 | GET | `/lists/{id}` | 단건 조회 |
-| PATCH | `/lists/{id}` | 이름/색상/아이콘/순서 수정 |
+| PATCH | `/lists/{id}` | 이름/색상/순서 수정 |
 | DELETE | `/lists/{id}` | 리스트 삭제 (cascade) |
 
 ### Reminders
@@ -171,7 +170,7 @@ Apple의 iOS/macOS 기본 앱인 **Reminders**의 핵심 기능과 **UI/UX를 �
   - 좌측 사이드바
     - 상단 검색바 (`⌘F`)
     - 스마트 리스트 5종 그리드 카드: **오늘 / 예정 / 전체 / 깃발 표시 / 완료됨** (각 카드는 둥근 모서리, 좌상단 큰 카운트 숫자, 우하단 SF Symbol 톤 아이콘, 리스트 색)
-    - "내 목록" 헤더 + 사용자 리스트 (이모지/심볼 + 이름 + 미완료 카운트)
+    - "내 목록" 헤더 + 사용자 리스트 (리스트 색 점 + 이름 + 미완료 카운트)
     - 하단 "리스트 추가" 버튼
   - 우측 컨텐츠
     - 상단: 리스트명(큰 타이틀, 리스트 색상으로 컬러링) + 우측 정렬·옵션 메뉴

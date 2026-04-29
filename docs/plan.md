@@ -77,7 +77,7 @@
 가장 단순한 기능부터: **리스트만** 만들고 보여준다. 할 일은 다음 Phase.
 
 ### Backend
-- [ ] 엔티티 `ReminderList` (id, name, color, icon, sortOrder, createdAt, updatedAt)
+- [ ] 엔티티 `ReminderList` (id, name, color, sortOrder, createdAt, updatedAt)
 - [ ] `ReminderListRepository : JpaRepository<ReminderList, Long>` + `findAllByOrderBySortOrderAsc()`
 - [ ] DTO: `ReminderListResponse`, `ReminderListCreateRequest`, `ReminderListUpdateRequest`
 - [ ] `ReminderListService` (CRUD)
@@ -91,7 +91,7 @@
 ### Frontend
 - [ ] 좌측 사이드바 골격 (스마트 리스트 자리는 placeholder)
 - [ ] 사용자 리스트 영역에 백엔드 데이터 표시
-- [ ] "리스트 추가" 다이얼로그 (이름/색/아이콘 선택)
+- [ ] "리스트 추가" 다이얼로그 (이름/색 선택)
 - [ ] 우측 클릭 → 이름 변경 / 삭제
 
 ### Exit Criteria
@@ -196,7 +196,7 @@
   - 각 카드: 좌상단 큰 카운트, 우하단 SF 톤 아이콘, 리스트 색 background
 - [ ] vibrancy 효과 (반투명 + `backdrop-filter: blur(40px)`)
 - [ ] 사이드바 너비 resize (드래그)
-- [ ] 사용자 리스트 행: 이모지/심볼 + 이름 + 우측 카운트
+- [ ] 사용자 리스트 행: 리스트 색 점 + 이름 + 우측 카운트
 - [ ] 하단 "리스트 추가" 버튼 (Apple 위치)
 
 ### 컨텐츠 영역
