@@ -3,7 +3,7 @@ package com.bong.reminder.list.application.service
 import com.bong.reminder.list.application.command.CreateReminderListCommand
 import com.bong.reminder.list.application.command.DeleteReminderListCommand
 import com.bong.reminder.list.application.command.UpdateReminderListCommand
-import com.bong.reminder.list.application.port.`in`.ReminderListCommandUseCase
+import com.bong.reminder.list.application.port.`in`.ReminderListCommandService
 import com.bong.reminder.list.application.port.out.ReminderListRepositoryPort
 import com.bong.reminder.list.application.query.ReminderListView
 import com.bong.reminder.list.domain.ReminderList
@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class ReminderListCommandService(
+class DefaultReminderListCommandService(
     private val repository: ReminderListRepositoryPort,
-) : ReminderListCommandUseCase {
+) : ReminderListCommandService {
 
     override fun create(command: CreateReminderListCommand): ReminderListView {
         val saved = repository.save(

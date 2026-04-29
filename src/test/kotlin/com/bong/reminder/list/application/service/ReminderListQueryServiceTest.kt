@@ -3,6 +3,7 @@ package com.bong.reminder.list.application.service
 import com.bong.reminder.config.JpaConfig
 import com.bong.reminder.list.adapter.out.persistence.ReminderListJpaRepository
 import com.bong.reminder.list.adapter.out.persistence.ReminderListPersistenceAdapter
+import com.bong.reminder.list.application.port.`in`.ReminderListQueryService
 import com.bong.reminder.list.domain.ReminderList
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @DataJpaTest
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
-@Import(JpaConfig::class, ReminderListPersistenceAdapter::class, ReminderListQueryService::class)
+@Import(JpaConfig::class, ReminderListPersistenceAdapter::class, DefaultReminderListQueryService::class)
 class ReminderListQueryServiceTest @Autowired constructor(
     private val service: ReminderListQueryService,
     private val jpaRepository: ReminderListJpaRepository,

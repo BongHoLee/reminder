@@ -6,6 +6,7 @@ import com.bong.reminder.list.adapter.out.persistence.ReminderListPersistenceAda
 import com.bong.reminder.list.application.command.CreateReminderListCommand
 import com.bong.reminder.list.application.command.DeleteReminderListCommand
 import com.bong.reminder.list.application.command.UpdateReminderListCommand
+import com.bong.reminder.list.application.port.`in`.ReminderListCommandService
 import com.bong.reminder.list.domain.ReminderListNotFoundException
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
@@ -22,7 +23,7 @@ import java.time.Instant
 
 @DataJpaTest
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
-@Import(JpaConfig::class, ReminderListPersistenceAdapter::class, ReminderListCommandService::class)
+@Import(JpaConfig::class, ReminderListPersistenceAdapter::class, DefaultReminderListCommandService::class)
 class ReminderListCommandServiceTest @Autowired constructor(
     private val service: ReminderListCommandService,
     private val jpaRepository: ReminderListJpaRepository,
