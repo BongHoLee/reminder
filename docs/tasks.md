@@ -57,11 +57,11 @@
 - [x] `ReminderListControllerTest` (`@WebMvcTest` + MockMvc + `@MockkBean`)
 
 ### Frontend
-- [ ] `src/components/Sidebar.tsx` 골격 (smart list placeholder + 사용자 리스트 영역)
-- [ ] `src/lib/queries/lists.ts`: `useLists`, `useCreateList`, `useUpdateList`, `useDeleteList`
-- [ ] `src/components/NewListDialog.tsx` (이름/색상 선택)
-- [ ] 사이드바 리스트 항목 우클릭 메뉴: 이름 변경 / 삭제 (Radix ContextMenu)
-- [ ] 라우트 `/lists/[id]` 스텁 (제목만 표시)
+- [x] `src/components/Sidebar.tsx` 골격 (smart list placeholder + 사용자 리스트 영역)
+- [x] `src/lib/queries/lists.ts`: `useLists`, `useCreateList`, `useUpdateList`, `useDeleteList`
+- [x] `src/components/NewListDialog.tsx` (이름/색상 선택)
+- [x] 사이드바 리스트 항목 우클릭 메뉴: 이름 변경 / 삭제 (Radix ContextMenu)
+- [x] 라우트 `/lists/[id]` 스텁 (제목만 표시)
 
 ### Exit Criteria 검증
 - [ ] 사이드바에서 리스트 생성/이름 변경/삭제 동작

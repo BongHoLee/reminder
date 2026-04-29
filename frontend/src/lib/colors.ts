@@ -1,0 +1,15 @@
+export const APPLE_COLORS: { name: string; value: string }[] = [
+  { name: "Red", value: "#FF3B30" },
+  { name: "Orange", value: "#FF9500" },
+  { name: "Yellow", value: "#FFCC00" },
+  { name: "Green", value: "#34C759" },
+  { name: "Mint", value: "#00C7BE" },
+  { name: "Teal", value: "#30B0C7" },
+  { name: "Cyan", value: "#32ADE6" },
+  { name: "Blue", value: "#0A84FF" },
+  { name: "Indigo", value: "#5E5CE6" },
+  { name: "Purple", value: "#AF52DE" },
+  { name: "Pink", value: "#FF2D55" },
+  { name: "Brown", value: "#A2845E" },
+  { name: "Gray", value: "#8E8E93" },
+];
