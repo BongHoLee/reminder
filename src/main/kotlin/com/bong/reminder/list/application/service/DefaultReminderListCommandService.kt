@@ -8,6 +8,7 @@ import com.bong.reminder.list.application.port.out.ReminderListRepositoryPort
 import com.bong.reminder.list.application.query.ReminderListView
 import com.bong.reminder.list.domain.ReminderList
 import com.bong.reminder.list.domain.ReminderListNotFoundException
+import com.bong.reminder.reminder.application.port.out.ReminderRepositoryPort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class DefaultReminderListCommandService(
     private val repository: ReminderListRepositoryPort,
+    private val reminderRepository: ReminderRepositoryPort,
 ) : ReminderListCommandService {
 
     override fun create(command: CreateReminderListCommand): ReminderListView {
@@ -40,6 +42,7 @@ class DefaultReminderListCommandService(
         if (!repository.existsById(command.id)) {
             throw ReminderListNotFoundException()
         }
+        reminderRepository.deleteByListId(command.id)
         repository.deleteById(command.id)
     }
 }

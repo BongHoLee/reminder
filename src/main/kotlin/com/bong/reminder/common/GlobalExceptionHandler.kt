@@ -1,6 +1,7 @@
 package com.bong.reminder.common
 
 import com.bong.reminder.list.domain.ReminderListNotFoundException
+import com.bong.reminder.reminder.domain.ReminderNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -48,6 +49,17 @@ class GlobalExceptionHandler {
                 ErrorResponse(
                     code = "REMINDER_LIST_NOT_FOUND",
                     message = ex.message ?: "리스트를 찾을 수 없습니다.",
+                ),
+            )
+
+    @ExceptionHandler(ReminderNotFoundException::class)
+    fun handleReminderNotFound(ex: ReminderNotFoundException): ResponseEntity<ErrorResponse> =
+        ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
+            .body(
+                ErrorResponse(
+                    code = "REMINDER_NOT_FOUND",
+                    message = ex.message ?: "미리 알림을 찾을 수 없습니다.",
                 ),
             )
 }
