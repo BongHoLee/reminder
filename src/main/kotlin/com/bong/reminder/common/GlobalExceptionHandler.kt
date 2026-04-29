@@ -3,6 +3,7 @@ package com.bong.reminder.common
 import com.bong.reminder.list.domain.ReminderListNotFoundException
 import com.bong.reminder.reminder.domain.ReminderNotFoundException
 import org.springframework.http.HttpStatus
+import java.time.DateTimeException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -49,6 +50,17 @@ class GlobalExceptionHandler {
                 ErrorResponse(
                     code = "REMINDER_LIST_NOT_FOUND",
                     message = ex.message ?: "리스트를 찾을 수 없습니다.",
+                ),
+            )
+
+    @ExceptionHandler(DateTimeException::class)
+    fun handleDateTime(ex: DateTimeException): ResponseEntity<ErrorResponse> =
+        ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(
+                ErrorResponse(
+                    code = "INVALID_TIMEZONE",
+                    message = ex.message ?: "유효하지 않은 시간대 또는 날짜 값입니다.",
                 ),
             )
 

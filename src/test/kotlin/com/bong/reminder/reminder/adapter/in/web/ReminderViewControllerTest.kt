@@ -37,6 +37,16 @@ class ReminderViewControllerTest @Autowired constructor(
         ReminderList(name = "L", color = "#000000"),
     )
 
+    describe("GET /api/v1/views/today — 잘못된 tz") {
+        it("유효하지 않은 timezone 은 400 + INVALID_TIMEZONE") {
+            mockMvc.get("/api/v1/views/today?tz=Invalid/Zone")
+                .andExpect {
+                    status { isBadRequest() }
+                    jsonPath("$.code") { value("INVALID_TIMEZONE") }
+                }
+        }
+    }
+
     describe("GET /api/v1/views/today?tz=Asia/Seoul") {
         it("KST 자정 직후(00:00:01)는 오늘로, 어제 23:59:59와 내일 00:00:00 은 제외한다") {
             val list = newList()
