@@ -1,4 +1,4 @@
-package com.bong.reminder.list.dto
+package com.bong.reminder.list.adapter.`in`.web.dto
 
 import jakarta.validation.constraints.Size
 

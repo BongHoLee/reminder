@@ -2,7 +2,7 @@ package com.bong.reminder.list.application.service
 
 import com.bong.reminder.list.application.port.`in`.ReminderListQueryUseCase
 import com.bong.reminder.list.application.port.out.ReminderListRepositoryPort
-import com.bong.reminder.list.dto.ReminderListResponse
+import com.bong.reminder.list.application.query.ReminderListView
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -12,6 +12,6 @@ class ReminderListQueryService(
     private val repository: ReminderListRepositoryPort,
 ) : ReminderListQueryUseCase {
 
-    override fun findAll(): List<ReminderListResponse> =
-        repository.findAllOrdered().map(ReminderListResponse::from)
+    override fun findAll(): List<ReminderListView> =
+        repository.findAllOrdered().map(ReminderListView::from)
 }

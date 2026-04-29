@@ -1,11 +1,12 @@
 package com.bong.reminder.list.application.port.`in`
 
-import com.bong.reminder.list.dto.ReminderListCreateRequest
-import com.bong.reminder.list.dto.ReminderListResponse
-import com.bong.reminder.list.dto.ReminderListUpdateRequest
+import com.bong.reminder.list.application.command.CreateReminderListCommand
+import com.bong.reminder.list.application.command.DeleteReminderListCommand
+import com.bong.reminder.list.application.command.UpdateReminderListCommand
+import com.bong.reminder.list.application.query.ReminderListView
 
 interface ReminderListCommandUseCase {
-    fun create(request: ReminderListCreateRequest): ReminderListResponse
-    fun update(id: Long, request: ReminderListUpdateRequest): ReminderListResponse
-    fun delete(id: Long)
+    fun create(command: CreateReminderListCommand): ReminderListView
+    fun update(command: UpdateReminderListCommand): ReminderListView
+    fun delete(command: DeleteReminderListCommand)
 }
