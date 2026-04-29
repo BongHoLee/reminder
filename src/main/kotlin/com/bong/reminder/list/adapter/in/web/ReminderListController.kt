@@ -53,4 +53,5 @@ class ReminderListController(
     fun delete(@PathVariable id: Long) {
         commandService.delete(DeleteReminderListCommand(id))
     }
+
 }
