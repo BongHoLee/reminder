@@ -11,8 +11,8 @@
 - [ ] `application.yml` 정리: `spring.jackson.time-zone=UTC`, 프로파일 분리(`dev`)
 - [ ] `config/WebConfig.kt` 생성 — `WebMvcConfigurer.addCorsMappings`로 `http://localhost:3000` 허용
 - [ ] 패키지 구조 생성: `config/`, `common/`, `list/`, `reminder/`
-- [ ] `common/ErrorResponse.kt` DTO 정의 (`code`, `message`, `fieldErrors`)
-- [ ] `common/GlobalExceptionHandler.kt` (`@RestControllerAdvice`): `MethodArgumentNotValidException`, `IllegalArgumentException`, `EntityNotFoundException`, `Exception` 매핑
+- [x] `common/ErrorResponse.kt` DTO 정의 (`code`, `message`, `fieldErrors`)
+- [x] `common/GlobalExceptionHandler.kt` (`@RestControllerAdvice`): `MethodArgumentNotValidException`, `IllegalArgumentException`, `ReminderListNotFoundException` 매핑
 - [ ] `common/HealthController.kt`: `GET /api/v1/health` → `{"status":"UP"}`
 - [ ] `./gradlew bootRun` 동작 확인
 - [ ] `curl http://localhost:8080/api/v1/health` 200 확인
@@ -45,15 +45,16 @@
 - [x] `list/dto/ReminderListCreateRequest.kt` (`@NotBlank name`, `@Size color`)
 - [x] `list/dto/ReminderListUpdateRequest.kt` (모두 nullable)
 - [x] `list/ReminderListService.kt`: `findAll`, `create`, `update`, `delete`
-- [ ] `list/ReminderListController.kt`:
-  - [ ] `GET /api/v1/lists`
-  - [ ] `POST /api/v1/lists`
-  - [ ] `PATCH /api/v1/lists/{id}`
-  - [ ] `DELETE /api/v1/lists/{id}`
+- [x] `list/adapter/in/web/ReminderListController.kt` (헥사고날 위치):
+  - [x] `GET /api/v1/lists`
+  - [x] `POST /api/v1/lists` (201 + Location)
+  - [x] `PATCH /api/v1/lists/{id}`
+  - [x] `DELETE /api/v1/lists/{id}` (204)
+- [x] `docs/openapi.yml` — OpenAPI 3.1 스펙 표준 형식
 
 ### Backend — 테스트
 - [x] `ReminderListServiceTest` (MockK 기반)
-- [ ] `ReminderListControllerTest` (`@WebMvcTest` + MockMvc)
+- [x] `ReminderListControllerTest` (`@WebMvcTest` + MockMvc + `@MockkBean`)
 
 ### Frontend
 - [ ] `src/components/Sidebar.tsx` 골격 (smart list placeholder + 사용자 리스트 영역)
