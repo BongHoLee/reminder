@@ -3,7 +3,6 @@ package com.bong.reminder.list.adapter.out.persistence
 import com.bong.reminder.config.JpaConfig
 import com.bong.reminder.list.domain.ReminderList
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.extensions.spring.SpringExtension
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -18,8 +17,6 @@ class ReminderListPersistenceAdapterTest @Autowired constructor(
     private val adapter: ReminderListPersistenceAdapter,
     private val jpaRepository: ReminderListJpaRepository,
 ) : DescribeSpec({
-
-    extension(SpringExtension)
 
     beforeEach { jpaRepository.deleteAll() }
 
