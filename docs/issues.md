@@ -18,7 +18,7 @@
   - 증상: `?tz=Invalid/Zone` 시 `ZoneRulesException` 미매핑 → Spring 디폴트 500.
   - 고치기: `GlobalExceptionHandler` 에 `ZoneRulesException`/`DateTimeException` → 400 + `INVALID_TIMEZONE` 매핑 추가.
 
-- [ ] **R2. `ReminderExpander` 가 마운트 즉시 변경 없는 PATCH 1회 송신 + reminder prop 변경 시 로컬 state stale**
+- [x] **R2. `ReminderExpander` 가 마운트 즉시 변경 없는 PATCH 1회 송신 + reminder prop 변경 시 로컬 state stale**
   - 위치: `frontend/src/components/ReminderExpander.tsx:24-40`
   - 증상: ⓘ 만 펼쳐도 500ms 후 PATCH, 부모가 `invalidateQueries` 후 새 데이터 받아도 로컬 state 가 옛 값으로 덮어씀.
   - 고치기: (a) `isDirty` 플래그로 첫 렌더 PATCH 차단, (b) `useEffect(... [reminder.id, reminder.updatedAt])` 로 reminder 동기화.
