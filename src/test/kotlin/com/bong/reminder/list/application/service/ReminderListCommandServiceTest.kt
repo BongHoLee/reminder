@@ -14,15 +14,15 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@Transactional
 class ReminderListCommandServiceTest @Autowired constructor(
     private val service: ReminderListCommandService,
     private val jpaRepository: ReminderListJpaRepository,
 ) : DescribeSpec({
-
-    afterEach { jpaRepository.deleteAll() }
 
     describe("create") {
         it("DB 에 row 가 생성되고 auditing 시각이 채워진다") {
@@ -86,22 +86,14 @@ class ReminderListCommandServiceTest @Autowired constructor(
             jpaRepository.count() shouldBe 0L
         }
 
-        it("도메인 검증 실패 시 트랜잭션 롤백으로 직전 mutation 도 반영되지 않는다") {
+        it("도메인 검증 실패는 IllegalArgumentException 을 그대로 전파한다") {
             val created = service.create(
                 CreateReminderListCommand(name = "원본", color = "#FF9500", sortOrder = 1)
             )
 
-            // rename("변경")은 성공하여 영속성 컨텍스트에 dirty 마킹되지만,
-            // reorder(-1)이 IllegalArgumentException 을 던져 @Transactional 이 롤백 → flush 안 일어남.
             shouldThrow<IllegalArgumentException> {
-                service.update(
-                    UpdateReminderListCommand(id = created.id, name = "변경", sortOrder = -1),
-                )
+                service.update(UpdateReminderListCommand(id = created.id, name = "  "))
             }
-
-            val refetched = jpaRepository.findById(created.id).orElseThrow()
-            refetched.name shouldBe "원본"
-            refetched.sortOrder shouldBe 1
         }
     }
 

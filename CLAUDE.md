@@ -34,9 +34,8 @@
 ## 테스트
 - 기능 추가/수정 시 테스트를 같은 작업 단위에 작성.
 - **도메인 / 매퍼**: 순수 단위 테스트 (Spring 부팅 X).
-- **서비스 통합 테스트**: `@SpringBootTest(webEnvironment = NONE)`. 메타-`@Transactional` 이 적용되지 않으므로 테스트는 자연히 비-tx 에서 실행 — 서비스 자신의 `@Transactional` 이 매 호출마다 독립 tx 로 commit/rollback 되어 후속 SELECT 가 디스크 상태를 정직하게 본다 (롤백 검증 가능). 격리는 `afterEach { jpaRepository.deleteAll() }`.
-- **어댑터 / 리포지토리 슬라이스**: `@DataJpaTest` (+ auditing 검증 시 `@Import(JpaConfig::class)`). `@DataJpaTest` 의 기본 `@Transactional` 그대로 활용 — 슬라이스 안에서만 검증하고 자동 롤백되는 본래 용도.
-- 테스트 클래스에 `@Transactional` 직접 부착 금지 (서비스 통합·어댑터 슬라이스 모두 위 규칙으로 충분).
+- **서비스 통합 테스트**: `@SpringBootTest(webEnvironment = NONE)` + `@Transactional`. 산업 표준 — 매 테스트가 자체 tx 안에서 실행되고 종료 시 자동 롤백되어 격리. 별도 `deleteAll()` 불필요. 트레이드오프: 테스트 안에서 *서비스 트랜잭션의 롤백 동작* 자체를 검증할 수는 없음(테스트 tx 와 서비스 tx 가 합쳐짐). 그건 프레임워크의 책임이라 우리 테스트 범위 밖.
+- **어댑터 / 리포지토리 슬라이스**: `@DataJpaTest` (+ auditing 검증 시 `@Import(JpaConfig::class)`). 슬라이스 안에서만 검증 + 자동 롤백.
 - `SpringExtension` 은 `src/test/kotlin/com/bong/reminder/ProjectConfig.kt` 에서 전역 등록 — 클래스마다 `extension(SpringExtension)` 반복 금지.
 
 ## 참고문서

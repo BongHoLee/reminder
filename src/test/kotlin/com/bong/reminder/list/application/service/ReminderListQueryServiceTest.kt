@@ -8,14 +8,14 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@Transactional
 class ReminderListQueryServiceTest @Autowired constructor(
     private val service: ReminderListQueryService,
     private val jpaRepository: ReminderListJpaRepository,
 ) : DescribeSpec({
-
-    afterEach { jpaRepository.deleteAll() }
 
     describe("findAll") {
         it("sortOrder 오름차순으로 반환한다") {
