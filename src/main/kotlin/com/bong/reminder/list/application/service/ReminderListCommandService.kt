@@ -1,5 +1,6 @@
-package com.bong.reminder.list
+package com.bong.reminder.list.application.service
 
+import com.bong.reminder.list.application.port.`in`.ReminderListCommandUseCase
 import com.bong.reminder.list.application.port.out.ReminderListRepositoryPort
 import com.bong.reminder.list.domain.ReminderList
 import com.bong.reminder.list.domain.ReminderListNotFoundException
@@ -11,15 +12,11 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class ReminderListService(
+class ReminderListCommandService(
     private val repository: ReminderListRepositoryPort,
-) {
+) : ReminderListCommandUseCase {
 
-    @Transactional(readOnly = true)
-    fun findAll(): List<ReminderListResponse> =
-        repository.findAllOrdered().map(ReminderListResponse::from)
-
-    fun create(request: ReminderListCreateRequest): ReminderListResponse {
+    override fun create(request: ReminderListCreateRequest): ReminderListResponse {
         val saved = repository.save(
             ReminderList(
                 name = request.name,
@@ -30,21 +27,18 @@ class ReminderListService(
         return ReminderListResponse.from(saved)
     }
 
-    fun update(id: Long, request: ReminderListUpdateRequest): ReminderListResponse {
-        val entity = findEntity(id)
+    override fun update(id: Long, request: ReminderListUpdateRequest): ReminderListResponse {
+        val entity = repository.findById(id) ?: throw ReminderListNotFoundException()
         request.name?.let(entity::rename)
         request.color?.let(entity::recolor)
         request.sortOrder?.let(entity::reorder)
         return ReminderListResponse.from(entity)
     }
 
-    fun delete(id: Long) {
+    override fun delete(id: Long) {
         if (!repository.existsById(id)) {
             throw ReminderListNotFoundException()
         }
         repository.deleteById(id)
     }
-
-    private fun findEntity(id: Long): ReminderList =
-        repository.findById(id) ?: throw ReminderListNotFoundException()
 }
