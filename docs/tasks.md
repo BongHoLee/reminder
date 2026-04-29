@@ -38,13 +38,13 @@
 - [x] `common/BaseEntity.kt` (`@MappedSuperclass` + `@EntityListeners(AuditingEntityListener)`) — `id`(`IDENTITY`) / `createdAt` / `updatedAt` 공통 제공
 - [x] `config/JpaConfig.kt` — `@EnableJpaAuditing`
 - [x] `list/ReminderList.kt` 엔티티 (name, color, sortOrder) — `BaseEntity` 상속
-- [ ] `list/ReminderListRepository.kt` (`JpaRepository`, `findAllByOrderBySortOrderAsc()`)
+- [x] `list/ReminderListRepository.kt` (`JpaRepository`, `findAllByOrderBySortOrderAsc()`)
 
 ### Backend — DTO/Service/Controller
-- [ ] `list/dto/ReminderListResponse.kt`
-- [ ] `list/dto/ReminderListCreateRequest.kt` (`@NotBlank name`, `@Size color`)
-- [ ] `list/dto/ReminderListUpdateRequest.kt` (모두 nullable)
-- [ ] `list/ReminderListService.kt`: `findAll`, `create`, `update`, `delete`
+- [x] `list/dto/ReminderListResponse.kt`
+- [x] `list/dto/ReminderListCreateRequest.kt` (`@NotBlank name`, `@Size color`)
+- [x] `list/dto/ReminderListUpdateRequest.kt` (모두 nullable)
+- [x] `list/ReminderListService.kt`: `findAll`, `create`, `update`, `delete`
 - [ ] `list/ReminderListController.kt`:
   - [ ] `GET /api/v1/lists`
   - [ ] `POST /api/v1/lists`
@@ -52,7 +52,7 @@
   - [ ] `DELETE /api/v1/lists/{id}`
 
 ### Backend — 테스트
-- [ ] `ReminderListServiceTest` (MockK 기반)
+- [x] `ReminderListServiceTest` (MockK 기반)
 - [ ] `ReminderListControllerTest` (`@WebMvcTest` + MockMvc)
 
 ### Frontend

@@ -1,4 +1,4 @@
-package com.bong.reminder.list
+package com.bong.reminder.list.domain
 
 import com.bong.reminder.common.BaseEntity
 import jakarta.persistence.Column
@@ -49,5 +49,10 @@ class ReminderList(
     fun recolor(newColor: String) {
         validateColor(newColor)
         this.color = newColor
+    }
+
+    fun reorder(newSortOrder: Int) {
+        require(newSortOrder >= 0) { "정렬 순서는 0 이상이어야 합니다." }
+        this.sortOrder = newSortOrder
     }
 }
