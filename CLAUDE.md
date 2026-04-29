@@ -11,11 +11,11 @@
 ├── domain/                              # JPA 엔티티(=도메인), 도메인 예외, 도메인 메서드
 ├── application/
 │   ├── port/
-│   │   ├── in/                          # …CommandUseCase, …QueryUseCase
-│   │   └── out/                         # …RepositoryPort (어그리게이트당 단일)
+│   │   ├── in/                          # …CommandService, …QueryService 인터페이스 (입력 포트)
+│   │   └── out/                         # …RepositoryPort (어그리게이트당 단일, 출력 포트)
 │   ├── command/                         # 쓰기 입력 객체 (Create/Update/Delete…Command)
 │   ├── query/                           # 읽기 출력 객체 (…View)
-│   └── service/                         # …CommandService, …QueryService (UseCase 구현)
+│   └── service/                         # Default…CommandService, Default…QueryService (인터페이스 기본 구현체)
 └── adapter/
     ├── in/web/                          # 매퍼(Request↔Command, View→Response) + dto/
     │   └── dto/                         # web Request / Response DTO (validation 어노테이션)
@@ -25,6 +25,11 @@
 ## 도메인 / JPA
 - 엔티티 = JPA 엔티티 단일 클래스, `common/BaseEntity` 상속
 - 엔티티 프로퍼티는 **`final var` + `private set`**. 
+
+## 네이밍
+- 입력 포트(인터페이스): `…CommandService` / `…QueryService` — `UseCase` 등 별도 접미사 붙이지 않음.
+- 기본 구현체: `Default…CommandService` / `Default…QueryService` — `@Service` + 인터페이스 구현. 어그리게이트당 1개 (다른 구현이 등장하면 이름은 그 구현의 의도를 표현).
+- 의존성·테스트 주입은 모두 인터페이스 타입으로. `@Import` 슬라이스 인자만 구현체 클래스(`Default…`).
 
 ## 테스트
 - 기능 추가/수정 시 테스트를 같은 작업 단위에 작성. Kotest `DescribeSpec`, 어설션은 `io.kotest.matchers.*`.
