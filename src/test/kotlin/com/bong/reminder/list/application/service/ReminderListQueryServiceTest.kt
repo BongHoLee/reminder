@@ -1,22 +1,15 @@
 package com.bong.reminder.list.application.service
 
-import com.bong.reminder.config.JpaConfig
 import com.bong.reminder.list.adapter.out.persistence.ReminderListJpaRepository
-import com.bong.reminder.list.adapter.out.persistence.ReminderListPersistenceAdapter
 import com.bong.reminder.list.application.port.`in`.ReminderListQueryService
 import com.bong.reminder.list.domain.ReminderList
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
-import org.springframework.context.annotation.Import
-import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
+import org.springframework.boot.test.context.SpringBootTest
 
-@DataJpaTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
-@Import(JpaConfig::class, ReminderListPersistenceAdapter::class, DefaultReminderListQueryService::class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ReminderListQueryServiceTest @Autowired constructor(
     private val service: ReminderListQueryService,
     private val jpaRepository: ReminderListJpaRepository,

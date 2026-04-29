@@ -1,8 +1,6 @@
 package com.bong.reminder.list.application.service
 
-import com.bong.reminder.config.JpaConfig
 import com.bong.reminder.list.adapter.out.persistence.ReminderListJpaRepository
-import com.bong.reminder.list.adapter.out.persistence.ReminderListPersistenceAdapter
 import com.bong.reminder.list.application.command.CreateReminderListCommand
 import com.bong.reminder.list.application.command.DeleteReminderListCommand
 import com.bong.reminder.list.application.command.UpdateReminderListCommand
@@ -15,15 +13,10 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
-import org.springframework.context.annotation.Import
-import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
+import org.springframework.boot.test.context.SpringBootTest
 import java.time.Instant
 
-@DataJpaTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
-@Import(JpaConfig::class, ReminderListPersistenceAdapter::class, DefaultReminderListCommandService::class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ReminderListCommandServiceTest @Autowired constructor(
     private val service: ReminderListCommandService,
     private val jpaRepository: ReminderListJpaRepository,
