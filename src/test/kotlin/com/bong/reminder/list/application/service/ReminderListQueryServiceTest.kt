@@ -1,50 +1,41 @@
 package com.bong.reminder.list.application.service
 
-import com.bong.reminder.list.application.port.out.ReminderListRepositoryPort
+import com.bong.reminder.config.JpaConfig
+import com.bong.reminder.list.adapter.out.persistence.ReminderListJpaRepository
+import com.bong.reminder.list.adapter.out.persistence.ReminderListPersistenceAdapter
 import com.bong.reminder.list.domain.ReminderList
-import com.bong.reminder.support.injectId
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import io.mockk.clearMocks
-import io.mockk.every
-import io.mockk.mockk
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
+import org.springframework.context.annotation.Import
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
 
-class ReminderListQueryServiceTest : DescribeSpec({
+@DataJpaTest
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
+@Import(JpaConfig::class, ReminderListPersistenceAdapter::class, ReminderListQueryService::class)
+class ReminderListQueryServiceTest @Autowired constructor(
+    private val service: ReminderListQueryService,
+    private val jpaRepository: ReminderListJpaRepository,
+) : DescribeSpec({
 
-    val repository = mockk<ReminderListRepositoryPort>()
-    val service = ReminderListQueryService(repository)
-
-    beforeEach { clearMocks(repository) }
-
-    fun persisted(
-        id: Long,
-        name: String = "쇼핑",
-        color: String = "#FF9500",
-        sortOrder: Int = 0,
-    ): ReminderList {
-        val entity = ReminderList(name = name, color = color, sortOrder = sortOrder)
-        injectId(entity, id)
-        return entity
-    }
+    afterEach { jpaRepository.deleteAll() }
 
     describe("findAll") {
-        it("sortOrder 오름차순으로 응답을 반환한다") {
-            every { repository.findAllOrdered() } returns listOf(
-                persisted(1L, name = "쇼핑", sortOrder = 0),
-                persisted(2L, name = "업무", sortOrder = 1),
-            )
+        it("sortOrder 오름차순으로 반환한다") {
+            jpaRepository.save(ReminderList(name = "B", color = "#000000", sortOrder = 2))
+            jpaRepository.save(ReminderList(name = "A", color = "#000000", sortOrder = 1))
 
             val result = service.findAll()
 
             result shouldHaveSize 2
-            result[0].name shouldBe "쇼핑"
-            result[1].name shouldBe "업무"
+            result[0].name shouldBe "A"
+            result[1].name shouldBe "B"
         }
 
         it("저장된 리스트가 없으면 빈 리스트를 반환한다") {
-            every { repository.findAllOrdered() } returns emptyList()
-
             service.findAll() shouldHaveSize 0
         }
     }
