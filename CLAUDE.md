@@ -32,10 +32,10 @@
 - 의존성·테스트 주입은 모두 인터페이스 타입으로. `@Import` 슬라이스 인자만 구현체 클래스(`Default…`).
 
 ## 테스트
-- 기능 추가/수정 시 테스트를 같은 작업 단위에 작성. Kotest `DescribeSpec`, 어설션은 `io.kotest.matchers.*`.
-- 도메인·매퍼: 순수 단위 테스트 (Spring 부팅 X, 외부 의존 X).
+- 기능 추가/수정 시 테스트를 같은 작업 단위에 작성. 
+- 도메인·매퍼: 순수 단위 테스트 
 - 서비스·어댑터: `@DataJpaTest` + `@Import(JpaConfig::class, …PersistenceAdapter::class, …Service::class)` 통합 테스트. 트랜잭션·dirty checking·auditing 까지 검증.
-- 테스트 클래스에 `@Transactional` 금지. 서비스 자체가 `@Transactional` 이므로 매 호출이 독립 tx 로 commit/rollback 되어야 후속 SELECT 가 디스크 상태를 정직하게 본다 — 클래스에 `@Transactional(propagation = NOT_SUPPORTED)` 명시. 격리는 `afterEach { jpaRepository.deleteAll() }`.
+- 통합 테스트는 트랜잭션 **밖**에서 실행한다. `@DataJpaTest` 가 메타-어노테이션으로 `@Transactional` 을 기본 적용하므로, 클래스에 `@Transactional(propagation = NOT_SUPPORTED)` 를 명시해 그 기본값을 끈다. 이유: 서비스 자체가 `@Transactional` 이므로 매 호출이 독립 tx 로 commit/rollback 되어야 후속 SELECT 가 디스크 상태를 정직하게 본다(테스트와 서비스가 같은 tx 에 있으면 dirty 상태가 1차 캐시로 비치고, 롤백 검증이 거짓 양성). 격리는 `afterEach { jpaRepository.deleteAll() }`.
 - `SpringExtension` 은 `src/test/kotlin/com/bong/reminder/ProjectConfig.kt` 에서 전역 등록 — 클래스마다 `extension(SpringExtension)` 반복 금지.
 
 ## 참고문서
