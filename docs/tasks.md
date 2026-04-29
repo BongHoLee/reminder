@@ -141,6 +141,9 @@
 
 ## Phase 4 — Subtask + 검색 + 스마트 뷰
 
+### Backend — 테스트 인프라 (Phase 4 시작 전 권장)
+- [ ] Testcontainers Postgres 도입 — 검색(`ILIKE`)·tz 변환 등 H2/Postgres dialect drift 방지. `org.springframework.boot:spring-boot-testcontainers`, `@ServiceConnection` 활용. 통합 테스트(`@DataJpaTest`)는 Postgres 컨테이너 기반으로 전환.
+
 ### Backend — Subtask
 - [ ] `ReminderService.create`/`update`에서 parent depth 검증 (parent의 parent != null이면 400)
 - [ ] subtask 응답 구조: 부모 reminder의 `children` 필드로 nested 또는 별도 endpoint

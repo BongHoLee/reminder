@@ -27,7 +27,11 @@
 - 엔티티 프로퍼티는 **`final var` + `private set`**. 
 
 ## 테스트
-- 기능 추가/수정 시 테스트를 같은 작업 단위에 작성.
+- 기능 추가/수정 시 테스트를 같은 작업 단위에 작성. Kotest `DescribeSpec`, 어설션은 `io.kotest.matchers.*`.
+- 도메인·매퍼: 순수 단위 테스트 (Spring 부팅 X, 외부 의존 X).
+- 서비스·어댑터: `@DataJpaTest` + `@Import(JpaConfig::class, …PersistenceAdapter::class, …Service::class)` 통합 테스트. 트랜잭션·dirty checking·auditing 까지 검증.
+- 테스트 클래스에 `@Transactional` 금지. 서비스 자체가 `@Transactional` 이므로 매 호출이 독립 tx 로 commit/rollback 되어야 후속 SELECT 가 디스크 상태를 정직하게 본다 — 클래스에 `@Transactional(propagation = NOT_SUPPORTED)` 명시. 격리는 `afterEach { jpaRepository.deleteAll() }`.
+- `SpringExtension` 은 `src/test/kotlin/com/bong/reminder/ProjectConfig.kt` 에서 전역 등록 — 클래스마다 `extension(SpringExtension)` 반복 금지.
 
 ## 참고문서
 - @docs/spec.md : 기능 명세
