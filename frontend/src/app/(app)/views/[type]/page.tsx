@@ -3,6 +3,7 @@
 import { use } from "react";
 import { notFound } from "next/navigation";
 import { ReminderList } from "@/components/ReminderList";
+import { groupByLocalDate } from "@/lib/groupByLocalDate";
 import { useSmartView } from "@/lib/queries/views";
 import type { Reminder, SmartViewType } from "@/lib/types";
 
@@ -55,14 +56,9 @@ function ScheduledGrouped({
     return <p className="px-2 py-6 text-sm text-[var(--muted)]">예정된 항목 없음</p>;
   }
 
-  // 날짜(YYYY-MM-DD)별로 그룹핑 — 클라이언트 timezone 기준
-  const groups = new Map<string, Reminder[]>();
-  for (const r of reminders) {
-    const key = r.dueAt ? new Date(r.dueAt).toISOString().slice(0, 10) : "no-date";
-    const arr = groups.get(key) ?? [];
-    arr.push(r);
-    groups.set(key, arr);
-  }
+  const tz =
+    Intl.DateTimeFormat().resolvedOptions().timeZone ?? "UTC";
+  const groups = groupByLocalDate(reminders, tz);
 
   return (
     <div className="flex flex-col gap-6">
@@ -75,7 +71,8 @@ function ScheduledGrouped({
                 month: "long",
                 day: "numeric",
                 weekday: "long",
-              }).format(new Date(key));
+                timeZone: tz,
+              }).format(new Date(`${key}T00:00:00`));
         return (
           <section key={key}>
             <h2 className="mb-2 px-2 text-xs uppercase tracking-wide text-[var(--muted)]">

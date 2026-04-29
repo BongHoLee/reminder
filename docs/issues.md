@@ -23,7 +23,7 @@
   - 증상: ⓘ 만 펼쳐도 500ms 후 PATCH, 부모가 `invalidateQueries` 후 새 데이터 받아도 로컬 state 가 옛 값으로 덮어씀.
   - 고치기: (a) `isDirty` 플래그로 첫 렌더 PATCH 차단, (b) `useEffect(... [reminder.id, reminder.updatedAt])` 로 reminder 동기화.
 
-- [ ] **R3. `scheduled` 뷰 그룹핑이 UTC 날짜 기준 → KST 자정 직후 항목이 어제 그룹에 잡힘**
+- [x] **R3. `scheduled` 뷰 그룹핑이 UTC 날짜 기준 → KST 자정 직후 항목이 어제 그룹에 잡힘**
   - 위치: `frontend/src/app/(app)/views/[type]/page.tsx:61`
   - 고치기: `Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(d)` 또는 `toLocaleDateString('en-CA')`.
 
