@@ -35,8 +35,9 @@
 ## Phase 1 — 리스트 CRUD (Walking Skeleton)
 
 ### Backend — 도메인
-- [x] `list/ReminderList.kt` 엔티티 (id, name, color, sortOrder, createdAt, updatedAt)
-- [x] `@PrePersist`/`@PreUpdate`로 timestamp 자동 관리 또는 `@CreatedDate`/`@LastModifiedDate` + `@EnableJpaAuditing`
+- [x] `common/BaseEntity.kt` (`@MappedSuperclass` + `@EntityListeners(AuditingEntityListener)`) — `id`(`IDENTITY`) / `createdAt` / `updatedAt` 공통 제공
+- [x] `config/JpaConfig.kt` — `@EnableJpaAuditing`
+- [x] `list/ReminderList.kt` 엔티티 (name, color, sortOrder) — `BaseEntity` 상속
 - [ ] `list/ReminderListRepository.kt` (`JpaRepository`, `findAllByOrderBySortOrderAsc()`)
 
 ### Backend — DTO/Service/Controller
@@ -71,7 +72,7 @@
 
 ### Backend — 도메인
 - [ ] `reminder/Priority.kt` enum (`NONE`, `LOW`, `MEDIUM`, `HIGH`)
-- [ ] `reminder/Reminder.kt` 엔티티 (id, list FK, parent FK, title, notes, dueAt, priority, completed, completedAt, flagged, sortOrder, createdAt, updatedAt)
+- [ ] `reminder/Reminder.kt` 엔티티 (list FK, parent FK, title, notes, dueAt, priority, completed, completedAt, flagged, sortOrder) — `BaseEntity` 상속
 - [ ] `reminder/ReminderRepository.kt`
   - [ ] `findByListIdAndCompletedOrderBySortOrderAsc(listId, completed)`
   - [ ] `findByParentIdOrderBySortOrderAsc(parentId)`

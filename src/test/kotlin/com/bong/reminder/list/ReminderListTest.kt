@@ -27,7 +27,7 @@ class ReminderListTest : DescribeSpec({
             val ex = shouldThrow<IllegalArgumentException> {
                 ReminderList(name = "쇼핑", color = "orange")
             }
-            ex.message shouldBe "색상은 #RRGGBB 형식이어야 합니다."
+            ex.message shouldBe "색상은 #HEX 형식이어야 합니다."
         }
 
         it("색상이 짧은 hex(#RGB)면 거부한다") {
