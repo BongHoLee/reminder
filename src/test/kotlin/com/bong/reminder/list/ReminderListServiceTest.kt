@@ -1,5 +1,6 @@
 package com.bong.reminder.list
 
+import com.bong.reminder.list.application.port.out.ReminderListRepositoryPort
 import com.bong.reminder.list.domain.ReminderList
 import com.bong.reminder.list.domain.ReminderListNotFoundException
 import com.bong.reminder.list.dto.ReminderListCreateRequest
@@ -14,11 +15,10 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import java.lang.reflect.Field
-import java.util.Optional
 
 class ReminderListServiceTest : DescribeSpec({
 
-    val repository = mockk<ReminderListRepository>(relaxUnitFun = true)
+    val repository = mockk<ReminderListRepositoryPort>(relaxUnitFun = true)
     val service = ReminderListService(repository)
 
     beforeEach { clearMocks(repository) }
@@ -36,7 +36,7 @@ class ReminderListServiceTest : DescribeSpec({
 
     describe("findAll") {
         it("sortOrder 오름차순으로 응답을 반환한다") {
-            every { repository.findAllByOrderBySortOrderAsc() } returns listOf(
+            every { repository.findAllOrdered() } returns listOf(
                 persisted(1L, name = "쇼핑", sortOrder = 0),
                 persisted(2L, name = "업무", sortOrder = 1),
             )
@@ -70,7 +70,7 @@ class ReminderListServiceTest : DescribeSpec({
     describe("update") {
         it("null이 아닌 필드만 도메인 메서드로 적용한다") {
             val entity = persisted(1L, name = "쇼핑", color = "#FF9500", sortOrder = 0)
-            every { repository.findById(1L) } returns Optional.of(entity)
+            every { repository.findById(1L) } returns entity
 
             val response = service.update(
                 1L,
@@ -85,7 +85,7 @@ class ReminderListServiceTest : DescribeSpec({
 
         it("모든 필드가 null이면 변경하지 않는다") {
             val entity = persisted(1L)
-            every { repository.findById(1L) } returns Optional.of(entity)
+            every { repository.findById(1L) } returns entity
 
             val response = service.update(1L, ReminderListUpdateRequest())
 
@@ -95,7 +95,7 @@ class ReminderListServiceTest : DescribeSpec({
         }
 
         it("존재하지 않는 id는 ReminderListNotFoundException 을 던진다") {
-            every { repository.findById(999L) } returns Optional.empty()
+            every { repository.findById(999L) } returns null
 
             val ex = shouldThrow<ReminderListNotFoundException> {
                 service.update(999L, ReminderListUpdateRequest(name = "x"))
@@ -105,7 +105,7 @@ class ReminderListServiceTest : DescribeSpec({
 
         it("도메인 검증 실패는 IllegalArgumentException 을 그대로 전파한다") {
             val entity = persisted(1L)
-            every { repository.findById(1L) } returns Optional.of(entity)
+            every { repository.findById(1L) } returns entity
 
             shouldThrow<IllegalArgumentException> {
                 service.update(1L, ReminderListUpdateRequest(name = "  "))

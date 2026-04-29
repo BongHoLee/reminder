@@ -1,5 +1,6 @@
 package com.bong.reminder.list
 
+import com.bong.reminder.list.application.port.out.ReminderListRepositoryPort
 import com.bong.reminder.list.domain.ReminderList
 import com.bong.reminder.list.domain.ReminderListNotFoundException
 import com.bong.reminder.list.dto.ReminderListCreateRequest
@@ -11,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class ReminderListService(
-    private val repository: ReminderListRepository,
+    private val repository: ReminderListRepositoryPort,
 ) {
 
     @Transactional(readOnly = true)
     fun findAll(): List<ReminderListResponse> =
-        repository.findAllByOrderBySortOrderAsc().map(ReminderListResponse::from)
+        repository.findAllOrdered().map(ReminderListResponse::from)
 
     fun create(request: ReminderListCreateRequest): ReminderListResponse {
         val saved = repository.save(
@@ -45,7 +46,5 @@ class ReminderListService(
     }
 
     private fun findEntity(id: Long): ReminderList =
-        repository.findById(id).orElseThrow {
-            ReminderListNotFoundException()
-        }
+        repository.findById(id) ?: throw ReminderListNotFoundException()
 }
