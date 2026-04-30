@@ -74,7 +74,7 @@
   - 위치: `src/main/kotlin/com/bong/reminder/config/WebConfig.kt:15-19`
   - 고치기: 인증 도입 시점에 `allowedOriginPatterns` 환경 분리 + 쿠키 SameSite 정책 명시.
 
-- [ ] **M9. `tasks.md` 가 BE/FE 한 파일에서 관리 — 모노레포 확장 시 소유권 분리 약화**
+- [x] **M9. `tasks.md` 가 BE/FE 한 파일에서 관리 — 모노레포 확장 시 소유권 분리 약화**
   - 고치기: `frontend/docs/tasks.md` 분리 또는 항목 prefix `[BE]`/`[FE]`.
 
 ---

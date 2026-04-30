@@ -3,11 +3,14 @@
 `plan.md`의 각 Phase를 실제 작업 단위로 분해한 체크리스트.
 완료한 항목은 `[x]`로 표시.
 
+각 Phase 의 sub-section 은 `[BE] Backend` / `[FE] Frontend` 로 prefix 를 붙여 소유권을 명시.
+모노레포 분리 시 `[FE]` 항목은 `frontend/docs/tasks.md` 로 이전.
+
 ---
 
 ## Phase 0 — 셋업
 
-### Backend
+### [BE] Backend
 - [x] `application.yml` 정리: `spring.jackson.time-zone=UTC`, 프로파일 분리(`dev`)
 - [x] `config/WebConfig.kt` 생성 — `WebMvcConfigurer.addCorsMappings`로 `http://localhost:3000` 허용
 - [x] 패키지 구조 생성: `config/`, `common/`, `list/`, `reminder/`
@@ -17,7 +20,7 @@
 - [x] `./gradlew bootRun` 동작 확인
 - [x] `curl http://localhost:8080/api/v1/health` 200 확인
 
-### Frontend
+### [FE] Frontend
 - [x] `frontend/` 디렉토리에서 `npx create-next-app@latest .` 실행 (TS, Tailwind, App Router, src/, alias `@/`)
 - [x] `tailwind.config.ts`에 디자인 토큰 placeholder 추가 (Phase 5에서 본격 정의)
 - [x] `globals.css`에 라이트/다크 CSS 변수 스캐폴드
@@ -34,13 +37,13 @@
 
 ## Phase 1 — 리스트 CRUD (Walking Skeleton)
 
-### Backend — 도메인
+### [BE] Backend — 도메인
 - [x] `common/BaseEntity.kt` (`@MappedSuperclass` + `@EntityListeners(AuditingEntityListener)`) — `id`(`IDENTITY`) / `createdAt` / `updatedAt` 공통 제공
 - [x] `config/JpaConfig.kt` — `@EnableJpaAuditing`
 - [x] `list/ReminderList.kt` 엔티티 (name, color, sortOrder) — `BaseEntity` 상속
 - [x] `list/ReminderListRepository.kt` (`JpaRepository`, `findAllByOrderBySortOrderAsc()`)
 
-### Backend — DTO/Service/Controller
+### [BE] Backend — DTO/Service/Controller
 - [x] `list/dto/ReminderListResponse.kt`
 - [x] `list/dto/ReminderListCreateRequest.kt` (`@NotBlank name`, `@Size color`)
 - [x] `list/dto/ReminderListUpdateRequest.kt` (모두 nullable)
@@ -52,11 +55,11 @@
   - [x] `DELETE /api/v1/lists/{id}` (204)
 - [x] `docs/openapi.yml` — OpenAPI 3.1 스펙 표준 형식
 
-### Backend — 테스트
+### [BE] Backend — 테스트
 - [x] `ReminderListServiceTest` (MockK 기반)
 - [x] `ReminderListControllerTest` (`@WebMvcTest` + MockMvc + `@MockkBean`)
 
-### Frontend
+### [FE] Frontend
 - [x] `src/components/Sidebar.tsx` 골격 (smart list placeholder + 사용자 리스트 영역)
 - [x] `src/lib/queries/lists.ts`: `useLists`, `useCreateList`, `useUpdateList`, `useDeleteList`
 - [x] `src/components/NewListDialog.tsx` (이름/색상 선택)
@@ -71,7 +74,7 @@
 
 ## Phase 2 — Reminder CRUD + 완료 토글
 
-### Backend — 도메인
+### [BE] Backend — 도메인
 - [x] `reminder/Priority.kt` enum (`NONE`, `LOW`, `MEDIUM`, `HIGH`)
 - [x] `reminder/Reminder.kt` 엔티티 (list FK, parent FK, title, notes, dueAt, priority, completed, completedAt, flagged, sortOrder) — `BaseEntity` 상속
 - [x] `reminder/ReminderRepository.kt`
@@ -79,7 +82,7 @@
   - [x] `findByParentIdOrderBySortOrderAsc(parentId)`
   - [x] `deleteByListId(listId)` 또는 cascade
 
-### Backend — DTO/Service/Controller
+### [BE] Backend — DTO/Service/Controller
 - [x] `reminder/dto/ReminderResponse.kt`
 - [x] `reminder/dto/ReminderCreateRequest.kt` (title 필수)
 - [x] `reminder/dto/ReminderUpdateRequest.kt` (모두 nullable, 부분 업데이트)
@@ -97,11 +100,11 @@
   - [x] `DELETE /api/v1/reminders/{id}`
 - [x] 리스트 삭제 시 reminders cascade 동작 확인
 
-### Backend — 테스트
+### [BE] Backend — 테스트
 - [x] `ReminderServiceTest`: 토글 동작, 부분 업데이트 null 무시, cascade
 - [x] `ReminderControllerTest`: validation 실패 400, 정상 200/201
 
-### Frontend
+### [FE] Frontend
 - [x] `src/lib/queries/reminders.ts`: `useReminders(listId, completed)`, `useCreateReminder`, `useUpdateReminder`, `useToggleReminder`, `useDeleteReminder`
 - [x] 라우트 `/lists/[id]/page.tsx`에서 reminders 표시
 - [x] `src/components/ReminderRow.tsx`: 체크박스 + 제목 + 클릭 시 인라인 편집(`contentEditable` 또는 input toggle)
@@ -116,13 +119,13 @@
 
 ## Phase 3 — 상세 정보 + 인라인 익스팬더
 
-### Backend
+### [BE] Backend
 - [x] `ReminderCreateRequest.title`: `@NotBlank @Size(max=500)`
 - [x] `ReminderUpdateRequest.title`: `@Size(max=500)`
 - [x] `notes`: `@Size(max=10_000)` (create/update 공통)
 - [x] validation 실패 시 `GlobalExceptionHandler`가 fieldErrors 포함하는지 테스트
 
-### Frontend
+### [FE] Frontend
 - [x] `ReminderRow` hover 시 우측에 ⓘ 아이콘 노출
 - [x] `src/components/ReminderExpander.tsx` (framer-motion `motion.div` height auto)
 - [x] 익스팬더 폼 필드:
@@ -142,17 +145,17 @@
 
 ## Phase 4 — Subtask + 검색 + 스마트 뷰
 
-### Backend — Subtask
+### [BE] Backend — Subtask
 - [x] `ReminderService.create`/`update`에서 parent depth 검증 (parent의 parent != null이면 400)
 - [x] subtask 응답 구조: 부모 reminder의 `children` 필드로 nested 또는 별도 endpoint (별도 엔드포인트 `GET /api/v1/reminders/{id}/children`)
 - [x] `findByParentIdOrderBySortOrderAsc` 사용
 
-### Backend — 검색
+### [BE] Backend — 검색
 - [x] `reminder/ReminderSearchService.kt` (또는 service에 메서드 추가)
 - [x] `GET /api/v1/search?q=...`: title/notes ILIKE (H2: `LOWER(title) LIKE LOWER(...)`)
 - [x] 페이징 고려 (Pageable) 또는 limit 50 단순 처리
 
-### Backend — 스마트 뷰
+### [BE] Backend — 스마트 뷰
 - [x] `reminder/ReminderViewController.kt`
   - [x] `GET /api/v1/views/today?tz=Asia/Seoul`
   - [x] `GET /api/v1/views/scheduled?tz=Asia/Seoul`
@@ -162,22 +165,22 @@
 - [x] tz 파라미터로 LocalDate 경계 → Instant 변환 로직
 - [x] 카운트 집계: `GET /api/v1/views/counts?tz=...` (사이드바 카드용)
 
-### Backend — 테스트
+### [BE] Backend — 테스트
 - [x] today 경계값 테스트 (자정 직전 23:59, 직후 00:00)
 - [x] subtask depth 거부 테스트
 - [x] 검색 대소문자 무시 테스트
 
-### Frontend — Subtask UI
+### [FE] Frontend — Subtask UI
 - [x] `ReminderRow`에 `Tab` → 들여쓰기 (parentId = 직전 형제 id), `Shift+Tab` → 내어쓰기 (outdent 는 백엔드 PATCH 의 null=무변경 시맨틱으로 인해 미지원 — Phase 5/6 에서 보강)
 - [x] 시각적 indent (좌측 padding)
 - [ ] 부모 완료 시 자식 처리 정책 결정 (Apple은 자식만 영향) — 처음엔 독립 처리
 
-### Frontend — 스마트 뷰
+### [FE] Frontend — 스마트 뷰
 - [x] 사이드바 상단 스마트 카드 5종 (1차는 단순 카드, Phase 5에서 그리드/디자인 강화)
 - [x] 라우트 `/views/[type]/page.tsx`
 - [x] scheduled 뷰: dueDate별 그룹핑 헤더
 
-### Frontend — 검색
+### [FE] Frontend — 검색
 - [x] 사이드바 상단 검색 input
 - [x] 라우트 `/search?q=...` 결과 페이지
 - [x] 입력 debounce 250ms
