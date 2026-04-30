@@ -50,7 +50,7 @@
   - 위치: `src/main/kotlin/com/bong/reminder/common/BaseEntity.kt:25,30`
   - 고치기: `lateinit var createdAt: Instant` + DB NOT NULL, 또는 nullable 로 두고 service-side check.
 
-- [ ] **M3. List cascade 가 코드 명시 + DB `@OnDelete` 두 경로로 중복**
+- [x] **M3. List cascade 가 코드 명시 + DB `@OnDelete` 두 경로로 중복**
   - 위치: `list/application/service/DefaultReminderListCommandService.kt:43-48`, `reminder/domain/Reminder.kt` 의 `parent` 만 `@OnDelete` 적용
   - 고치기: 정책 단일화 — DB FK 로 일관할 거면 `Reminder.list` 에도 `@OnDelete(CASCADE)` + 코드 제거, 코드로 명시할 거면 `@OnDelete` 떼기.
 

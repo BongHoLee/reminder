@@ -6,6 +6,8 @@ import com.bong.reminder.list.application.command.DeleteReminderListCommand
 import com.bong.reminder.list.application.command.UpdateReminderListCommand
 import com.bong.reminder.list.application.port.`in`.ReminderListCommandService
 import com.bong.reminder.list.domain.ReminderListNotFoundException
+import com.bong.reminder.reminder.adapter.out.persistence.ReminderJpaRepository
+import com.bong.reminder.reminder.domain.Reminder
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
@@ -22,6 +24,7 @@ import java.time.Instant
 class ReminderListCommandServiceTest @Autowired constructor(
     private val service: ReminderListCommandService,
     private val jpaRepository: ReminderListJpaRepository,
+    private val reminderJpaRepository: ReminderJpaRepository,
 ) : DescribeSpec({
 
     describe("create") {
@@ -119,6 +122,31 @@ class ReminderListCommandServiceTest @Autowired constructor(
 
             jpaRepository.count() shouldBe 1L
             jpaRepository.findById(created.id).orElse(null).shouldNotBeNull()
+        }
+
+        it("리스트 삭제 시 그 리스트의 reminder 와 자식 reminder 까지 cascade 로 삭제된다") {
+            val list = service.create(
+                CreateReminderListCommand(name = "삭제대상", color = "#FF3B30", sortOrder = 0)
+            )
+            val listEntity = jpaRepository.findById(list.id).orElseThrow()
+            val parent = reminderJpaRepository.save(
+                Reminder(list = listEntity, title = "부모"),
+            )
+            reminderJpaRepository.save(
+                Reminder(list = listEntity, title = "자식", parent = parent),
+            )
+
+            val other = service.create(
+                CreateReminderListCommand(name = "유지", color = "#0A84FF", sortOrder = 1)
+            )
+            val otherEntity = jpaRepository.findById(other.id).orElseThrow()
+            reminderJpaRepository.save(Reminder(list = otherEntity, title = "유지대상"))
+
+            service.delete(DeleteReminderListCommand(id = list.id))
+
+            reminderJpaRepository.count() shouldBe 1L
+            reminderJpaRepository.findAll().single().title shouldBe "유지대상"
+            jpaRepository.count() shouldBe 1L
         }
     }
 })

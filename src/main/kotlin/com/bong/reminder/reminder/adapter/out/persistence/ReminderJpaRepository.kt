@@ -50,10 +50,18 @@ interface ReminderJpaRepository : JpaRepository<Reminder, Long> {
     fun countByCompletedTrue(): Long
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from Reminder r where r.list.id = :listId and r.parent is not null")
+    fun deleteChildrenByListId(@Param("listId") listId: Long): Int
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from Reminder r where r.list.id = :listId")
     fun deleteByListId(listId: Long)
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("delete from Reminder r where r.id = :id or r.parent.id = :id")
-    fun deleteByIdIncludingChildren(@Param("id") id: Long): Int
+    @Query("delete from Reminder r where r.parent.id = :parentId")
+    fun deleteByParentId(@Param("parentId") parentId: Long): Int
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from Reminder r where r.id = :id")
+    fun deleteByIdBulk(@Param("id") id: Long): Int
 }

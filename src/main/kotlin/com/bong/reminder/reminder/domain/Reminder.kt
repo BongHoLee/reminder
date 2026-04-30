@@ -11,8 +11,6 @@ import jakarta.persistence.Index
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
-import org.hibernate.annotations.OnDelete
-import org.hibernate.annotations.OnDeleteAction
 import java.time.Instant
 
 @Entity
@@ -64,7 +62,6 @@ class Reminder(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     var parent: Reminder? = parent
         protected set
 

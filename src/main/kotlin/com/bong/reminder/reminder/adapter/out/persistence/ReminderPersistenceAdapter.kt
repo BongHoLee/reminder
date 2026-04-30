@@ -53,11 +53,14 @@ class ReminderPersistenceAdapter(
     override fun existsById(id: Long): Boolean = jpaRepository.existsById(id)
 
     override fun deleteById(id: Long) {
-        // 자식 row 까지 단일 SQL DELETE + 영속성 컨텍스트 clear 로 stale 매니지드 인스턴스 방지.
-        jpaRepository.deleteByIdIncludingChildren(id)
+        // 자식 → 부모 순서로 bulk delete + PC clear. FK CASCADE 에 의존하지 않는 코드 일관 정책.
+        jpaRepository.deleteByParentId(id)
+        jpaRepository.deleteByIdBulk(id)
     }
 
     override fun deleteByListId(listId: Long) {
+        // 자식 → 부모 순서로 bulk delete + PC clear (FK CASCADE 미사용).
+        jpaRepository.deleteChildrenByListId(listId)
         jpaRepository.deleteByListId(listId)
     }
 }
