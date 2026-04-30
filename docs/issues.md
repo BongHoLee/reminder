@@ -70,7 +70,7 @@
   - 위치: `src/main/kotlin/com/bong/reminder/common/HealthController.kt`
   - 고치기: Spring Boot Actuator 도입 → `/actuator/health` 사용, 도메인 advice 분리.
 
-- [ ] **M8. CORS `allowCredentials=true` + 단일 origin 조합이 인증 도입 시 깨짐**
+- [x] **M8. CORS `allowCredentials=true` + 단일 origin 조합이 인증 도입 시 깨짐**
   - 위치: `src/main/kotlin/com/bong/reminder/config/WebConfig.kt:15-19`
   - 고치기: 인증 도입 시점에 `allowedOriginPatterns` 환경 분리 + 쿠키 SameSite 정책 명시.
 

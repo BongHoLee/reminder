@@ -8,6 +8,11 @@ spring:
   jackson:
     time-zone: UTC
 
+app:
+  cors:
+    # 쉼표 구분 패턴 — 인증/쿠키 도입 시 환경별로 override.
+    allowed-origin-patterns: http://localhost:3000
+
   datasource:
     url: jdbc:h2:mem:reminderdb
     driver-class-name: org.h2.Driver
