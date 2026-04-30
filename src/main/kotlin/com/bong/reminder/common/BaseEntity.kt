@@ -22,11 +22,11 @@ abstract class BaseEntity {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    var createdAt: Instant = Instant.EPOCH
+    lateinit var createdAt: Instant
         protected set
 
     @LastModifiedDate
     @Column(nullable = false)
-    var updatedAt: Instant = Instant.EPOCH
+    lateinit var updatedAt: Instant
         protected set
 }

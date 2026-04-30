@@ -46,7 +46,7 @@
   - 증상: `dueAt`, `notes`, `parentId` 를 비울 방법 없음. FE Shift+Tab outdent 가 비활성된 근본 원인.
   - 고치기: JSON Merge Patch (RFC 7386) 도입, `JsonNullable<T>` wrapper, 또는 `dueAtClear: boolean` 류 별도 플래그.
 
-- [ ] **M2. `BaseEntity.createdAt/updatedAt` 의 `Instant.EPOCH` 디폴트가 버그를 가린다**
+- [x] **M2. `BaseEntity.createdAt/updatedAt` 의 `Instant.EPOCH` 디폴트가 버그를 가린다**
   - 위치: `src/main/kotlin/com/bong/reminder/common/BaseEntity.kt:25,30`
   - 고치기: `lateinit var createdAt: Instant` + DB NOT NULL, 또는 nullable 로 두고 service-side check.
 
