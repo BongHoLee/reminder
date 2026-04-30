@@ -169,6 +169,20 @@ class ReminderCommandServiceTest @Autowired constructor(
                 service.delete(DeleteReminderCommand(999_999L))
             }
         }
+
+        it("부모 reminder 삭제 시 자식 row 와 영속성 컨텍스트가 함께 정리된다") {
+            val list = newList()
+            val parent = service.create(CreateReminderCommand(listId = list.id!!, title = "부모"))
+            val child = service.create(
+                CreateReminderCommand(listId = list.id!!, title = "자식", parentId = parent.id),
+            )
+
+            service.delete(DeleteReminderCommand(parent.id))
+
+            // 영속성 컨텍스트 stale 검증: findById 가 즉시 자식을 찾지 못해야 함
+            reminderJpaRepository.findById(child.id).isPresent shouldBe false
+            reminderJpaRepository.count() shouldBe 0L
+        }
     }
 
     describe("리스트 cascade 삭제") {

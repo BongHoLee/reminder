@@ -53,7 +53,8 @@ class ReminderPersistenceAdapter(
     override fun existsById(id: Long): Boolean = jpaRepository.existsById(id)
 
     override fun deleteById(id: Long) {
-        jpaRepository.deleteById(id)
+        // 자식 row 까지 단일 SQL DELETE + 영속성 컨텍스트 clear 로 stale 매니지드 인스턴스 방지.
+        jpaRepository.deleteByIdIncludingChildren(id)
     }
 
     override fun deleteByListId(listId: Long) {

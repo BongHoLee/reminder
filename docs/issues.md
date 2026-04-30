@@ -27,7 +27,7 @@
   - 위치: `frontend/src/app/(app)/views/[type]/page.tsx:61`
   - 고치기: `Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(d)` 또는 `toLocaleDateString('en-CA')`.
 
-- [ ] **R4. 단건 reminder 삭제 시 자식 cascade 가 영속성 컨텍스트와 비동기**
+- [x] **R4. 단건 reminder 삭제 시 자식 cascade 가 영속성 컨텍스트와 비동기**
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/application/service/DefaultReminderCommandService.kt:74-79`
   - 증상: `repository.deleteById(parentId)` 가 DB FK `ON DELETE CASCADE` 로 자식 row 는 지우지만 영속성 컨텍스트의 자식 매니지드 인스턴스는 stale.
   - 고치기: 자식부터 명시 삭제 → 부모 삭제, 또는 bulk delete + clear/flush 로 통일.

@@ -52,4 +52,8 @@ interface ReminderJpaRepository : JpaRepository<Reminder, Long> {
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from Reminder r where r.list.id = :listId")
     fun deleteByListId(listId: Long)
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from Reminder r where r.id = :id or r.parent.id = :id")
+    fun deleteByIdIncludingChildren(@Param("id") id: Long): Int
 }
