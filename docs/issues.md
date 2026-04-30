@@ -66,7 +66,7 @@
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/adapter/out/persistence/ReminderJpaRepository.kt:14-22`
   - 고치기: 보조 정렬키 `, r.id desc` 추가.
 
-- [ ] **M7. `HealthController` 가 `@RestControllerAdvice` 와 같은 advice 컨텍스트**
+- [x] **M7. `HealthController` 가 `@RestControllerAdvice` 와 같은 advice 컨텍스트**
   - 위치: `src/main/kotlin/com/bong/reminder/common/HealthController.kt`
   - 고치기: Spring Boot Actuator 도입 → `/actuator/health` 사용, 도메인 advice 분리.
 
