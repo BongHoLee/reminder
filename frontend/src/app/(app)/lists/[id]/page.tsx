@@ -40,16 +40,18 @@ export default function ListDetailPage({
             미리 알림 없음
           </p>
         )}
-        {incomplete.map((r, idx) => (
-          <ReminderRow
-            key={r.id}
-            reminder={r}
-            accentColor={accent}
-            previousSiblingId={
-              idx > 0 && incomplete[idx - 1].parentId === null ? incomplete[idx - 1].id : null
-            }
-          />
-        ))}
+        {incomplete.map((r, idx) => {
+          const prev = idx > 0 ? incomplete[idx - 1] : null;
+          const previousSiblingId = prev ? (prev.parentId ?? prev.id) : null;
+          return (
+            <ReminderRow
+              key={r.id}
+              reminder={r}
+              accentColor={accent}
+              previousSiblingId={previousSiblingId}
+            />
+          );
+        })}
       </section>
 
       {completed.length > 0 && (

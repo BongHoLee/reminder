@@ -58,7 +58,7 @@
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/domain/Reminder.kt:128`
   - 고치기: `require(newParent !== this)` (참조 동등) 로 변경.
 
-- [ ] **M5. `ReminderRow.previousSiblingId` 계산이 부모-자식 섞인 목록에서 indent 불가**
+- [x] **M5. `ReminderRow.previousSiblingId` 계산이 부모-자식 섞인 목록에서 indent 불가**
   - 위치: `frontend/src/app/(app)/lists/[id]/page.tsx:43-49`
   - 고치기: `previousSiblingId = idx > 0 ? (incomplete[idx-1].parentId ?? incomplete[idx-1].id) : null`.
 
