@@ -18,8 +18,9 @@ export default function ListDetailPage({
   const list = lists?.find((l) => l.id === listId);
   const accent = list?.color ?? "var(--accent)";
 
-  const { data: incomplete = [], isLoading } = useReminders(listId, false);
-  const { data: completed = [] } = useReminders(listId, true);
+  const { data: reminders = [], isLoading } = useReminders(listId);
+  const incomplete = reminders.filter((r) => !r.completed);
+  const completed = reminders.filter((r) => r.completed);
 
   return (
     <main className="flex flex-1 flex-col p-10">

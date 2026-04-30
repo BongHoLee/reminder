@@ -101,7 +101,7 @@
   - 위치: `NewListDialog`, `NewReminderInput`, `ReminderExpander`
   - 고치기: zod + react-hook-form (Phase 3 계획 그대로 적용).
 
-- [ ] **N6. `reminderKeys.byList` 가 boolean 을 키 포함 — 두 캐시 동기화 부담**
+- [x] **N6. `reminderKeys.byList` 가 boolean 을 키 포함 — 두 캐시 동기화 부담**
   - 위치: `frontend/src/lib/queries/reminders.ts:8-10`
   - 고치기: 단일 캐시 + 클라이언트 필터링.
 

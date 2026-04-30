@@ -5,16 +5,20 @@ import { api } from "@/lib/api";
 import type { Priority, Reminder } from "@/lib/types";
 
 export const reminderKeys = {
-  byList: (listId: number, completed: boolean) =>
-    ["reminders", "list", listId, completed] as const,
+  byList: (listId: number) => ["reminders", "list", listId] as const,
   children: (parentId: number) => ["reminders", "children", parentId] as const,
 };
 
-export function useReminders(listId: number, completed = false) {
+export function useReminders(listId: number) {
   return useQuery({
-    queryKey: reminderKeys.byList(listId, completed),
-    queryFn: () =>
-      api.get<Reminder[]>(`/lists/${listId}/reminders?completed=${completed}`),
+    queryKey: reminderKeys.byList(listId),
+    queryFn: async () => {
+      const [incomplete, completed] = await Promise.all([
+        api.get<Reminder[]>(`/lists/${listId}/reminders?completed=false`),
+        api.get<Reminder[]>(`/lists/${listId}/reminders?completed=true`),
+      ]);
+      return [...incomplete, ...completed];
+    },
     enabled: Number.isFinite(listId),
   });
 }
@@ -36,7 +40,7 @@ export function useCreateReminder() {
     mutationFn: ({ listId, ...rest }: CreateReminderInput) =>
       api.post<Reminder>(`/lists/${listId}/reminders`, rest),
     onSuccess: (_data, vars) => {
-      qc.invalidateQueries({ queryKey: ["reminders", "list", vars.listId] });
+      qc.invalidateQueries({ queryKey: reminderKeys.byList(vars.listId) });
     },
   });
 }
@@ -62,7 +66,7 @@ export function useUpdateReminder() {
     mutationFn: ({ id, listId: _l, ...rest }: UpdateReminderInput) =>
       api.patch<Reminder>(`/reminders/${id}`, rest),
     onSuccess: (_data, vars) => {
-      qc.invalidateQueries({ queryKey: ["reminders", "list", vars.listId] });
+      qc.invalidateQueries({ queryKey: reminderKeys.byList(vars.listId) });
     },
   });
 }
@@ -70,33 +74,31 @@ export function useUpdateReminder() {
 export function useToggleReminder() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id }: { id: number; listId: number; completed: boolean }) =>
+    mutationFn: ({ id }: { id: number; listId: number }) =>
       api.post<Reminder>(`/reminders/${id}/toggle`),
 
     onMutate: async (vars) => {
-      const completedKey = reminderKeys.byList(vars.listId, vars.completed);
-      const otherKey = reminderKeys.byList(vars.listId, !vars.completed);
-      await qc.cancelQueries({ queryKey: completedKey });
-      await qc.cancelQueries({ queryKey: otherKey });
+      const key = reminderKeys.byList(vars.listId);
+      await qc.cancelQueries({ queryKey: key });
 
-      const prevCompleted = qc.getQueryData<Reminder[]>(completedKey);
-      const prevOther = qc.getQueryData<Reminder[]>(otherKey);
+      const prev = qc.getQueryData<Reminder[]>(key);
 
-      // 토글 즉시 현재 섹션에서 제거 (낙관적 업데이트)
-      qc.setQueryData<Reminder[]>(completedKey, (old) =>
-        (old ?? []).filter((r) => r.id !== vars.id),
+      // 단일 캐시에서 reminder 의 completed 플래그를 즉시 토글 (낙관적 업데이트)
+      qc.setQueryData<Reminder[]>(key, (old) =>
+        (old ?? []).map((r) =>
+          r.id === vars.id ? { ...r, completed: !r.completed } : r,
+        ),
       );
-      return { prevCompleted, prevOther, completedKey, otherKey };
+      return { prev, key };
     },
 
     onError: (_err, _vars, ctx) => {
       if (!ctx) return;
-      qc.setQueryData(ctx.completedKey, ctx.prevCompleted);
-      qc.setQueryData(ctx.otherKey, ctx.prevOther);
+      qc.setQueryData(ctx.key, ctx.prev);
     },
 
     onSettled: (_data, _err, vars) => {
-      qc.invalidateQueries({ queryKey: ["reminders", "list", vars.listId] });
+      qc.invalidateQueries({ queryKey: reminderKeys.byList(vars.listId) });
     },
   });
 }
@@ -107,7 +109,7 @@ export function useDeleteReminder() {
     mutationFn: ({ id }: { id: number; listId: number }) =>
       api.delete(`/reminders/${id}`),
     onSuccess: (_data, vars) => {
-      qc.invalidateQueries({ queryKey: ["reminders", "list", vars.listId] });
+      qc.invalidateQueries({ queryKey: reminderKeys.byList(vars.listId) });
     },
   });
 }

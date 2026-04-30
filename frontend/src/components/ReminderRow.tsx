@@ -62,7 +62,6 @@ export function ReminderRow({
             toggle.mutate({
               id: reminder.id,
               listId: reminder.listId,
-              completed: reminder.completed,
             })
           }
           className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 transition"
