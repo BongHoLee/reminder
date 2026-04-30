@@ -85,7 +85,7 @@
   - 위치: `frontend/src/lib/api.ts:14`
   - 고치기: `AbortController` + 10s setTimeout.
 
-- [ ] **N2. 검색 입력 길이 제한 부재**
+- [x] **N2. 검색 입력 길이 제한 부재**
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/adapter/in/web/ReminderSearchController.kt:16`, `application/service/DefaultReminderSearchService.kt`
   - 고치기: `@Size(max=200)` 또는 service 내 검증.
 

@@ -63,6 +63,11 @@ class ReminderSearchControllerTest @Autowired constructor(
                 .andExpect { status { isBadRequest() } }
         }
 
+        it("q 가 200자를 초과하면 400") {
+            mockMvc.get("/api/v1/search?q=${"x".repeat(201)}")
+                .andExpect { status { isBadRequest() } }
+        }
+
         it("동일 updatedAt 일 때 id 내림차순으로 결정적 정렬된다") {
             val list = listJpaRepository.save(ReminderList(name = "x", color = "#000000"))
             val a = reminderJpaRepository.save(Reminder(list = list, title = "match a"))
