@@ -1,4 +1,5 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api/v1";
+const REQUEST_TIMEOUT_MS = 10_000;
 
 export class ApiError extends Error {
   constructor(
@@ -11,15 +12,28 @@ export class ApiError extends Error {
 }
 
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
-  const res = await fetch(`${API_BASE_URL}${path}`, {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-    cache: "no-store",
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE_URL}${path}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+      cache: "no-store",
+      signal: controller.signal,
+    });
+  } catch (e) {
+    if ((e as { name?: string }).name === "AbortError") {
+      throw new ApiError(0, `요청 시간이 초과되었습니다 (${REQUEST_TIMEOUT_MS}ms).`);
+    }
+    throw e;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!res.ok) {
     let parsed: unknown = undefined;

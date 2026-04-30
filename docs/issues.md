@@ -81,7 +81,7 @@
 
 ## 🟢 Improvements
 
-- [ ] **N1. `api.ts` 요청 timeout 부재**
+- [x] **N1. `api.ts` 요청 timeout 부재**
   - 위치: `frontend/src/lib/api.ts:14`
   - 고치기: `AbortController` + 10s setTimeout.
 
