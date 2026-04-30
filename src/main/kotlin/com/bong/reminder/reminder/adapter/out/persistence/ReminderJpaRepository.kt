@@ -18,7 +18,7 @@ interface ReminderJpaRepository : JpaRepository<Reminder, Long> {
         select r from Reminder r
         where lower(r.title) like lower(concat('%', :q, '%'))
            or lower(coalesce(r.notes, '')) like lower(concat('%', :q, '%'))
-        order by r.updatedAt desc
+        order by r.updatedAt desc, r.id desc
         """,
     )
     fun searchByTitleOrNotes(@Param("q") query: String, pageable: Pageable): List<Reminder>

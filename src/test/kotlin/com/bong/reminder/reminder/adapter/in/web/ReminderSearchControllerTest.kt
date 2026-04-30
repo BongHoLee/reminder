@@ -62,5 +62,21 @@ class ReminderSearchControllerTest @Autowired constructor(
             mockMvc.get("/api/v1/search")
                 .andExpect { status { isBadRequest() } }
         }
+
+        it("동일 updatedAt 일 때 id 내림차순으로 결정적 정렬된다") {
+            val list = listJpaRepository.save(ReminderList(name = "x", color = "#000000"))
+            val a = reminderJpaRepository.save(Reminder(list = list, title = "match a"))
+            val b = reminderJpaRepository.save(Reminder(list = list, title = "match b"))
+            val c = reminderJpaRepository.save(Reminder(list = list, title = "match c"))
+
+            mockMvc.get("/api/v1/search?q=match")
+                .andExpect {
+                    status { isOk() }
+                    jsonPath("$.length()") { value(3) }
+                    jsonPath("$[0].id") { value(c.id!!) }
+                    jsonPath("$[1].id") { value(b.id!!) }
+                    jsonPath("$[2].id") { value(a.id!!) }
+                }
+        }
     }
 })

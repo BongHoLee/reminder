@@ -62,7 +62,7 @@
   - 위치: `frontend/src/app/(app)/lists/[id]/page.tsx:43-49`
   - 고치기: `previousSiblingId = idx > 0 ? (incomplete[idx-1].parentId ?? incomplete[idx-1].id) : null`.
 
-- [ ] **M6. 검색 정렬 결과 비결정적 — `updatedAt` 만으로 페이징**
+- [x] **M6. 검색 정렬 결과 비결정적 — `updatedAt` 만으로 페이징**
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/adapter/out/persistence/ReminderJpaRepository.kt:14-22`
   - 고치기: 보조 정렬키 `, r.id desc` 추가.
 
