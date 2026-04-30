@@ -46,7 +46,11 @@ export function useUpdateList() {
   return useMutation({
     mutationFn: ({ id, ...rest }: UpdateListInput) =>
       api.patch<ReminderList>(`/lists/${id}`, rest),
-    onSuccess: () => qc.invalidateQueries({ queryKey: listKeys.all }),
+    onSuccess: (updated) => {
+      qc.setQueryData<ReminderList[]>(listKeys.all, (old) =>
+        old?.map((l) => (l.id === updated.id ? updated : l)),
+      );
+    },
   });
 }
 

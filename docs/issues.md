@@ -112,7 +112,7 @@
 - [ ] **N8. Tab indent 시 input 포커스 처리 / 다음 행 이동 UX 미정의**
   - 위치: `frontend/src/components/ReminderRow.tsx:90-96`
 
-- [ ] **N9. `useUpdateList` 가 응답을 캐시에 직접 안 넣고 invalidate 만**
+- [x] **N9. `useUpdateList` 가 응답을 캐시에 직접 안 넣고 invalidate 만**
   - 위치: `frontend/src/lib/queries/lists.ts:46-51`
   - 고치기: `setQueryData(listKeys.all, (old) => old?.map(...))` 로 round-trip 절약.
 
