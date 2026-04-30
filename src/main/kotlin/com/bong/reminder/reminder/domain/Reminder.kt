@@ -20,6 +20,8 @@ import java.time.Instant
         Index(name = "idx_reminder_list_completed", columnList = "list_id,completed"),
         Index(name = "idx_reminder_due_at", columnList = "due_at"),
         Index(name = "idx_reminder_parent", columnList = "parent_id"),
+        Index(name = "idx_reminder_completed", columnList = "completed"),
+        Index(name = "idx_reminder_completed_completed_at", columnList = "completed,completed_at"),
     ],
 )
 class Reminder(

@@ -93,7 +93,7 @@
   - 위치: `application/service/DefaultReminderViewQueryService.kt`
   - 고치기: `Pageable` 도입 자리 잡기 (1차에서는 1000건 가정 OK).
 
-- [ ] **N4. `completed` 단독 + `completedAt` 인덱스 부재**
+- [x] **N4. `completed` 단독 + `completedAt` 인덱스 부재**
   - 위치: `reminder/domain/Reminder.kt:18-22`
   - 고치기: `@Index(columnList = "completed")`, `@Index(columnList = "completed,completed_at")` 추가.
 
