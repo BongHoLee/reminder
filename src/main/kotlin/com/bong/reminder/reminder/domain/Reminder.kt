@@ -127,7 +127,7 @@ class Reminder(
 
     fun changeParent(newParent: Reminder?) {
         if (newParent != null) {
-            require(newParent.id != this.id) { "자기 자신을 상위 작업으로 지정할 수 없습니다." }
+            require(newParent !== this) { "자기 자신을 상위 작업으로 지정할 수 없습니다." }
             require(newParent.parent == null) { "하위 작업은 1단계 깊이까지만 허용됩니다." }
         }
         this.parent = newParent

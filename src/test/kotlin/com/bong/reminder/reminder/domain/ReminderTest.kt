@@ -74,6 +74,23 @@ class ReminderTest : DescribeSpec({
                 child.changeParent(parent)
             }
         }
+
+        it("자기 자신을 상위 작업으로 지정하면 id 가 null 이어도 거부한다") {
+            val r = Reminder(list = list, title = "혼자")
+
+            shouldThrow<IllegalArgumentException> {
+                r.changeParent(r)
+            }
+        }
+
+        it("같은 unpersisted 엔티티 둘은 서로 다른 reference 이면 parent 로 허용된다") {
+            val parent = Reminder(list = list, title = "부모")
+            val child = Reminder(list = list, title = "자식")
+
+            child.changeParent(parent)
+
+            child.parent shouldBe parent
+        }
     }
 
     describe("도메인 메서드") {

@@ -54,7 +54,7 @@
   - 위치: `list/application/service/DefaultReminderListCommandService.kt:43-48`, `reminder/domain/Reminder.kt` 의 `parent` 만 `@OnDelete` 적용
   - 고치기: 정책 단일화 — DB FK 로 일관할 거면 `Reminder.list` 에도 `@OnDelete(CASCADE)` + 코드 제거, 코드로 명시할 거면 `@OnDelete` 떼기.
 
-- [ ] **M4. `Reminder.changeParent` 의 자기참조 검증이 `id == null` 일 때 우회됨**
+- [x] **M4. `Reminder.changeParent` 의 자기참조 검증이 `id == null` 일 때 우회됨**
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/domain/Reminder.kt:128`
   - 고치기: `require(newParent !== this)` (참조 동등) 로 변경.
 
