@@ -136,3 +136,114 @@
 4. **R5** 도메인 `final` 제거 + LAZY 정상화 — 30분 + 회귀 테스트
 5. **M1** PATCH 의 명시적 clear 의도 결정 — 설계 토론 후 적용
 6. **M3** cascade 정책 단일화 — 30분
+
+---
+
+## 2026-05-02 코드 품질 리포트 후속 이슈
+
+### 🔴 Bugs / Risks
+
+- [ ] **R6. Reminder mutation 시 smart view / search 캐시 미무효화**
+  - 위치: `frontend/src/lib/queries/reminders.ts:42-46, 68-71, 100-103, 111-114`
+  - 증상: 토글/생성/수정/삭제 직후 사이드바 스마트 카드 카운트, `/views/*` 페이지, 검색 결과가 stale.
+  - 고치기: 각 mutation `onSettled`/`onSuccess` 에서 `viewKeys.counts(tz)`, `viewKeys.list(type, tz)`, `["search"]` 까지 invalidate.
+
+- [ ] **R7. `Reminder.completedAt` 불변식이 도메인에서 강제되지 않음**
+  - 위치: `src/main/kotlin/com/bong/reminder/reminder/domain/Reminder.kt:91-93`
+  - 증상: `completed=false` 인데 `completedAt` 이 남아 있는 상태가 setter 우회로 가능.
+  - 고치기: `init` 또는 `@PrePersist/@PreUpdate` 에 `assertCompletionConsistent()` 추가.
+
+- [ ] **R8. `Reminder.init` 에서 `validateNotes` 미호출 → 도메인이 notes 길이 검증을 DTO 에만 의존**
+  - 위치: `src/main/kotlin/com/bong/reminder/reminder/domain/Reminder.kt:30, 49-52`
+  - 고치기: `init` 블록에 `validateNotes(notes)` 한 줄 추가.
+
+### 🟡 Design / Maintainability
+
+- [ ] **M10. `useReminders` 가 listId 당 incomplete/completed 두 번 fetch 후 클라에서 합침**
+  - 위치: `frontend/src/lib/queries/reminders.ts:13-23`
+  - 증상: 페이지 진입마다 fetch 2회 + concat 시 정렬 손실.
+  - 고치기: 백엔드 `GET /lists/{id}/reminders` 가 `completed` 미지정 시 전체 반환하도록 합의 → 단일 fetch + 클라 분리.
+
+- [ ] **M11. `frontend/eslint.config.*` 부재 + lint/typecheck/format 스크립트 부재**
+  - 위치: `frontend/package.json:5-11`, `frontend/` 디렉토리 전반
+  - 증상: PR 게이트 없음. 의미 없는 `eslint-disable-next-line` 주석이 그대로 남음 (`ReminderExpander.tsx:45`, `SearchBar.tsx:37`).
+  - 고치기: `eslint.config.mjs` (Next 16 official preset) + `.prettierrc` + `"lint"`, `"typecheck": "tsc --noEmit"`, `"format"` 스크립트 추가.
+
+- [ ] **M12. 네이티브 `confirm()` 사용 → spec §7 "Apple 스타일 confirm dialog" 불일치 + 접근성 약함**
+  - 위치: `frontend/src/components/Sidebar.tsx:74`
+  - 고치기: 공용 `ConfirmDialog` 컴포넌트 추출 (`role="dialog"`, `aria-modal="true"`, 포커스 트랩, Esc 닫기). reminder 삭제 등 후속 케이스도 흡수.
+
+- [ ] **M13. `ReminderRow` 단일 컴포넌트 비대 (177L)**
+  - 위치: `frontend/src/components/ReminderRow.tsx`
+  - 증상: 체크박스 / 제목 인라인 편집 / Tab indent / 익스팬더 토글 / 삭제 / 메타 표시가 한 컴포넌트에.
+  - 고치기: `useReminderRowKeys(reminder, previousSiblingId)` 훅, `<RowCheckbox/>`, `<RowMeta/>` 컴포넌트 추출.
+
+- [ ] **M14. `application.yml` 의 `show-sql` / `h2.console.enabled` 이 모든 환경에 기본 true**
+  - 위치: `src/main/resources/application.yml:22-33`
+  - 증상: 테스트 빌드 로그가 SQL 로 도배되어 실패 메시지가 묻힘. 운영 배포 시 H2 콘솔 노출 위험.
+  - 고치기: 두 옵션을 `dev` 프로파일 블록으로 이동, `application-test.yml` 신설.
+
+- [ ] **M15. 클라이언트 폼 검증이 ad-hoc — react-hook-form + zod 미도입**
+  - 위치: `frontend/src/components/{NewListDialog,NewReminderInput,ReminderExpander}.tsx`
+  - 증상: `useState` + 수동 trim 만, 백엔드 `fieldErrors` 가 `ApiError.body.fieldErrors` 까지 정의되어 있는데 어디에서도 소비되지 않음.
+  - 고치기: react-hook-form + zod 도입, 서버 fieldErrors 를 form error 로 매핑 (plan Phase 3 약속 이행).
+
+- [ ] **M16. hover-only 액션이 키보드 포커스에 노출되지 않음**
+  - 위치: `frontend/src/components/Sidebar.tsx:114, 121`
+  - 증상: `invisible group-hover:visible` 만 있어 키보드 사용자에게 이름 변경 / 삭제 진입점이 사라짐.
+  - 고치기: `group-focus-within:visible` 추가.
+
+- [ ] **M17. 라이트 모드 메타 텍스트 색상 대비 부족 (WCAG AA 미달)**
+  - 위치: `frontend/src/app/globals.css` (`--muted: #8E8E93` on `--sidebar-bg: #f5f5f7` ≈ 3.2:1)
+  - 고치기: `--muted` 라이트 토큰을 `#6B6B70` 류로 어둡게 조정 또는 텍스트 사이즈 조건부 분리.
+
+- [ ] **M18. 거의 모든 page 가 `"use client"` — RSC 미활용**
+  - 위치: `frontend/src/app/(app)/{page,lists/[id]/page,views/[type]/page,search/page}.tsx`
+  - 고치기: layout 에서 `prefetchQuery` + hydration boundary 도입, 인터랙션이 필요한 부분만 client island 로 분리.
+
+### 🟢 Improvements
+
+- [ ] **N10. 컴포넌트/훅 테스트 토대 부재**
+  - 위치: `frontend/package.json` (RTL/MSW 미설치), 컴포넌트 테스트 0건
+  - 고치기: `@testing-library/react` + `@testing-library/user-event` + `msw` 설치 후 ① `ReminderRow` Tab indent → `parentId` PATCH 호출, ② `useToggleReminder` 낙관 업데이트 + 에러 롤백, ③ `SearchBar` debounce 250ms 후 `router.push` 3개 테스트 작성.
+
+- [ ] **N11. `formatDueDate` 단위 테스트 부재**
+  - 위치: `frontend/src/lib/dueDate.ts` (테스트 파일 없음)
+  - 고치기: "오늘 / 내일 / 어제 / 미래 / 과거" 분기 + KST 자정 경계 테스트 추가.
+
+- [ ] **N12. `useSmartView` default 인자가 매 렌더 `Intl.DateTimeFormat()` 호출**
+  - 위치: `frontend/src/lib/queries/views.ts:23`
+  - 고치기: 모듈 스코프 `const DEFAULT_TZ = ...` 또는 `useMemo` 로 1회 계산.
+
+- [ ] **N13. `staleTime: 5_000` 의 일률 적용 — 검색/lists/views 같은 정책 공유**
+  - 위치: `frontend/src/app/providers.tsx:12-15`
+  - 고치기: query 별 `staleTime` 차등 (lists 60s, views 10s, search 0).
+
+- [ ] **N14. `next/font` 미사용 — SF Pro fallback chain 만 의존**
+  - 위치: `frontend/src/app/globals.css:53-56`, `frontend/next.config.ts`
+  - 고치기: 시스템 폰트 유지 정책이면 의도 주석 명시. 아니면 `next/font/local` 또는 Inter 도입 검토 (spec §7 fallback 정책에 맞춰).
+
+- [ ] **N15. `next.config.ts` 가 빈 객체 — 정적 최적화 누락**
+  - 위치: `frontend/next.config.ts:3-5`
+  - 고치기: `experimental.optimizePackageImports: ["lucide-react"]` 등 lucide 트리쉐이킹 추가.
+
+- [ ] **N16. 출력 포트 `ReminderRepositoryPort` 비대 (13개 메서드)**
+  - 위치: `src/main/kotlin/com/bong/reminder/reminder/application/port/out/ReminderRepositoryPort.kt:5-27`
+  - 고치기: 카운트/검색용 read 메서드를 `ReminderQueryReadModel` 등 별도 포트로 분리 — CQRS-lite 의도 강화.
+
+- [ ] **N17. `DefaultReminderSearchService` 가 빈 query 일 때 emptyList 반환 — 정책이 service 에 위치**
+  - 위치: `src/main/kotlin/com/bong/reminder/reminder/application/service/DefaultReminderSearchService.kt:21-22`
+  - 고치기: 컨트롤러 `@RequestParam @NotBlank q` 로 400 응답으로 단일화.
+
+- [ ] **N18. 인라인 스타일과 Tailwind arbitrary value 혼재**
+  - 위치: `frontend/src/components/ReminderRow.tsx:68-71, 134`, `frontend/src/components/SmartListGrid.tsx:42`, `frontend/src/app/(app)/page.tsx:20`
+  - 고치기: 정적 토큰은 `@theme inline` 에 노출 후 Tailwind 클래스로, 동적 색상(리스트 컬러)만 인라인 유지.
+
+- [ ] **N19. Apple 13색 + 다크 모드 변형 토큰 부재**
+  - 위치: `frontend/src/app/globals.css:30-38`
+  - 증상: `prefers-color-scheme: dark` 한 블록만 있고 Apple 컬러 13종은 다크 변형 없음.
+  - 고치기: 다크 모드에서도 가독성 검증된 13색 변형 정의 + 수동 토글 컴포넌트 (spec §7).
+
+- [ ] **N20. `ReminderE2ETest` 가 별도 컨텍스트로 부팅**
+  - 위치: `src/test/kotlin/com/bong/reminder/e2e/ReminderE2ETest.kt:22-28`
+  - 고치기: 공유 `@TestConfiguration` baseline + `@DirtiesContext(BEFORE_CLASS)` 로 격리, 또는 testcontainers 도입.
