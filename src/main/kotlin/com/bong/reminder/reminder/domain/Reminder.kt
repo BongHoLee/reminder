@@ -10,6 +10,8 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Index
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.PrePersist
+import jakarta.persistence.PreUpdate
 import jakarta.persistence.Table
 import java.time.Instant
 
@@ -142,6 +144,14 @@ class Reminder(
         } else {
             completed = true
             completedAt = now
+        }
+    }
+
+    @PrePersist
+    @PreUpdate
+    internal fun assertCompletionConsistent() {
+        check(completed == (completedAt != null)) {
+            "완료 상태와 완료 시각이 일관되지 않습니다."
         }
     }
 }

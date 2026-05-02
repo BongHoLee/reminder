@@ -119,4 +119,21 @@ class ReminderTest : DescribeSpec({
             }
         }
     }
+
+    describe("assertCompletionConsistent") {
+        it("completed=false 인데 completedAt 이 채워진 손상 상태이면 IllegalStateException 을 던진다") {
+            val r = Reminder(list = list, title = "x")
+
+            val completedAtField = Reminder::class.java.getDeclaredField("completedAt")
+            completedAtField.isAccessible = true
+            completedAtField.set(r, Instant.parse("2026-04-29T10:00:00Z"))
+
+            r.completed shouldBe false
+            r.completedAt shouldBe Instant.parse("2026-04-29T10:00:00Z")
+
+            shouldThrow<IllegalStateException> {
+                r.assertCompletionConsistent()
+            }
+        }
+    }
 })

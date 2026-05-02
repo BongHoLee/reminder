@@ -148,7 +148,7 @@
   - 증상: 토글/생성/수정/삭제 직후 사이드바 스마트 카드 카운트, `/views/*` 페이지, 검색 결과가 stale.
   - 고치기: 각 mutation `onSettled`/`onSuccess` 에서 `viewKeys.counts(tz)`, `viewKeys.list(type, tz)`, `["search"]` 까지 invalidate.
 
-- [ ] **R7. `Reminder.completedAt` 불변식이 도메인에서 강제되지 않음**
+- [x] **R7. `Reminder.completedAt` 불변식이 도메인에서 강제되지 않음**
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/domain/Reminder.kt:91-93`
   - 증상: `completed=false` 인데 `completedAt` 이 남아 있는 상태가 setter 우회로 가능.
   - 고치기: `init` 또는 `@PrePersist/@PreUpdate` 에 `assertCompletionConsistent()` 추가.
