@@ -207,7 +207,7 @@
   - 위치: `frontend/package.json` (RTL/MSW 미설치), 컴포넌트 테스트 0건
   - 고치기: `@testing-library/react` + `@testing-library/user-event` + `msw` 설치 후 ① `ReminderRow` Tab indent → `parentId` PATCH 호출, ② `useToggleReminder` 낙관 업데이트 + 에러 롤백, ③ `SearchBar` debounce 250ms 후 `router.push` 3개 테스트 작성.
 
-- [ ] **N11. `formatDueDate` 단위 테스트 부재**
+- [x] **N11. `formatDueDate` 단위 테스트 부재**
   - 위치: `frontend/src/lib/dueDate.ts` (테스트 파일 없음)
   - 고치기: "오늘 / 내일 / 어제 / 미래 / 과거" 분기 + KST 자정 경계 테스트 추가.
 
