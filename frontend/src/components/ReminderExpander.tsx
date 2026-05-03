@@ -22,10 +22,13 @@ export function ReminderExpander({ reminder }: { reminder: Reminder }) {
   const update = useUpdateReminder();
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // 부모가 새 reminder 데이터를 내려주면 (refetch 등) 폼 state 동기화 + dirty 리셋
+  // 부모가 새 reminder 데이터를 내려주면 (refetch 등) 폼 state 동기화 + dirty 리셋.
+  // reminder.id 또는 updatedAt 변경 시에만 동기화하므로 reminder 객체 전체를 의존 배열에 넣지 않는다 (R2 의 의도된 동작).
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setForm(reminderToFormState(reminder));
     setIsDirty(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reminder.id, reminder.updatedAt]);
 
   // 사용자 변경이 있을 때만 500ms debounce 후 PATCH (마운트 시점은 스킵)

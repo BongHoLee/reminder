@@ -164,7 +164,7 @@
   - 증상: 페이지 진입마다 fetch 2회 + concat 시 정렬 손실.
   - 고치기: 백엔드 `GET /lists/{id}/reminders` 가 `completed` 미지정 시 전체 반환하도록 합의 → 단일 fetch + 클라 분리.
 
-- [ ] **M11. `frontend/eslint.config.*` 부재 + lint/typecheck/format 스크립트 부재**
+- [x] **M11. `frontend/eslint.config.*` 부재 + lint/typecheck/format 스크립트 부재**
   - 위치: `frontend/package.json:5-11`, `frontend/` 디렉토리 전반
   - 증상: PR 게이트 없음. 의미 없는 `eslint-disable-next-line` 주석이 그대로 남음 (`ReminderExpander.tsx:45`, `SearchBar.tsx:37`).
   - 고치기: `eslint.config.mjs` (Next 16 official preset) + `.prettierrc` + `"lint"`, `"typecheck": "tsc --noEmit"`, `"format"` 스크립트 추가.
