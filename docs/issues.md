@@ -153,7 +153,7 @@
   - 증상: `completed=false` 인데 `completedAt` 이 남아 있는 상태가 setter 우회로 가능.
   - 고치기: `init` 또는 `@PrePersist/@PreUpdate` 에 `assertCompletionConsistent()` 추가.
 
-- [ ] **R8. `Reminder.init` 에서 `validateNotes` 미호출 → 도메인이 notes 길이 검증을 DTO 에만 의존**
+- [x] **R8. `Reminder.init` 에서 `validateNotes` 미호출 → 도메인이 notes 길이 검증을 DTO 에만 의존**
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/domain/Reminder.kt:30, 49-52`
   - 고치기: `init` 블록에 `validateNotes(notes)` 한 줄 추가.
 

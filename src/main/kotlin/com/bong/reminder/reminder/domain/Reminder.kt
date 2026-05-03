@@ -38,8 +38,9 @@ class Reminder(
 ) : BaseEntity() {
     init {
         validateTitle(title)
-        validateParent(parent)
+        validateNotes(notes)
         require(sortOrder >= 0) { "정렬 순서는 0 이상이어야 합니다." }
+        validateParent(parent)
     }
 
     companion object {

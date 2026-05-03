@@ -136,4 +136,12 @@ class ReminderTest : DescribeSpec({
             }
         }
     }
+
+    describe("notes 길이 검증") {
+        it("생성자에 10000자 초과 notes 가 주어지면 IllegalArgumentException 을 던진다") {
+            shouldThrow<IllegalArgumentException> {
+                Reminder(list = list, title = "x", notes = "a".repeat(10_001))
+            }
+        }
+    }
 })
