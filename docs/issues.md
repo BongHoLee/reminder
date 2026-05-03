@@ -105,7 +105,7 @@
   - 위치: `frontend/src/lib/queries/reminders.ts:8-10`
   - 고치기: 단일 캐시 + 클라이언트 필터링.
 
-- [ ] **N7. E2E 테스트가 추가 컨텍스트 부팅 → 빌드 시간 폭증 위험**
+- [x] **N7. E2E 테스트가 추가 컨텍스트 부팅 → 빌드 시간 폭증 위험** (의도 주석 + M14 의 test profile 분리. testcontainers 는 후속)
   - 위치: `src/test/kotlin/com/bong/reminder/e2e/ReminderE2ETest.kt`
   - 고치기: shared baseline 컨텍스트 + 필요한 시나리오만 RANDOM_PORT 분리.
 
@@ -244,6 +244,6 @@
   - 증상: `prefers-color-scheme: dark` 한 블록만 있고 Apple 컬러 13종은 다크 변형 없음.
   - 고치기: 다크 모드에서도 가독성 검증된 13색 변형 정의 + 수동 토글 컴포넌트 (spec §7).
 
-- [ ] **N20. `ReminderE2ETest` 가 별도 컨텍스트로 부팅**
+- [x] **N20. `ReminderE2ETest` 가 별도 컨텍스트로 부팅** (의도 주석 + 후속 testcontainers 옵션 명시)
   - 위치: `src/test/kotlin/com/bong/reminder/e2e/ReminderE2ETest.kt:22-28`
   - 고치기: 공유 `@TestConfiguration` baseline + `@DirtiesContext(BEFORE_CLASS)` 로 격리, 또는 testcontainers 도입.

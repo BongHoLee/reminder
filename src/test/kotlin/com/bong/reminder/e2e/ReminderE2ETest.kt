@@ -19,6 +19,12 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Duration
 
+/**
+ * E2E: 실제 HTTP 호출 (HttpClient + RANDOM_PORT) 로 풀 라이프사이클 검증.
+ *
+ * 컨텍스트 캐시: 다른 통합 테스트는 MockMvc 기반이라 컨텍스트가 공유되지만, 본 클래스만 RANDOM_PORT 라
+ * 자체 컨텍스트가 캐시된다 (의도된 분리). 추가 격리/속도 개선은 testcontainers 도입 시 검토 (후속).
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ReminderE2ETest @Autowired constructor(
     private val listJpaRepository: ReminderListJpaRepository,
