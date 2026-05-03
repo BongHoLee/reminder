@@ -173,7 +173,7 @@
   - 위치: `frontend/src/components/Sidebar.tsx:74`
   - 고치기: 공용 `ConfirmDialog` 컴포넌트 추출 (`role="dialog"`, `aria-modal="true"`, 포커스 트랩, Esc 닫기). reminder 삭제 등 후속 케이스도 흡수.
 
-- [ ] **M13. `ReminderRow` 단일 컴포넌트 비대 (177L)**
+- [x] **M13. `ReminderRow` 단일 컴포넌트 비대 (177L)**
   - 위치: `frontend/src/components/ReminderRow.tsx`
   - 증상: 체크박스 / 제목 인라인 편집 / Tab indent / 익스팬더 토글 / 삭제 / 메타 표시가 한 컴포넌트에.
   - 고치기: `useReminderRowKeys(reminder, previousSiblingId)` 훅, `<RowCheckbox/>`, `<RowMeta/>` 컴포넌트 추출.
