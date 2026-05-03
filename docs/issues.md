@@ -169,7 +169,7 @@
   - 증상: PR 게이트 없음. 의미 없는 `eslint-disable-next-line` 주석이 그대로 남음 (`ReminderExpander.tsx:45`, `SearchBar.tsx:37`).
   - 고치기: `eslint.config.mjs` (Next 16 official preset) + `.prettierrc` + `"lint"`, `"typecheck": "tsc --noEmit"`, `"format"` 스크립트 추가.
 
-- [ ] **M12. 네이티브 `confirm()` 사용 → spec §7 "Apple 스타일 confirm dialog" 불일치 + 접근성 약함**
+- [x] **M12. 네이티브 `confirm()` 사용 → spec §7 "Apple 스타일 confirm dialog" 불일치 + 접근성 약함**
   - 위치: `frontend/src/components/Sidebar.tsx:74`
   - 고치기: 공용 `ConfirmDialog` 컴포넌트 추출 (`role="dialog"`, `aria-modal="true"`, 포커스 트랩, Esc 닫기). reminder 삭제 등 후속 케이스도 흡수.
 

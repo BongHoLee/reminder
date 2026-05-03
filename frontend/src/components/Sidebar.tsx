@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Plus, Trash2, Pencil } from "lucide-react";
+import { ConfirmDialog } from "./ConfirmDialog";
 import { NewListDialog } from "./NewListDialog";
 import { SearchBar } from "./SearchBar";
 import { SmartListGrid } from "./SmartListGrid";
@@ -57,6 +58,7 @@ function SidebarListItem({ list }: { list: ReminderList }) {
   const isActive = pathname === `/lists/${list.id}`;
   const [editing, setEditing] = useState(false);
   const [draftName, setDraftName] = useState(list.name);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const update = useUpdateList();
   const del = useDeleteList();
 
@@ -70,10 +72,8 @@ function SidebarListItem({ list }: { list: ReminderList }) {
     setEditing(false);
   }
 
-  async function remove() {
-    if (!confirm(`"${list.name}" 목록을 삭제하시겠습니까? 모든 미리 알림이 삭제됩니다.`)) {
-      return;
-    }
+  async function confirmDelete() {
+    setConfirmOpen(false);
     await del.mutateAsync(list.id);
   }
 
@@ -116,12 +116,22 @@ function SidebarListItem({ list }: { list: ReminderList }) {
         <Pencil size={14} />
       </button>
       <button
-        onClick={remove}
+        onClick={() => setConfirmOpen(true)}
         aria-label="삭제"
         className="invisible text-[var(--muted)] group-hover:visible group-focus-within:visible focus:visible"
       >
         <Trash2 size={14} />
       </button>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        title={`"${list.name}" 목록을 삭제하시겠습니까?`}
+        description="모든 미리 알림이 삭제됩니다."
+        confirmLabel="삭제"
+        cancelLabel="취소"
+        onConfirm={confirmDelete}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </li>
   );
 }
