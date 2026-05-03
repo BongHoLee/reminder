@@ -111,14 +111,14 @@ function SidebarListItem({ list }: { list: ReminderList }) {
       <button
         onClick={() => setEditing(true)}
         aria-label="이름 변경"
-        className="invisible text-[var(--muted)] group-hover:visible"
+        className="invisible text-[var(--muted)] group-hover:visible group-focus-within:visible focus:visible"
       >
         <Pencil size={14} />
       </button>
       <button
         onClick={remove}
         aria-label="삭제"
-        className="invisible text-[var(--muted)] group-hover:visible"
+        className="invisible text-[var(--muted)] group-hover:visible group-focus-within:visible focus:visible"
       >
         <Trash2 size={14} />
       </button>

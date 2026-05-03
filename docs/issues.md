@@ -188,7 +188,7 @@
   - 증상: `useState` + 수동 trim 만, 백엔드 `fieldErrors` 가 `ApiError.body.fieldErrors` 까지 정의되어 있는데 어디에서도 소비되지 않음.
   - 고치기: react-hook-form + zod 도입, 서버 fieldErrors 를 form error 로 매핑 (plan Phase 3 약속 이행).
 
-- [ ] **M16. hover-only 액션이 키보드 포커스에 노출되지 않음**
+- [x] **M16. hover-only 액션이 키보드 포커스에 노출되지 않음**
   - 위치: `frontend/src/components/Sidebar.tsx:114, 121`
   - 증상: `invisible group-hover:visible` 만 있어 키보드 사용자에게 이름 변경 / 삭제 진입점이 사라짐.
   - 고치기: `group-focus-within:visible` 추가.
