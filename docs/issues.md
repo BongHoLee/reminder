@@ -211,7 +211,7 @@
   - 위치: `frontend/src/lib/dueDate.ts` (테스트 파일 없음)
   - 고치기: "오늘 / 내일 / 어제 / 미래 / 과거" 분기 + KST 자정 경계 테스트 추가.
 
-- [ ] **N12. `useSmartView` default 인자가 매 렌더 `Intl.DateTimeFormat()` 호출**
+- [x] **N12. `useSmartView` default 인자가 매 렌더 `Intl.DateTimeFormat()` 호출**
   - 위치: `frontend/src/lib/queries/views.ts:23`
   - 고치기: 모듈 스코프 `const DEFAULT_TZ = ...` 또는 `useMemo` 로 1회 계산.
 

@@ -9,7 +9,7 @@ export const viewKeys = {
   counts: (tz: string) => ["views", "counts", tz] as const,
 };
 
-function defaultTimezone(): string {
+function resolveDefaultTimezone(): string {
   if (typeof Intl !== "undefined") {
     try {
       return Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -20,14 +20,16 @@ function defaultTimezone(): string {
   return "UTC";
 }
 
-export function useSmartView(type: SmartViewType, tz: string = defaultTimezone()) {
+const DEFAULT_TZ = resolveDefaultTimezone();
+
+export function useSmartView(type: SmartViewType, tz: string = DEFAULT_TZ) {
   return useQuery({
     queryKey: viewKeys.list(type, tz),
     queryFn: () => api.get<Reminder[]>(`/views/${type}?tz=${encodeURIComponent(tz)}`),
   });
 }
 
-export function useSmartViewCounts(tz: string = defaultTimezone()) {
+export function useSmartViewCounts(tz: string = DEFAULT_TZ) {
   return useQuery({
     queryKey: viewKeys.counts(tz),
     queryFn: () =>
