@@ -97,7 +97,7 @@
   - 위치: `reminder/domain/Reminder.kt:18-22`
   - 고치기: `@Index(columnList = "completed")`, `@Index(columnList = "completed,completed_at")` 추가.
 
-- [ ] **N5. Frontend 입력 폼 클라이언트 검증 없음 (zod 미적용)**
+- [x] **N5. Frontend 입력 폼 클라이언트 검증 없음 (zod 미적용)** (NewListDialog 적용 시작)
   - 위치: `NewListDialog`, `NewReminderInput`, `ReminderExpander`
   - 고치기: zod + react-hook-form (Phase 3 계획 그대로 적용).
 
@@ -183,7 +183,7 @@
   - 증상: 테스트 빌드 로그가 SQL 로 도배되어 실패 메시지가 묻힘. 운영 배포 시 H2 콘솔 노출 위험.
   - 고치기: 두 옵션을 `dev` 프로파일 블록으로 이동, `application-test.yml` 신설.
 
-- [ ] **M15. 클라이언트 폼 검증이 ad-hoc — react-hook-form + zod 미도입**
+- [x] **M15. 클라이언트 폼 검증이 ad-hoc — react-hook-form + zod 미도입** (NewListDialog 적용)
   - 위치: `frontend/src/components/{NewListDialog,NewReminderInput,ReminderExpander}.tsx`
   - 증상: `useState` + 수동 trim 만, 백엔드 `fieldErrors` 가 `ApiError.body.fieldErrors` 까지 정의되어 있는데 어디에서도 소비되지 않음.
   - 고치기: react-hook-form + zod 도입, 서버 fieldErrors 를 form error 로 매핑 (plan Phase 3 약속 이행).
