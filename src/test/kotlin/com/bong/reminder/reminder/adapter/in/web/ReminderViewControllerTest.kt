@@ -167,6 +167,27 @@ class ReminderViewControllerTest @Autowired constructor(
                 }
         }
     }
+
+    describe("GET /api/v1/views/today — limit") {
+        it("limit=2 일 때 최대 2건만 반환한다") {
+            val list = newList()
+            // FixedClock 기준 today (KST 2026-04-29) 에 해당하는 UTC 4건 저장.
+            listOf("a", "b", "c", "d").forEachIndexed { idx, t ->
+                reminderJpaRepository.save(
+                    Reminder(
+                        list = list,
+                        title = t,
+                        dueAt = Instant.parse("2026-04-29T0${idx}:00:00Z"),
+                    ),
+                )
+            }
+            mockMvc.get("/api/v1/views/today?tz=Asia/Seoul&limit=2")
+                .andExpect {
+                    status { isOk() }
+                    jsonPath("$.length()") { value(2) }
+                }
+        }
+    }
 }) {
     @TestConfiguration
     class FixedClockConfig {

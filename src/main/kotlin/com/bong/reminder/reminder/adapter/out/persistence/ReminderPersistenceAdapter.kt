@@ -23,8 +23,12 @@ class ReminderPersistenceAdapter(
     override fun search(query: String, limit: Int): List<Reminder> =
         jpaRepository.searchByTitleOrNotes(query, PageRequest.of(0, limit))
 
-    override fun findDueBetween(start: java.time.Instant, end: java.time.Instant): List<Reminder> =
-        jpaRepository.findByCompletedFalseAndDueAtGreaterThanEqualAndDueAtLessThanOrderByDueAtAsc(start, end)
+    override fun findDueBetween(start: java.time.Instant, end: java.time.Instant, limit: Int): List<Reminder> =
+        jpaRepository.findByCompletedFalseAndDueAtGreaterThanEqualAndDueAtLessThanOrderByDueAtAsc(
+            start,
+            end,
+            PageRequest.of(0, limit),
+        )
 
     override fun findScheduledFrom(from: java.time.Instant): List<Reminder> =
         jpaRepository.findByCompletedFalseAndDueAtGreaterThanEqualOrderByDueAtAsc(from)

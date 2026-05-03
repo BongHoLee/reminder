@@ -18,9 +18,9 @@ class DefaultReminderViewQueryService(
     private val clock: Clock,
 ) : ReminderViewQueryService {
 
-    override fun today(zone: ZoneId): List<ReminderView> {
+    override fun today(zone: ZoneId, limit: Int): List<ReminderView> {
         val (start, end) = todayBoundary(zone)
-        return reminderRepository.findDueBetween(start, end).map(ReminderView::from)
+        return reminderRepository.findDueBetween(start, end, limit).map(ReminderView::from)
     }
 
     override fun scheduled(zone: ZoneId): List<ReminderView> {

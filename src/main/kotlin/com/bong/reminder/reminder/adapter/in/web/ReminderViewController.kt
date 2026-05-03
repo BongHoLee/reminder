@@ -16,8 +16,11 @@ class ReminderViewController(
 ) {
 
     @GetMapping("/today")
-    fun today(@RequestParam(name = "tz", defaultValue = "UTC") tz: String): List<ReminderResponse> =
-        viewQueryService.today(ZoneId.of(tz)).map { it.toResponse() }
+    fun today(
+        @RequestParam(name = "tz", defaultValue = "UTC") tz: String,
+        @RequestParam(name = "limit", defaultValue = "1000") limit: Int,
+    ): List<ReminderResponse> =
+        viewQueryService.today(ZoneId.of(tz), limit).map { it.toResponse() }
 
     @GetMapping("/scheduled")
     fun scheduled(@RequestParam(name = "tz", defaultValue = "UTC") tz: String): List<ReminderResponse> =

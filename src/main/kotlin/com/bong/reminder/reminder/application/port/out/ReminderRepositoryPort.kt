@@ -9,7 +9,7 @@ interface ReminderRepositoryPort {
     fun findByParentIdOrdered(parentId: Long): List<Reminder>
     fun search(query: String, limit: Int): List<Reminder>
 
-    fun findDueBetween(start: java.time.Instant, end: java.time.Instant): List<Reminder>
+    fun findDueBetween(start: java.time.Instant, end: java.time.Instant, limit: Int): List<Reminder>
     fun findScheduledFrom(from: java.time.Instant): List<Reminder>
     fun findAllIncomplete(): List<Reminder>
     fun findFlagged(): List<Reminder>

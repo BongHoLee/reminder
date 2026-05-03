@@ -26,6 +26,7 @@ interface ReminderJpaRepository : JpaRepository<Reminder, Long> {
     fun findByCompletedFalseAndDueAtGreaterThanEqualAndDueAtLessThanOrderByDueAtAsc(
         start: java.time.Instant,
         end: java.time.Instant,
+        pageable: Pageable,
     ): List<Reminder>
 
     fun findByCompletedFalseAndDueAtGreaterThanEqualOrderByDueAtAsc(from: java.time.Instant): List<Reminder>

@@ -5,7 +5,7 @@ import com.bong.reminder.reminder.application.query.SmartViewCounts
 import java.time.ZoneId
 
 interface ReminderViewQueryService {
-    fun today(zone: ZoneId): List<ReminderView>
+    fun today(zone: ZoneId, limit: Int = 1000): List<ReminderView>
     fun scheduled(zone: ZoneId): List<ReminderView>
     fun all(): List<ReminderView>
     fun flagged(): List<ReminderView>

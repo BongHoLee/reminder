@@ -89,7 +89,7 @@
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/adapter/in/web/ReminderSearchController.kt:16`, `application/service/DefaultReminderSearchService.kt`
   - 고치기: `@Size(max=200)` 또는 service 내 검증.
 
-- [ ] **N3. 스마트 뷰 페이징 부재**
+- [x] **N3. 스마트 뷰 페이징 부재** (today 뷰만 적용 — 나머지 뷰는 동일 패턴 후속 작업)
   - 위치: `application/service/DefaultReminderViewQueryService.kt`
   - 고치기: `Pageable` 도입 자리 잡기 (1차에서는 1000건 가정 OK).
 
