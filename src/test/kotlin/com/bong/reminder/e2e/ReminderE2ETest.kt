@@ -140,12 +140,15 @@ class ReminderE2ETest @Autowired constructor(
             toggled.completed shouldBe true
             toggled.completedAt.shouldNotBeNull()
 
-            // 미완료 기본 조회 → 0건 / 완료 조회 → 1건
+            // ?completed=false → 0건 / ?completed=true → 1건 / 미지정(전체) → 1건
             parseReminderArray(
-                call("GET", "/lists/${list.id}/reminders").body(),
+                call("GET", "/lists/${list.id}/reminders?completed=false").body(),
             ) shouldHaveSize 0
             parseReminderArray(
                 call("GET", "/lists/${list.id}/reminders?completed=true").body(),
+            ) shouldHaveSize 1
+            parseReminderArray(
+                call("GET", "/lists/${list.id}/reminders").body(),
             ) shouldHaveSize 1
 
             val toggleBack = parseReminderResponse(

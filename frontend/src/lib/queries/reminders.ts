@@ -19,13 +19,7 @@ function invalidateReminderDependents(qc: QueryClient, listId: number) {
 export function useReminders(listId: number) {
   return useQuery({
     queryKey: reminderKeys.byList(listId),
-    queryFn: async () => {
-      const [incomplete, completed] = await Promise.all([
-        api.get<Reminder[]>(`/lists/${listId}/reminders?completed=false`),
-        api.get<Reminder[]>(`/lists/${listId}/reminders?completed=true`),
-      ]);
-      return [...incomplete, ...completed];
-    },
+    queryFn: () => api.get<Reminder[]>(`/lists/${listId}/reminders`),
     enabled: Number.isFinite(listId),
   });
 }

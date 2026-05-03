@@ -11,6 +11,8 @@ interface ReminderJpaRepository : JpaRepository<Reminder, Long> {
 
     fun findByListIdAndCompletedOrderBySortOrderAsc(listId: Long, completed: Boolean): List<Reminder>
 
+    fun findByListIdOrderBySortOrderAsc(listId: Long): List<Reminder>
+
     fun findByParentIdOrderBySortOrderAsc(parentId: Long): List<Reminder>
 
     @Query(

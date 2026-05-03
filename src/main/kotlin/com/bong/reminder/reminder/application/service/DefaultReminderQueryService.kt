@@ -15,9 +15,14 @@ class DefaultReminderQueryService(
     private val listRepository: ReminderListRepositoryPort,
 ) : ReminderQueryService {
 
-    override fun findByList(listId: Long, completed: Boolean): List<ReminderView> {
+    override fun findByList(listId: Long, completed: Boolean?): List<ReminderView> {
         if (!listRepository.existsById(listId)) throw ReminderListNotFoundException()
-        return reminderRepository.findByListIdOrdered(listId, completed).map(ReminderView::from)
+        val rows = if (completed == null) {
+            reminderRepository.findByListIdOrderedAll(listId)
+        } else {
+            reminderRepository.findByListIdOrdered(listId, completed)
+        }
+        return rows.map(ReminderView::from)
     }
 
     override fun findChildren(parentId: Long): List<ReminderView> {

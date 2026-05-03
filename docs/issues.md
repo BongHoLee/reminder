@@ -159,7 +159,7 @@
 
 ### 🟡 Design / Maintainability
 
-- [ ] **M10. `useReminders` 가 listId 당 incomplete/completed 두 번 fetch 후 클라에서 합침**
+- [x] **M10. `useReminders` 가 listId 당 incomplete/completed 두 번 fetch 후 클라에서 합침**
   - 위치: `frontend/src/lib/queries/reminders.ts:13-23`
   - 증상: 페이지 진입마다 fetch 2회 + concat 시 정렬 손실.
   - 고치기: 백엔드 `GET /lists/{id}/reminders` 가 `completed` 미지정 시 전체 반환하도록 합의 → 단일 fetch + 클라 분리.

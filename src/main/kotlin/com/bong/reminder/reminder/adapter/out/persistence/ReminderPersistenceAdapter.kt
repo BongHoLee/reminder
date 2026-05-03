@@ -19,6 +19,9 @@ class ReminderPersistenceAdapter(
     override fun findByListIdOrdered(listId: Long, completed: Boolean): List<Reminder> =
         jpaRepository.findByListIdAndCompletedOrderBySortOrderAsc(listId, completed)
 
+    override fun findByListIdOrderedAll(listId: Long): List<Reminder> =
+        jpaRepository.findByListIdOrderBySortOrderAsc(listId)
+
     override fun findByParentIdOrdered(parentId: Long): List<Reminder> =
         jpaRepository.findByParentIdOrderBySortOrderAsc(parentId)
 

@@ -30,7 +30,7 @@ class ReminderController(
     @GetMapping("/api/v1/lists/{listId}/reminders")
     fun findByList(
         @PathVariable listId: Long,
-        @RequestParam(name = "completed", defaultValue = "false") completed: Boolean,
+        @RequestParam(name = "completed", required = false) completed: Boolean?,
     ): List<ReminderResponse> =
         queryService.findByList(listId, completed).map { it.toResponse() }
 
