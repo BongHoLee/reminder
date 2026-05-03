@@ -197,7 +197,7 @@
   - 위치: `frontend/src/app/globals.css` (`--muted: #8E8E93` on `--sidebar-bg: #f5f5f7` ≈ 3.2:1)
   - 고치기: `--muted` 라이트 토큰을 `#6B6B70` 류로 어둡게 조정 또는 텍스트 사이즈 조건부 분리.
 
-- [ ] **M18. 거의 모든 page 가 `"use client"` — RSC 미활용**
+- [ ] **M18. 거의 모든 page 가 `"use client"` — RSC 미활용** (대규모 아키텍처 변경 — 옵션 A 범위 외 별도 Phase 작업)
   - 위치: `frontend/src/app/(app)/{page,lists/[id]/page,views/[type]/page,search/page}.tsx`
   - 고치기: layout 에서 `prefetchQuery` + hydration boundary 도입, 인터랙션이 필요한 부분만 client island 로 분리.
 
