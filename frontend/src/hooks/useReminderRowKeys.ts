@@ -15,6 +15,7 @@ type UseReminderRowKeysParams = {
 };
 
 // 인라인 편집 입력의 키 핸들러: Enter 커밋, Esc 취소, Tab indent / Shift+Tab outdent.
+// Tab indent/outdent 시 현재 제목 편집 중이라면 먼저 commit (draft 손실 방지) 후 mutate. 입력은 blur (편집 종료).
 export function useReminderRowKeys({
   reminder,
   previousSiblingId,
@@ -27,6 +28,8 @@ export function useReminderRowKeys({
     if (e.key === "Escape") onCancelEdit();
     if (e.key === "Tab" && !e.shiftKey && previousSiblingId) {
       e.preventDefault();
+      onCommitTitle();
+      e.currentTarget.blur();
       update.mutate({
         id: reminder.id,
         listId: reminder.listId,
@@ -35,6 +38,8 @@ export function useReminderRowKeys({
     }
     if (e.key === "Tab" && e.shiftKey && reminder.parentId) {
       e.preventDefault();
+      onCommitTitle();
+      e.currentTarget.blur();
       update.mutate({
         id: reminder.id,
         listId: reminder.listId,

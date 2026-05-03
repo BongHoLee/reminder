@@ -109,7 +109,7 @@
   - 위치: `src/test/kotlin/com/bong/reminder/e2e/ReminderE2ETest.kt`
   - 고치기: shared baseline 컨텍스트 + 필요한 시나리오만 RANDOM_PORT 분리.
 
-- [ ] **N8. Tab indent 시 input 포커스 처리 / 다음 행 이동 UX 미정의**
+- [x] **N8. Tab indent 시 input 포커스 처리 / 다음 행 이동 UX 미정의** (commit + blur 정책 정의)
   - 위치: `frontend/src/components/ReminderRow.tsx:90-96`
 
 - [x] **N9. `useUpdateList` 가 응답을 캐시에 직접 안 넣고 invalidate 만**
