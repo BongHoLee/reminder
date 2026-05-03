@@ -239,7 +239,7 @@
   - 위치: `frontend/src/components/ReminderRow.tsx:68-71, 134`, `frontend/src/components/SmartListGrid.tsx:42`, `frontend/src/app/(app)/page.tsx:20`
   - 고치기: 정적 토큰은 `@theme inline` 에 노출 후 Tailwind 클래스로, 동적 색상(리스트 컬러)만 인라인 유지.
 
-- [ ] **N19. Apple 13색 + 다크 모드 변형 토큰 부재**
+- [x] **N19. Apple 13색 + 다크 모드 변형 토큰 부재** (수동 토글 컴포넌트는 별도 작업)
   - 위치: `frontend/src/app/globals.css:30-38`
   - 증상: `prefers-color-scheme: dark` 한 블록만 있고 Apple 컬러 13종은 다크 변형 없음.
   - 고치기: 다크 모드에서도 가독성 검증된 13색 변형 정의 + 수동 토글 컴포넌트 (spec §7).

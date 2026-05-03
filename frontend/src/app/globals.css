@@ -34,7 +34,23 @@
     --foreground: #f2f2f7;
     --sidebar-bg: #2c2c2e;
     --border: #3a3a3c;
-    --muted: #8e8e93;
+    /* 다크 모드 sidebar-bg(#2c2c2e) 위에서 4.5:1 충족하도록 lighter. */
+    --muted: #aeaeb2;
+
+    /* Apple 시스템 컬러 다크 변형 — Apple HIG 의 dynamic color 가이드를 따라 채도 약간 ↑, 명도 약간 ↑. */
+    --color-red: #ff453a;
+    --color-orange: #ff9f0a;
+    --color-yellow: #ffd60a;
+    --color-green: #30d158;
+    --color-mint: #63e6e2;
+    --color-teal: #40c8e0;
+    --color-cyan: #64d2ff;
+    --color-blue: #0a84ff;
+    --color-indigo: #7d7aff;
+    --color-purple: #bf5af2;
+    --color-pink: #ff375f;
+    --color-brown: #ac8e68;
+    --color-gray: #98989d;
   }
 }
 
