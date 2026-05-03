@@ -203,7 +203,7 @@
 
 ### 🟢 Improvements
 
-- [ ] **N10. 컴포넌트/훅 테스트 토대 부재**
+- [x] **N10. 컴포넌트/훅 테스트 토대 부재** (RTL/MSW 설치 + setup + RowCheckbox 첫 테스트. ReminderRow/useToggleReminder/SearchBar 후속)
   - 위치: `frontend/package.json` (RTL/MSW 미설치), 컴포넌트 테스트 0건
   - 고치기: `@testing-library/react` + `@testing-library/user-event` + `msw` 설치 후 ① `ReminderRow` Tab indent → `parentId` PATCH 호출, ② `useToggleReminder` 낙관 업데이트 + 에러 롤백, ③ `SearchBar` debounce 250ms 후 `router.push` 3개 테스트 작성.
 
