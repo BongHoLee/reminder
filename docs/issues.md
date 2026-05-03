@@ -219,7 +219,7 @@
   - 위치: `frontend/src/app/providers.tsx:12-15`
   - 고치기: query 별 `staleTime` 차등 (lists 60s, views 10s, search 0).
 
-- [ ] **N14. `next/font` 미사용 — SF Pro fallback chain 만 의존**
+- [x] **N14. `next/font` 미사용 — SF Pro fallback chain 만 의존** (시스템 폰트 정책 유지 + 의도 주석)
   - 위치: `frontend/src/app/globals.css:53-56`, `frontend/next.config.ts`
   - 고치기: 시스템 폰트 유지 정책이면 의도 주석 명시. 아니면 `next/font/local` 또는 Inter 도입 검토 (spec §7 fallback 정책에 맞춰).
 

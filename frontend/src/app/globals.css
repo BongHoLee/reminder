@@ -50,6 +50,11 @@ html,
 body {
   background: var(--background);
   color: var(--foreground);
+  /*
+   * 폰트 정책: spec §7 의 명시 — Apple Reminders 톤을 위해 시스템 SF Pro 를 우선 사용.
+   * 라이선스/네트워크 비용 회피 목적으로 next/font 의 웹폰트 로드는 의도적으로 미사용.
+   * macOS/iOS = SF Pro / Windows·Linux = system-ui fallback. Pretendard 는 한글 보강.
+   */
   font-family:
     -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Apple SD Gothic Neo",
     "Pretendard", system-ui, sans-serif;
