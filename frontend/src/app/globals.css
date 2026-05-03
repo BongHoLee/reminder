@@ -5,7 +5,8 @@
   --foreground: #1c1c1e;
   --sidebar-bg: #f5f5f7;
   --border: #e5e5ea;
-  --muted: #8e8e93;
+  /* 라이트 모드 본문 텍스트 색상은 sidebar-bg(#f5f5f7) 위에서 WCAG AA(4.5:1) 충족하도록 어둡게. (#8e8e93 ≈ 3.2:1 미달) */
+  --muted: #6b6b70;
   --accent: #0a84ff;
 
   /* Apple system colors (Phase 5에서 본격 활용) */

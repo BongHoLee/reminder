@@ -193,7 +193,7 @@
   - 증상: `invisible group-hover:visible` 만 있어 키보드 사용자에게 이름 변경 / 삭제 진입점이 사라짐.
   - 고치기: `group-focus-within:visible` 추가.
 
-- [ ] **M17. 라이트 모드 메타 텍스트 색상 대비 부족 (WCAG AA 미달)**
+- [x] **M17. 라이트 모드 메타 텍스트 색상 대비 부족 (WCAG AA 미달)**
   - 위치: `frontend/src/app/globals.css` (`--muted: #8E8E93` on `--sidebar-bg: #f5f5f7` ≈ 3.2:1)
   - 고치기: `--muted` 라이트 토큰을 `#6B6B70` 류로 어둡게 조정 또는 텍스트 사이즈 조건부 분리.
 
