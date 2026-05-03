@@ -178,7 +178,7 @@
   - 증상: 체크박스 / 제목 인라인 편집 / Tab indent / 익스팬더 토글 / 삭제 / 메타 표시가 한 컴포넌트에.
   - 고치기: `useReminderRowKeys(reminder, previousSiblingId)` 훅, `<RowCheckbox/>`, `<RowMeta/>` 컴포넌트 추출.
 
-- [ ] **M14. `application.yml` 의 `show-sql` / `h2.console.enabled` 이 모든 환경에 기본 true**
+- [x] **M14. `application.yml` 의 `show-sql` / `h2.console.enabled` 이 모든 환경에 기본 true**
   - 위치: `src/main/resources/application.yml:22-33`
   - 증상: 테스트 빌드 로그가 SQL 로 도배되어 실패 메시지가 묻힘. 운영 배포 시 H2 콘솔 노출 위험.
   - 고치기: 두 옵션을 `dev` 프로파일 블록으로 이동, `application-test.yml` 신설.
