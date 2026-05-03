@@ -223,7 +223,7 @@
   - 위치: `frontend/src/app/globals.css:53-56`, `frontend/next.config.ts`
   - 고치기: 시스템 폰트 유지 정책이면 의도 주석 명시. 아니면 `next/font/local` 또는 Inter 도입 검토 (spec §7 fallback 정책에 맞춰).
 
-- [ ] **N15. `next.config.ts` 가 빈 객체 — 정적 최적화 누락**
+- [x] **N15. `next.config.ts` 가 빈 객체 — 정적 최적화 누락**
   - 위치: `frontend/next.config.ts:3-5`
   - 고치기: `experimental.optimizePackageImports: ["lucide-react"]` 등 lucide 트리쉐이킹 추가.
 
