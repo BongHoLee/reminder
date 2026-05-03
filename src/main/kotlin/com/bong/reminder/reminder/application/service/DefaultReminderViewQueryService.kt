@@ -1,7 +1,7 @@
 package com.bong.reminder.reminder.application.service
 
 import com.bong.reminder.reminder.application.port.`in`.ReminderViewQueryService
-import com.bong.reminder.reminder.application.port.out.ReminderRepositoryPort
+import com.bong.reminder.reminder.application.port.out.ReminderQueryReadModel
 import com.bong.reminder.reminder.application.query.ReminderView
 import com.bong.reminder.reminder.application.query.SmartViewCounts
 import org.springframework.stereotype.Service
@@ -14,7 +14,7 @@ import java.time.ZoneId
 @Service
 @Transactional(readOnly = true)
 class DefaultReminderViewQueryService(
-    private val reminderRepository: ReminderRepositoryPort,
+    private val reminderRepository: ReminderQueryReadModel,
     private val clock: Clock,
 ) : ReminderViewQueryService {
 

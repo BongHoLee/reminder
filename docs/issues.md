@@ -227,7 +227,7 @@
   - 위치: `frontend/next.config.ts:3-5`
   - 고치기: `experimental.optimizePackageImports: ["lucide-react"]` 등 lucide 트리쉐이킹 추가.
 
-- [ ] **N16. 출력 포트 `ReminderRepositoryPort` 비대 (13개 메서드)**
+- [x] **N16. 출력 포트 `ReminderRepositoryPort` 비대 (13개 메서드)**
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/application/port/out/ReminderRepositoryPort.kt:5-27`
   - 고치기: 카운트/검색용 read 메서드를 `ReminderQueryReadModel` 등 별도 포트로 분리 — CQRS-lite 의도 강화.
 

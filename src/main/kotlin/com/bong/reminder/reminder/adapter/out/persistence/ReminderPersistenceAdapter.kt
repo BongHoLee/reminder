@@ -1,14 +1,16 @@
 package com.bong.reminder.reminder.adapter.out.persistence
 
+import com.bong.reminder.reminder.application.port.out.ReminderQueryReadModel
 import com.bong.reminder.reminder.application.port.out.ReminderRepositoryPort
 import com.bong.reminder.reminder.domain.Reminder
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
+import java.time.Instant
 
 @Component
 class ReminderPersistenceAdapter(
     private val jpaRepository: ReminderJpaRepository,
-) : ReminderRepositoryPort {
+) : ReminderRepositoryPort, ReminderQueryReadModel {
 
     override fun save(reminder: Reminder): Reminder = jpaRepository.save(reminder)
 
@@ -23,14 +25,14 @@ class ReminderPersistenceAdapter(
     override fun search(query: String, limit: Int): List<Reminder> =
         jpaRepository.searchByTitleOrNotes(query, PageRequest.of(0, limit))
 
-    override fun findDueBetween(start: java.time.Instant, end: java.time.Instant, limit: Int): List<Reminder> =
+    override fun findDueBetween(start: Instant, end: Instant, limit: Int): List<Reminder> =
         jpaRepository.findByCompletedFalseAndDueAtGreaterThanEqualAndDueAtLessThanOrderByDueAtAsc(
             start,
             end,
             PageRequest.of(0, limit),
         )
 
-    override fun findScheduledFrom(from: java.time.Instant): List<Reminder> =
+    override fun findScheduledFrom(from: Instant): List<Reminder> =
         jpaRepository.findByCompletedFalseAndDueAtGreaterThanEqualOrderByDueAtAsc(from)
 
     override fun findAllIncomplete(): List<Reminder> =
@@ -42,10 +44,10 @@ class ReminderPersistenceAdapter(
     override fun findCompleted(): List<Reminder> =
         jpaRepository.findByCompletedTrueOrderByCompletedAtDesc()
 
-    override fun countDueBetween(start: java.time.Instant, end: java.time.Instant): Long =
+    override fun countDueBetween(start: Instant, end: Instant): Long =
         jpaRepository.countByCompletedFalseAndDueAtGreaterThanEqualAndDueAtLessThan(start, end)
 
-    override fun countScheduledFrom(from: java.time.Instant): Long =
+    override fun countScheduledFrom(from: Instant): Long =
         jpaRepository.countByCompletedFalseAndDueAtGreaterThanEqual(from)
 
     override fun countAllIncomplete(): Long = jpaRepository.countByCompletedFalse()
