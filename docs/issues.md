@@ -143,7 +143,7 @@
 
 ### 🔴 Bugs / Risks
 
-- [ ] **R6. Reminder mutation 시 smart view / search 캐시 미무효화**
+- [x] **R6. Reminder mutation 시 smart view / search 캐시 미무효화**
   - 위치: `frontend/src/lib/queries/reminders.ts:42-46, 68-71, 100-103, 111-114`
   - 증상: 토글/생성/수정/삭제 직후 사이드바 스마트 카드 카운트, `/views/*` 페이지, 검색 결과가 stale.
   - 고치기: 각 mutation `onSettled`/`onSuccess` 에서 `viewKeys.counts(tz)`, `viewKeys.list(type, tz)`, `["search"]` 까지 invalidate.

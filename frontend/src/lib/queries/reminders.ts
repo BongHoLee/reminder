@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import type { Priority, Reminder } from "@/lib/types";
 
@@ -8,6 +8,13 @@ export const reminderKeys = {
   byList: (listId: number) => ["reminders", "list", listId] as const,
   children: (parentId: number) => ["reminders", "children", parentId] as const,
 };
+
+// reminder 변경은 스마트 뷰 카운트/목록과 검색 결과의 정합성에 영향을 주므로 함께 무효화한다.
+function invalidateReminderDependents(qc: QueryClient, listId: number) {
+  qc.invalidateQueries({ queryKey: reminderKeys.byList(listId) });
+  qc.invalidateQueries({ queryKey: ["views"] });
+  qc.invalidateQueries({ queryKey: ["search"] });
+}
 
 export function useReminders(listId: number) {
   return useQuery({
@@ -40,7 +47,7 @@ export function useCreateReminder() {
     mutationFn: ({ listId, ...rest }: CreateReminderInput) =>
       api.post<Reminder>(`/lists/${listId}/reminders`, rest),
     onSuccess: (_data, vars) => {
-      qc.invalidateQueries({ queryKey: reminderKeys.byList(vars.listId) });
+      invalidateReminderDependents(qc, vars.listId);
     },
   });
 }
@@ -66,7 +73,7 @@ export function useUpdateReminder() {
     mutationFn: ({ id, listId: _l, ...rest }: UpdateReminderInput) =>
       api.patch<Reminder>(`/reminders/${id}`, rest),
     onSuccess: (_data, vars) => {
-      qc.invalidateQueries({ queryKey: reminderKeys.byList(vars.listId) });
+      invalidateReminderDependents(qc, vars.listId);
     },
   });
 }
@@ -98,7 +105,7 @@ export function useToggleReminder() {
     },
 
     onSettled: (_data, _err, vars) => {
-      qc.invalidateQueries({ queryKey: reminderKeys.byList(vars.listId) });
+      invalidateReminderDependents(qc, vars.listId);
     },
   });
 }
@@ -109,7 +116,7 @@ export function useDeleteReminder() {
     mutationFn: ({ id }: { id: number; listId: number }) =>
       api.delete(`/reminders/${id}`),
     onSuccess: (_data, vars) => {
-      qc.invalidateQueries({ queryKey: reminderKeys.byList(vars.listId) });
+      invalidateReminderDependents(qc, vars.listId);
     },
   });
 }
