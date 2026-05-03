@@ -130,11 +130,7 @@ export function ReminderRow({
                 reminder.completed ? "text-[var(--muted)] line-through" : ""
               }`}
             >
-              {prefix && (
-                <span className="mr-1" style={{ color: "var(--color-red)" }}>
-                  {prefix}
-                </span>
-              )}
+              {prefix && <span className="mr-1 text-red">{prefix}</span>}
               {reminder.title}
             </p>
           )}

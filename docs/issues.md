@@ -235,7 +235,7 @@
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/application/service/DefaultReminderSearchService.kt:21-22`
   - 고치기: 컨트롤러 `@RequestParam @NotBlank q` 로 400 응답으로 단일화.
 
-- [ ] **N18. 인라인 스타일과 Tailwind arbitrary value 혼재**
+- [x] **N18. 인라인 스타일과 Tailwind arbitrary value 혼재** (정적 13색은 토큰화, 동적 리스트 컬러는 인라인 유지)
   - 위치: `frontend/src/components/ReminderRow.tsx:68-71, 134`, `frontend/src/components/SmartListGrid.tsx:42`, `frontend/src/app/(app)/page.tsx:20`
   - 고치기: 정적 토큰은 `@theme inline` 에 노출 후 Tailwind 클래스로, 동적 색상(리스트 컬러)만 인라인 유지.
 

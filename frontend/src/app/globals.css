@@ -61,6 +61,21 @@
   --color-border-app: var(--border);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+
+  /* Apple 13색을 Tailwind 클래스로 노출 (text-red / bg-orange / border-blue 등). 라이트/다크는 :root 토큰이 자동 전환. */
+  --color-red: var(--color-red);
+  --color-orange: var(--color-orange);
+  --color-yellow: var(--color-yellow);
+  --color-green: var(--color-green);
+  --color-mint: var(--color-mint);
+  --color-teal: var(--color-teal);
+  --color-cyan: var(--color-cyan);
+  --color-blue: var(--color-blue);
+  --color-indigo: var(--color-indigo);
+  --color-purple: var(--color-purple);
+  --color-pink: var(--color-pink);
+  --color-brown: var(--color-brown);
+  --color-gray: var(--color-gray);
 }
 
 html,
