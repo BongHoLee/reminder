@@ -231,7 +231,7 @@
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/application/port/out/ReminderRepositoryPort.kt:5-27`
   - 고치기: 카운트/검색용 read 메서드를 `ReminderQueryReadModel` 등 별도 포트로 분리 — CQRS-lite 의도 강화.
 
-- [ ] **N17. `DefaultReminderSearchService` 가 빈 query 일 때 emptyList 반환 — 정책이 service 에 위치**
+- [x] **N17. `DefaultReminderSearchService` 가 빈 query 일 때 emptyList 반환 — 정책이 service 에 위치**
   - 위치: `src/main/kotlin/com/bong/reminder/reminder/application/service/DefaultReminderSearchService.kt:21-22`
   - 고치기: 컨트롤러 `@RequestParam @NotBlank q` 로 400 응답으로 단일화.
 

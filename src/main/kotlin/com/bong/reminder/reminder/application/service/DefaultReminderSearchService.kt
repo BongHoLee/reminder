@@ -19,7 +19,7 @@ class DefaultReminderSearchService(
 
     override fun search(query: String): List<ReminderView> {
         val trimmed = query.trim()
-        if (trimmed.isEmpty()) return emptyList()
+        require(trimmed.isNotEmpty()) { "검색어는 비어 있을 수 없습니다." }
         require(trimmed.length <= MAX_QUERY_LENGTH) {
             "검색어는 ${MAX_QUERY_LENGTH}자 이하여야 합니다."
         }

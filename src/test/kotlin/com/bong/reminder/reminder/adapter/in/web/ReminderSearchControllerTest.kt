@@ -50,12 +50,9 @@ class ReminderSearchControllerTest @Autowired constructor(
                 }
         }
 
-        it("빈 q 는 빈 배열") {
+        it("빈 q 는 400") {
             mockMvc.get("/api/v1/search?q=")
-                .andExpect {
-                    status { isOk() }
-                    jsonPath("$.length()") { value(0) }
-                }
+                .andExpect { status { isBadRequest() } }
         }
 
         it("q 파라미터 누락 시 400") {
