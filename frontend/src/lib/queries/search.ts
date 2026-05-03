@@ -10,5 +10,6 @@ export function useSearch(q: string) {
     queryKey: ["search", trimmed],
     queryFn: () => api.get<Reminder[]>(`/search?q=${encodeURIComponent(trimmed)}`),
     enabled: trimmed.length > 0,
+    staleTime: 0,
   });
 }

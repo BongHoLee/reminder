@@ -12,6 +12,7 @@ export function useLists() {
   return useQuery({
     queryKey: listKeys.all,
     queryFn: () => api.get<ReminderList[]>("/lists"),
+    staleTime: 60_000,
   });
 }
 

@@ -26,6 +26,7 @@ export function useSmartView(type: SmartViewType, tz: string = DEFAULT_TZ) {
   return useQuery({
     queryKey: viewKeys.list(type, tz),
     queryFn: () => api.get<Reminder[]>(`/views/${type}?tz=${encodeURIComponent(tz)}`),
+    staleTime: 10_000,
   });
 }
 
@@ -34,5 +35,6 @@ export function useSmartViewCounts(tz: string = DEFAULT_TZ) {
     queryKey: viewKeys.counts(tz),
     queryFn: () =>
       api.get<SmartViewCounts>(`/views/counts?tz=${encodeURIComponent(tz)}`),
+    staleTime: 10_000,
   });
 }

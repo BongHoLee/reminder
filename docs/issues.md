@@ -215,7 +215,7 @@
   - 위치: `frontend/src/lib/queries/views.ts:23`
   - 고치기: 모듈 스코프 `const DEFAULT_TZ = ...` 또는 `useMemo` 로 1회 계산.
 
-- [ ] **N13. `staleTime: 5_000` 의 일률 적용 — 검색/lists/views 같은 정책 공유**
+- [x] **N13. `staleTime: 5_000` 의 일률 적용 — 검색/lists/views 같은 정책 공유**
   - 위치: `frontend/src/app/providers.tsx:12-15`
   - 고치기: query 별 `staleTime` 차등 (lists 60s, views 10s, search 0).
 
